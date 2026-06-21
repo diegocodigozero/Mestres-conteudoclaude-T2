@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Ascensão do Claude Code</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+    font-family: 'News Cycle', 'Trebuchet MS', Arial, sans-serif;
+  }
+
+  /* Estrelas geradas via box-shadow */
+  .stars, .stars2, .stars3 {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    z-index: 0;
+  }
+  .stars::after, .stars2::after, .stars3::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-repeat: repeat;
+  }
+  .stars::after {
+    background-image: radial-gradient(1px 1px at 25% 30%, #fff, transparent),
+                      radial-gradient(1px 1px at 65% 80%, #fff, transparent),
+                      radial-gradient(1px 1px at 15% 70%, #fff, transparent),
+                      radial-gradient(2px 2px at 80% 20%, #fff, transparent),
+                      radial-gradient(1px 1px at 50% 50%, #fff, transparent);
+    background-size: 250px 250px;
+  }
+  .stars2::after {
+    background-image: radial-gradient(1px 1px at 35% 10%, #fff, transparent),
+                      radial-gradient(1px 1px at 75% 60%, #fff, transparent),
+                      radial-gradient(2px 2px at 5% 40%, #fff, transparent),
+                      radial-gradient(1px 1px at 45% 85%, #fff, transparent);
+    background-size: 350px 350px;
+  }
+  .stars3::after {
+    background-image: radial-gradient(1px 1px at 20% 90%, #fff, transparent),
+                      radial-gradient(1px 1px at 90% 35%, #fff, transparent),
+                      radial-gradient(2px 2px at 60% 15%, #fff, transparent);
+    background-size: 450px 450px;
+  }
+
+  /* Intro */
+  .intro {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #4bd5ee;
+    font-size: clamp(1.2rem, 2.4vw, 2rem);
+    text-align: center;
+    width: 90%;
+    max-width: 700px;
+    opacity: 0;
+    animation: introFade 7s ease forwards;
+    z-index: 5;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+  }
+  @keyframes introFade {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* Logo central */
+  .logo {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(4);
+    color: #feda4a;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-align: center;
+    opacity: 0;
+    animation: logoZoom 8s ease 7s forwards;
+    z-index: 4;
+    text-shadow: 0 0 40px rgba(254, 218, 74, 0.4);
+  }
+  @keyframes logoZoom {
+    0% { transform: translate(-50%, -50%) scale(4); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.05); opacity: 0; }
+  }
+
+  /* Crawl board */
+  .board {
+    position: absolute;
+    top: 0; left: 50%;
+    width: 90%; max-width: 760px;
+    height: 100vh;
+    transform: translateX(-50%);
+    perspective: 380px;
+    perspective-origin: 50% 80%;
+    z-index: 2;
+    overflow: hidden;
+    opacity: 0;
+    animation: boardShow 1s ease 14s forwards;
+  }
+  @keyframes boardShow { to { opacity: 1; } }
+
+  /* Mask de degradê no topo (efeito clássico) */
+  .board::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+                  #000 0%,
+                  rgba(0,0,0,0.85) 15%,
+                  transparent 50%);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .crawl {
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    transform-origin: 50% 100%;
+    transform: rotateX(20deg);
+    animation: crawl 80s linear 15s forwards;
+    color: #feda4a;
+    text-align: justify;
+    padding: 0 1rem;
+  }
+  @keyframes crawl {
+    0% { top: 100%; }
+    100% { top: -260%; }
+  }
+
+  .crawl h1 {
+    font-size: clamp(1.5rem, 3vw, 2.4rem);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+  }
+  .crawl h2 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    text-align: center;
+    margin-bottom: 5rem;
+    letter-spacing: 0.08em;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  .crawl p {
+    font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+    line-height: 1.55;
+    margin-bottom: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="stars2"></div>
+  <div class="stars3"></div>
+
+  <div class="intro">
+    Há muito tempo, em uma galáxia muito,<br>
+    muito distante...
+  </div>
+
+  <div class="logo">
+    CLAUDE<br>CODE
+  </div>
+
+  <div class="board">
+    <div class="crawl">
+      <h1>EPISÓDIO I</h1>
+      <h2>A ASCENSÃO DO<br>CLAUDE CODE</h2>
+
+      <p>Há muito tempo, em uma galáxia onde escrever software exigia anos de estudo e madrugadas viradas, os desenvolvedores travavam batalhas solitárias contra bugs sem fim.</p>
+
+      <p>Até que a Anthropic despertou uma nova força: o CLAUDE CODE.</p>
+
+      <p>Um agente capaz de ler projetos inteiros, planejar refatorações, escrever testes e executar comandos no terminal, tudo guiado por uma única conversa.</p>
+
+      <p>Da pasta vazia ao aplicativo no ar em minutos. Do bug invisível à correção sem nenhum print.</p>
+
+      <p>Agora, qualquer pessoa com um terminal aberto pode comandar legiões de tarefas em paralelo e construir o que antes parecia impossível.</p>
+
+      <p>A era do desenvolvedor solitário chegou ao fim. Uma nova ordem de criadores está nascendo...</p>
+    </div>
+  </div>
+</body>
+</html>

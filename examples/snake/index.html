@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snake</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: radial-gradient(ellipse at center, #0e0e22 0%, #050510 100%);
+    color: #00ff88;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px #00ff88, 0 0 40px rgba(0,255,136,0.4);
+    letter-spacing: 8px;
+  }
+  #score {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #ff00aa;
+    text-shadow: 0 0 12px #ff00aa;
+    letter-spacing: 2px;
+  }
+  canvas {
+    background: #050510;
+    border: 2px solid #00ff88;
+    border-radius: 6px;
+    box-shadow: 0 0 50px rgba(0, 255, 136, 0.35),
+                inset 0 0 30px rgba(0, 255, 136, 0.08);
+  }
+  #info {
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    color: rgba(0, 255, 136, 0.55);
+    letter-spacing: 1px;
+  }
+  #gameOver {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.92);
+    border: 2px solid #ff0055;
+    color: #ff0055;
+    padding: 2rem 3rem;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 60px rgba(255,0,85,0.45);
+    display: none;
+  }
+  #gameOver h2 { font-size: 2rem; margin-bottom: 0.8rem; letter-spacing: 4px; }
+  #gameOver #finalScore { color: #00ff88; margin-bottom: 1.2rem; font-size: 1rem; }
+  #gameOver button {
+    background: transparent;
+    border: 1px solid #00ff88;
+    color: #00ff88;
+    padding: 0.6rem 1.8rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.2s ease;
+  }
+  #gameOver button:hover {
+    background: #00ff88;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0,255,136,0.6);
+  }
+</style>
+</head>
+<body>
+  <h1>SNAKE</h1>
+  <div id="score">PONTOS: 0</div>
+  <canvas id="game" width="420" height="420"></canvas>
+  <div id="info">↑ ↓ ← →  PARA MOVER</div>
+  <div id="gameOver">
+    <h2>GAME OVER</h2>
+    <div id="finalScore"></div>
+    <button onclick="restart()">JOGAR DE NOVO</button>
+  </div>
+
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const scoreEl = document.getElementById('score');
+const gameOverEl = document.getElementById('gameOver');
+const finalScoreEl = document.getElementById('finalScore');
+
+const GRID = 21;
+const TILE = canvas.width / GRID;
+
+let snake, dir, nextDir, food, score, gameRunning;
+
+function init() {
+  snake = [{x: 10, y: 10}, {x: 9, y: 10}, {x: 8, y: 10}];
+  dir = {x: 1, y: 0};
+  nextDir = dir;
+  food = randomFood();
+  score = 0;
+  gameRunning = true;
+  scoreEl.textContent = 'PONTOS: 0';
+  gameOverEl.style.display = 'none';
+}
+
+function randomFood() {
+  while (true) {
+    const f = { x: Math.floor(Math.random() * GRID), y: Math.floor(Math.random() * GRID) };
+    if (!snake.some(s => s.x === f.x && s.y === f.y)) return f;
+  }
+}
+
+function update() {
+  if (!gameRunning) return;
+  dir = nextDir;
+  const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+  if (head.x < 0 || head.x >= GRID || head.y < 0 || head.y >= GRID) return gameOver();
+  if (snake.some(s => s.x === head.x && s.y === head.y)) return gameOver();
+  snake.unshift(head);
+  if (head.x === food.x && head.y === food.y) {
+    score++;
+    scoreEl.textContent = 'PONTOS: ' + score;
+    food = randomFood();
+  } else {
+    snake.pop();
+  }
+}
+
+function draw() {
+  ctx.fillStyle = '#050510';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Grid sutil
+  ctx.strokeStyle = 'rgba(0, 255, 136, 0.04)';
+  for (let i = 1; i < GRID; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * TILE, 0); ctx.lineTo(i * TILE, canvas.height);
+    ctx.moveTo(0, i * TILE); ctx.lineTo(canvas.width, i * TILE);
+    ctx.stroke();
+  }
+
+  // Comida
+  ctx.shadowBlur = 15;
+  ctx.shadowColor = '#ff00aa';
+  ctx.fillStyle = '#ff00aa';
+  ctx.fillRect(food.x * TILE + 3, food.y * TILE + 3, TILE - 6, TILE - 6);
+
+  // Cobra
+  ctx.shadowColor = '#00ff88';
+  snake.forEach((s, i) => {
+    ctx.fillStyle = i === 0 ? '#00ffaa' : '#00ff88';
+    ctx.fillRect(s.x * TILE + 1, s.y * TILE + 1, TILE - 2, TILE - 2);
+  });
+  ctx.shadowBlur = 0;
+}
+
+function gameOver() {
+  gameRunning = false;
+  finalScoreEl.textContent = 'Pontuação final: ' + score;
+  gameOverEl.style.display = 'block';
+}
+
+function restart() { init(); }
+
+document.addEventListener('keydown', e => {
+  const moves = {
+    ArrowUp: {x: 0, y: -1}, w: {x: 0, y: -1},
+    ArrowDown: {x: 0, y: 1}, s: {x: 0, y: 1},
+    ArrowLeft: {x: -1, y: 0}, a: {x: -1, y: 0},
+    ArrowRight: {x: 1, y: 0}, d: {x: 1, y: 0},
+  };
+  const m = moves[e.key];
+  if (!m) return;
+  e.preventDefault();
+  if (m.x === -dir.x && m.y === -dir.y) return;
+  nextDir = m;
+});
+
+init();
+setInterval(() => { update(); draw(); }, 110);
+</script>
+</body>
+</html>

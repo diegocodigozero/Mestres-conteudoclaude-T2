@@ -1,0 +1,6 @@
+.vercel
+.claude/settings.local.json
+
+# macOS metadata
+.DS_Store
+__MACOSX/
