@@ -31,7 +31,7 @@
     <nav class="nav">
       <span class="nav-section">Trilha de aulas</span>
 
-      <!-- ===== AULA 02 — FUNDAÇÃO ===== -->
+      <!-- ===== AULA 01 — FUNDAÇÃO ===== -->
       <div class="nav-group" data-group="aula01">
         <button class="nav-group-header" data-group-toggle="aula01" aria-expanded="false">
           <span class="nav-group-badge">01</span>
@@ -45,7 +45,7 @@
         </button>
         <ul class="nav-list nav-sublist">
           <li class="nav-item">
-            <a href="#filosofia" class="nav-link" data-target="filosofia">
+            <a href="#filosofia" class="nav-link active" data-target="filosofia">
               <span class="nav-num">01</span> <span class="nav-title-text">Filosofia da imersão</span>
               <span class="tiago-badge" aria-label="Apresentado por Tiago">T</span>
             </a>
@@ -126,21 +126,69 @@
         </ul>
       </div>
 
-      <!-- ===== AULA 03 — PRODUTIVIDADE REAL (bloqueada) ===== -->
-      <div class="nav-group locked" data-group="aula02">
-        <button class="nav-group-header" data-target="aula02-soon" data-locked="true">
-          <span class="nav-group-badge nav-group-badge-lock">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.9"/>
-              <path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
-            </svg>
-          </span>
+      <!-- ===== AULA 02 — PRODUTIVIDADE REAL ===== -->
+      <div class="nav-group" data-group="aula02">
+        <button class="nav-group-header" data-group-toggle="aula02" aria-expanded="false">
+          <span class="nav-group-badge">02</span>
           <span class="nav-group-meta">
             <span class="nav-group-title">Produtividade Real</span>
             <span class="nav-group-sub">Claude no seu dia a dia</span>
           </span>
-          <span class="nav-soon">Em breve</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
+        <ul class="nav-list nav-sublist">
+          <li class="nav-item">
+            <a href="#a2-alinhamento" class="nav-link" data-target="a2-alinhamento">
+              <span class="nav-num">01</span> Alinhamentos
+            </a>
+            <button class="topic-check" data-topic-check="a2-alinhamento" aria-label="Marcar como concluído"></button>
+          </li>
+          <li class="nav-item">
+            <a href="#a2-dados" class="nav-link" data-target="a2-dados">
+              <span class="nav-num">02</span> Análise de Dados
+            </a>
+            <button class="topic-check" data-topic-check="a2-dados" aria-label="Marcar como concluído"></button>
+          </li>
+          <li class="nav-item">
+            <a href="#a2-marketing" class="nav-link" data-target="a2-marketing">
+              <span class="nav-num">03</span> Plugin de Marketing
+            </a>
+            <button class="topic-check" data-topic-check="a2-marketing" aria-label="Marcar como concluído"></button>
+          </li>
+          <li class="nav-item">
+            <a href="#a2-email" class="nav-link" data-target="a2-email">
+              <span class="nav-num">04</span> Respostas de E-mail
+            </a>
+            <button class="topic-check" data-topic-check="a2-email" aria-label="Marcar como concluído"></button>
+          </li>
+          <li class="nav-item">
+            <a href="#a2-automacoes" class="nav-link" data-target="a2-automacoes">
+              <span class="nav-num">05</span> <span class="nav-title-text">Automações</span>
+              <span class="tiago-badge" aria-label="Apresentado por Tiago">T</span>
+            </a>
+            <button class="topic-check" data-topic-check="a2-automacoes" aria-label="Marcar como concluído"></button>
+          </li>
+          <li class="nav-item">
+            <a href="#a2-imagem" class="nav-link" data-target="a2-imagem">
+              <span class="nav-num">06</span> Geração de Imagem
+            </a>
+            <button class="topic-check" data-topic-check="a2-imagem" aria-label="Marcar como concluído"></button>
+          </li>
+          <li class="nav-item">
+            <a href="#a2-instagram" class="nav-link" data-target="a2-instagram">
+              <span class="nav-num">07</span> Posts no Instagram
+            </a>
+            <button class="topic-check" data-topic-check="a2-instagram" aria-label="Marcar como concluído"></button>
+          </li>
+          <li class="nav-item">
+            <a href="#a2-propostas" class="nav-link" data-target="a2-propostas">
+              <span class="nav-num">08</span> Skill de Propostas
+            </a>
+            <button class="topic-check" data-topic-check="a2-propostas" aria-label="Marcar como concluído"></button>
+          </li>
+        </ul>
       </div>
 
       <!-- ===== AULA 04 — CONSTRUÇÃO (bloqueada) ===== -->
@@ -176,12 +224,13 @@
           <span class="nav-soon">Em breve</span>
         </button>
       </div>
-      <!-- ===== AULA 01 — ESTRATÉGIA DE FUNIL ===== -->
+
+      <!-- ===== AULA 03 — ESTRATÉGIA DE FUNIL ===== -->
       <div class="nav-group" data-group="aula03">
         <button class="nav-group-header" data-group-toggle="aula03" aria-expanded="false">
-          <span class="nav-group-badge nav-group-badge-funnel">
+          <span class="nav-group-badge nav-group-badge-icon" aria-label="Funil">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M3 5h18l-7 8v6l-4 2v-8L3 5z" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 4H3l7 8.5V19l4 2v-8.5L21 4z" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </span>
           <span class="nav-group-meta">
@@ -194,7 +243,7 @@
         </button>
         <ul class="nav-list nav-sublist">
           <li class="nav-item">
-            <a href="#a3-principios" class="nav-link active" data-target="a3-principios">
+            <a href="#a3-principios" class="nav-link" data-target="a3-principios">
               <span class="nav-num">01</span> Princípios Fundamentais
             </a>
             <button class="topic-check" data-topic-check="a3-principios" aria-label="Marcar como concluído"></button>
@@ -323,7 +372,7 @@
 
   <main class="content">
     <!-- ========= 01. FILOSOFIA DA IMERSÃO ========= -->
-    <section id="filosofia" class="topic">
+    <section id="filosofia" class="topic active">
       <header class="topic-header">
         <span class="eyebrow eyebrow-special">Tópico 01 · Abertura</span>
         <h1 class="title-shimmer">Filosofia da imersão</h1>
@@ -422,8 +471,8 @@
                 <span class="fase-num">03</span>
                 <span class="fase-label">Encontro 3</span>
               </div>
-              <h3>Construção</h3>
-              <p>Criar ferramentas e fluxos. Primeiras automações. Processos rodando enquanto se dorme. <strong>Avançado, mas sem código</strong>.</p>
+              <h3>Construção — Criando ferramentas e fluxos com Claude Code</h3>
+              <p>Primeiras automações e ferramentas construídas ao vivo, em linguagem natural. Processos rodando enquanto se dorme. <strong>Avançado, mas sem código</strong>.</p>
             </div>
 
             <div class="fase-connector"></div>
@@ -433,8 +482,8 @@
                 <span class="fase-num">04</span>
                 <span class="fase-label">Encontro 4</span>
               </div>
-              <h3>Automação · Squads</h3>
-              <p>Construir squads com todas as habilidades acumuladas. Times de IA para tarefas recorrentes. <strong>Sai com a solução pronta</strong>.</p>
+              <h3>Automação — Squads de agentes trabalhando por você</h3>
+              <p>Configurar times de IA para tarefas recorrentes, atendimento, análise e criação. <strong>Sai com a solução pronta</strong>.</p>
             </div>
           </div>
         </div>
@@ -1168,7 +1217,7 @@ Padrão: resposta enxuta, sem preâmbulo, sem repetir o que perguntei, sem discl
           <div class="model-head">
             <span class="model-key">1</span>
             <div>
-              <h3>Opus 4.8</h3>
+              <h3>Opus 4.7</h3>
               <span class="model-tag tag-powerful">Mais potente</span>
             </div>
           </div>
@@ -1180,11 +1229,11 @@ Padrão: resposta enxuta, sem preâmbulo, sem repetir o que perguntei, sem discl
           <div class="model-head">
             <span class="model-key">2</span>
             <div>
-              <h3>Opus 4.8 <span class="model-suffix">1M</span></h3>
+              <h3>Opus 4.7 <span class="model-suffix">1M</span></h3>
               <span class="model-tag tag-powerful">Memória gigante</span>
             </div>
           </div>
-          <p>Igual ao Opus 4.8, mas com janela de <strong>1 milhão de tokens</strong>. Lê projetos inteiros sem perder o fio.</p>
+          <p>Igual ao Opus 4.7, mas com janela de <strong>1 milhão de tokens</strong>. Lê projetos inteiros sem perder o fio.</p>
           <span class="model-use">Use em: bases de código grandes, livros, longas conversas.</span>
         </div>
 
@@ -1210,6 +1259,18 @@ Padrão: resposta enxuta, sem preâmbulo, sem repetir o que perguntei, sem discl
           </div>
           <p>Modelo leve e veloz. Responde quase instantâneo, ideal pra coisas simples.</p>
           <span class="model-use">Use em: perguntas rápidas, resumos curtos, classificações.</span>
+        </div>
+
+        <div class="model-card">
+          <div class="model-head">
+            <span class="model-key">5</span>
+            <div>
+              <h3>Opus 4.6 <span class="model-suffix muted">Legado</span></h3>
+              <span class="model-tag tag-legacy">Versão antiga</span>
+            </div>
+          </div>
+          <p>Versão anterior do Opus. Continua disponível pra quem quer comparar ou já tem fluxos rodando nela.</p>
+          <span class="model-use">Use só se: precisar reproduzir resultados antigos.</span>
         </div>
       </div>
 
@@ -4701,7 +4762,7 @@ Abra a proposta final em um artifact e gere um PDF para download.</pre>
     <!-- ============================================================= -->
 
     <!-- ========= A3-01. PRINCÍPIOS FUNDAMENTAIS ========= -->
-    <section id="a3-principios" class="topic active">
+    <section id="a3-principios" class="topic">
       <header class="topic-header">
         <span class="eyebrow eyebrow-special">Aula 03 · Tópico 01</span>
         <h1 class="title-shimmer">Princípios Fundamentais</h1>
@@ -7143,20 +7204,7 @@ LINGUAGEM E FORMATAÇÃO
     <!-- ===================== AULAS BLOQUEADAS (EM BREVE) ============ -->
     <!-- ============================================================= -->
 
-    <!-- ========= AULA 04 · CONSTRUÇÃO ========= -->
-    <!-- ========= AULA 03 · PRODUTIVIDADE REAL (bloqueada) ========= -->
-    <section id="aula02-soon" class="topic topic-locked">
-      <div class="locked-center">
-        <div class="locked-lock" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.7"/>
-            <path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <span class="locked-text">Conteúdo bloqueado</span>
-      </div>
-    </section>
-
+    <!-- ========= AULA 04 · CONSTRUÇÃO (bloqueada) ========= -->
     <section id="aula04-soon" class="topic topic-locked">
       <div class="locked-center">
         <div class="locked-lock" aria-hidden="true">
@@ -7169,7 +7217,7 @@ LINGUAGEM E FORMATAÇÃO
       </div>
     </section>
 
-    <!-- ========= AULA 05 · AUTOMAÇÃO · SQUADS ========= -->
+    <!-- ========= AULA 05 · AUTOMAÇÃO · SQUADS (bloqueada) ========= -->
     <section id="aula05-soon" class="topic topic-locked">
       <div class="locked-center">
         <div class="locked-lock" aria-hidden="true">
