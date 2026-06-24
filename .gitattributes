@@ -1,0 +1,5 @@
+# Normaliza finais de linha para LF (consistência cross-platform e com o deploy Vercel)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.svg text eol=lf

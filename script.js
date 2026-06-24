@@ -75,12 +75,12 @@ document.querySelectorAll('[data-target]').forEach((link) => {
   });
 });
 
-// Open the topic from the URL hash on load (default: a3-principios / Aula 01 — Funil)
+// Open the topic from the URL hash on load (default: filosofia / Aula 01)
 const initial = window.location.hash.replace('#', '');
 if (initial && document.getElementById(initial)) {
   activate(initial, false);
 } else {
-  markCurrentGroup('a3-principios', false);
+  markCurrentGroup('filosofia', false);
 }
 
 // =====================================================================
@@ -205,3 +205,108 @@ document.querySelectorAll('[data-carousel]').forEach((carousel) => {
     d.addEventListener('click', () => show(Number(d.dataset.goTo)));
   });
 });
+
+// =====================================================================
+//  Prompt: copiar (do <pre> oculto, via textContent) + modal A4
+// =====================================================================
+async function copyFromSource(srcId, btn) {
+  const src = document.getElementById(srcId);
+  if (!src) return;
+  try {
+    await navigator.clipboard.writeText(src.textContent);
+    if (!btn) return;
+    const label = btn.querySelector('.copy-label');
+    const original = label ? label.textContent : '';
+    btn.classList.add('copied');
+    if (label) label.textContent = 'Copiado!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      if (label) label.textContent = original;
+    }, 1800);
+  } catch (e) {
+    console.error('Falha ao copiar:', e);
+  }
+}
+
+// Botões de copiar dos cards de prompt
+document.querySelectorAll('[data-prompt-copy]').forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    copyFromSource(btn.dataset.promptCopy, btn);
+  });
+});
+
+// Modal do prompt (folha A4)
+const promptModal = document.getElementById('promptModal');
+if (promptModal) {
+  const modalPre = document.getElementById('promptModalPre');
+  const modalTitle = document.getElementById('promptModalTitle');
+  const modalCopy = document.getElementById('promptModalCopy');
+  let lastFocused = null;
+
+  function openPromptModal(srcId, title) {
+    const src = document.getElementById(srcId);
+    if (!src) return;
+    modalPre.textContent = src.textContent;
+    if (modalTitle) modalTitle.textContent = title || 'prompt-montagem.md';
+    if (modalCopy) modalCopy.dataset.copySrc = srcId;
+    lastFocused = document.activeElement;
+    promptModal.classList.add('open');
+    promptModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    promptModal.querySelector('.prompt-modal__body').scrollTop = 0;
+  }
+  function closePromptModal() {
+    promptModal.classList.remove('open');
+    promptModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  document.querySelectorAll('[data-prompt-open]').forEach((btn) => {
+    btn.addEventListener('click', () => openPromptModal(btn.dataset.promptOpen, btn.dataset.promptTitle));
+  });
+  document.querySelectorAll('[data-prompt-close]').forEach((el) => {
+    el.addEventListener('click', closePromptModal);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && promptModal.classList.contains('open')) closePromptModal();
+  });
+  if (modalCopy) {
+    modalCopy.addEventListener('click', () => copyFromSource(modalCopy.dataset.copySrc, modalCopy));
+  }
+}
+
+// Lightbox de imagem — clicar numa imagem [data-img-open] abre em tamanho real
+const imgModal = document.getElementById('imgModal');
+if (imgModal) {
+  const imgModalImg = document.getElementById('imgModalImg');
+  let imgLastFocused = null;
+
+  function openImgModal(src, alt) {
+    if (!src) return;
+    imgModalImg.src = src;
+    imgModalImg.alt = alt || '';
+    imgLastFocused = document.activeElement;
+    imgModal.classList.add('open');
+    imgModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+  function closeImgModal() {
+    imgModal.classList.remove('open');
+    imgModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    imgModalImg.src = '';
+    if (imgLastFocused && imgLastFocused.focus) imgLastFocused.focus();
+  }
+
+  document.querySelectorAll('[data-img-open]').forEach((el) => {
+    el.addEventListener('click', () => openImgModal(el.dataset.imgOpen, el.dataset.imgAlt));
+  });
+  document.querySelectorAll('[data-img-close]').forEach((el) => {
+    el.addEventListener('click', closeImgModal);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && imgModal.classList.contains('open')) closeImgModal();
+  });
+}
