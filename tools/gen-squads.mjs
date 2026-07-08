@@ -449,7 +449,7 @@ Gostaria de apresentar alguns sites que já criei para clínicas da região — 
 Abraço,
 Diego Caldas — DC Sites
 (11) 98888-7777 · contato@dcsites.com.br`,
-  '02-espionagem-youtube': 'Analise os 15 vídeos mais recentes do canal "https://youtube.com/@concorrente" e me devolva 3 roteiros originais (um vídeo longo, um Reel e um Stories) sobre os temas que mais performaram.',
+  '02-espionagem-youtube': 'Analise os 03 vídeos mais recentes do canal "https://www.youtube.com/@tiagolemosx" e me devolva 3 roteiros originais (um vídeo longo, um Reel e um Stories) sobre os temas que mais performaram.',
   '03-imagem-google-ai': `Crie 05 imagens referentes a temas recentes de IA, seguindo o padrão visual descrito na sequência.
 
 Formato: vertical 4:5 (ex.: 1080×1350px).
