@@ -9007,42 +9007,6 @@ Ao final, garanta que todas as telas do CRM funcionem corretamente com a integra
           </div>
       </div>
 
-      <h2 class="section-title">Como montar e rodar</h2>
-      <div class="sq-steps">
-          <div class="sq-step">
-            <div class="sq-step-num">1</div>
-            <div class="sq-step-body"><h4>Abra a pasta do squad no Claude Code</h4><p>Abra a pasta <code>01-prospeccao/</code> no Claude Code (ou crie uma pasta nova e trabalhe nela). É aqui que o squad vai ser montado.</p><span class="sq-step-tag">Setup</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">2</div>
-            <div class="sq-step-body"><h4>Ative a skill geradora de squads</h4><p>No Claude Code, digite <code>use skill mestre-squad-builder</code>. É ela que vai construir o squad a partir do seu pedido. (Precisa estar instalada — veja a etapa "Skill: Gerador de Squads" no menu.)</p><span class="sq-step-tag">Setup</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">3</div>
-            <div class="sq-step-body"><h4>Cole o pedido do squad</h4><p>Copie o <strong>prompt em linguagem natural</strong> (acima) e cole no Claude Code. A skill monta sozinha os agentes, as skills, o <code>CLAUDE.md</code> e a estrutura de pastas.</p><span class="sq-step-tag">Montagem</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">4</div>
-            <div class="sq-step-body"><h4>Instale as dependências</h4><p>O squad usa Playwright headless para ler o Google Maps. Se faltar Playwright ou Chromium, o próprio <code>validador</code> instala no Passo 0.</p><span class="sq-step-tag">Premissa</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">5</div>
-            <div class="sq-step-body"><h4>Coloque sua chave no config/.env</h4><p>Para disparar e-mails, preencha <span class="keytag">COMPOSIO_API_KEY</span> em <code>config/.env</code>. Pegue a chave em <a href="https://composio.dev" target="_blank" rel="noopener">composio.dev</a> e conecte sua conta de e-mail lá. Se você for usar <b>só WhatsApp</b>, a chave é opcional.</p><span class="sq-step-tag">Premissa</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">6</div>
-            <div class="sq-step-body"><h4>Digite iniciar squad</h4><p>No Claude Code, digite <code>iniciar squad</code>. O orquestrador assume daqui: valida os pré-requisitos (Passo 0) e abre o onboarding.</p><span class="sq-step-tag">Execução</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">7</div>
-            <div class="sq-step-body"><h4>Responda o briefing e confirme</h4><p>O squad faz as perguntas num único bloco. Responda, confira o resumo e confirme — então os agentes executam em sequência.</p><span class="sq-step-tag">Execução</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">8</div>
-            <div class="sq-step-body"><h4>Pegue o resultado em output/</h4><p>Quando terminar, os entregáveis estão na pasta <code>output/</code> (veja a lista abaixo). Reveja, ajuste se quiser e use.</p><span class="sq-step-tag">Entrega</span></div>
-          </div>
-      </div>
-
       <h2 class="section-title">O prompt para criar o squad</h2>
       <p class="section-desc">É só copiar este pedido em linguagem natural e colar no Claude Code (numa pasta vazia). Ele monta o squad inteiro pra você.</p>
       <div class="sq-simplecard">
@@ -10534,42 +10498,6 @@ Diego Caldas — DC Sites
           <div class="sq-premise">
             <div class="sq-premise-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2v6M15 2v6M7 8h10v2a5 5 0 0 1-10 0V8ZM12 15v7"/></svg></div>
             <div><h4>Conector TranscriptAPI</h4><p>Conecte a <b>TranscriptAPI</b> no Claude (Configurações → Conectores). Ranquear por histórico de views consome créditos e é opcional.</p></div>
-          </div>
-      </div>
-
-      <h2 class="section-title">Como montar e rodar</h2>
-      <div class="sq-steps">
-          <div class="sq-step">
-            <div class="sq-step-num">1</div>
-            <div class="sq-step-body"><h4>Abra a pasta do squad no Claude Code</h4><p>Abra a pasta <code>02-espionagem-youtube/</code> no Claude Code (ou crie uma pasta nova e trabalhe nela). É aqui que o squad vai ser montado.</p><span class="sq-step-tag">Setup</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">2</div>
-            <div class="sq-step-body"><h4>Ative a skill geradora de squads</h4><p>No Claude Code, digite <code>use skill mestre-squad-builder</code>. É ela que vai construir o squad a partir do seu pedido. (Precisa estar instalada — veja a etapa "Skill: Gerador de Squads" no menu.)</p><span class="sq-step-tag">Setup</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">3</div>
-            <div class="sq-step-body"><h4>Cole o pedido do squad</h4><p>Copie o <strong>prompt em linguagem natural</strong> (acima) e cole no Claude Code. A skill monta sozinha os agentes, as skills, o <code>CLAUDE.md</code> e a estrutura de pastas.</p><span class="sq-step-tag">Montagem</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">4</div>
-            <div class="sq-step-body"><h4>Coloque sua chave no config/.env</h4><p>A TranscriptAPI precisa de chave de API para puxar os vídeos e as transcrições. Coloque a sua em <code>config/.env</code> — você só diz qual configurar.</p><span class="sq-step-tag">Premissa</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">5</div>
-            <div class="sq-step-body"><h4>Conecte a conta</h4><p>Conecte a <b>TranscriptAPI</b> no Claude (Configurações → Conectores). Ranquear por histórico de views consome créditos e é opcional.</p><span class="sq-step-tag">Premissa</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">6</div>
-            <div class="sq-step-body"><h4>Digite iniciar squad</h4><p>No Claude Code, digite <code>iniciar squad</code>. O orquestrador assume daqui: valida os pré-requisitos (Passo 0) e abre o onboarding.</p><span class="sq-step-tag">Execução</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">7</div>
-            <div class="sq-step-body"><h4>Responda o briefing e confirme</h4><p>O squad faz as perguntas num único bloco. Responda, confira o resumo e confirme — então os agentes executam em sequência.</p><span class="sq-step-tag">Execução</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">8</div>
-            <div class="sq-step-body"><h4>Pegue o resultado em output/</h4><p>Quando terminar, os entregáveis estão na pasta <code>output/</code> (veja a lista abaixo). Reveja, ajuste se quiser e use.</p><span class="sq-step-tag">Entrega</span></div>
           </div>
       </div>
 
@@ -12096,42 +12024,6 @@ Confirmação:
           <div class="sq-premise">
             <div class="sq-premise-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1.5v3M15 1.5v3M9 19.5v3M15 19.5v3M1.5 9h3M1.5 15h3M19.5 9h3M19.5 15h3"/><rect x="10" y="10" width="4" height="4" rx=".5"/></svg></div>
             <div><h4>Python + 2 pacotes</h4><p>Instale os pacotes com <code>pip install google-genai python-dotenv</code>. O Passo 0 confere isso pra você.</p></div>
-          </div>
-      </div>
-
-      <h2 class="section-title">Como montar e rodar</h2>
-      <div class="sq-steps">
-          <div class="sq-step">
-            <div class="sq-step-num">1</div>
-            <div class="sq-step-body"><h4>Abra a pasta do squad no Claude Code</h4><p>Abra a pasta <code>03-imagem-google-ai/</code> no Claude Code (ou crie uma pasta nova e trabalhe nela). É aqui que o squad vai ser montado.</p><span class="sq-step-tag">Setup</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">2</div>
-            <div class="sq-step-body"><h4>Ative a skill geradora de squads</h4><p>No Claude Code, digite <code>use skill mestre-squad-builder</code>. É ela que vai construir o squad a partir do seu pedido. (Precisa estar instalada — veja a etapa "Skill: Gerador de Squads" no menu.)</p><span class="sq-step-tag">Setup</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">3</div>
-            <div class="sq-step-body"><h4>Cole o pedido do squad</h4><p>Copie o <strong>prompt em linguagem natural</strong> (acima) e cole no Claude Code. A skill monta sozinha os agentes, as skills, o <code>CLAUDE.md</code> e a estrutura de pastas.</p><span class="sq-step-tag">Montagem</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">4</div>
-            <div class="sq-step-body"><h4>Instale as dependências</h4><p>Instale os pacotes com <code>pip install google-genai python-dotenv</code>. O Passo 0 confere isso pra você.</p><span class="sq-step-tag">Premissa</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">5</div>
-            <div class="sq-step-body"><h4>Coloque sua chave no config/.env</h4><p>Preencha <span class="keytag">GOOGLE_AI_API_KEY</span> em <code>config/.env</code>. Gere a chave (grátis) em <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> com sua conta Google. Sem ela, o squad para antes de qualquer pergunta.</p><span class="sq-step-tag">Premissa</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">6</div>
-            <div class="sq-step-body"><h4>Digite iniciar squad</h4><p>No Claude Code, digite <code>iniciar squad</code>. O orquestrador assume daqui: valida os pré-requisitos (Passo 0) e abre o onboarding.</p><span class="sq-step-tag">Execução</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">7</div>
-            <div class="sq-step-body"><h4>Responda o briefing e confirme</h4><p>O squad faz as perguntas num único bloco. Responda, confira o resumo e confirme — então os agentes executam em sequência.</p><span class="sq-step-tag">Execução</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">8</div>
-            <div class="sq-step-body"><h4>Pegue o resultado em output/</h4><p>Quando terminar, os entregáveis estão na pasta <code>output/</code> (veja a lista abaixo). Reveja, ajuste se quiser e use.</p><span class="sq-step-tag">Entrega</span></div>
           </div>
       </div>
 
@@ -15835,38 +15727,6 @@ github.com/vanessaborges
           <div class="sq-premise sq-premise--ok">
             <div class="sq-premise-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></div>
             <div><h4>Sem API key paga</h4><p>100% generativo local — não usa integração externa. Só gera arquivos Markdown e HTML.</p></div>
-          </div>
-      </div>
-
-      <h2 class="section-title">Como montar e rodar</h2>
-      <div class="sq-steps">
-          <div class="sq-step">
-            <div class="sq-step-num">1</div>
-            <div class="sq-step-body"><h4>Abra a pasta do squad no Claude Code</h4><p>Abra a pasta <code>06-oferta-hormozi/</code> no Claude Code (ou crie uma pasta nova e trabalhe nela). É aqui que o squad vai ser montado.</p><span class="sq-step-tag">Setup</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">2</div>
-            <div class="sq-step-body"><h4>Ative a skill geradora de squads</h4><p>No Claude Code, digite <code>use skill mestre-squad-builder</code>. É ela que vai construir o squad a partir do seu pedido. (Precisa estar instalada — veja a etapa "Skill: Gerador de Squads" no menu.)</p><span class="sq-step-tag">Setup</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">3</div>
-            <div class="sq-step-body"><h4>Cole o pedido do squad</h4><p>Copie o <strong>prompt em linguagem natural</strong> (acima) e cole no Claude Code. A skill monta sozinha os agentes, as skills, o <code>CLAUDE.md</code> e a estrutura de pastas.</p><span class="sq-step-tag">Montagem</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">4</div>
-            <div class="sq-step-body"><h4>Instale as dependências</h4><p>O HTML final usa Mermaid.js via CDN para desenhar os diagramas de funil. Sem internet, os diagramas aparecem como código (fallback).</p><span class="sq-step-tag">Premissa</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">5</div>
-            <div class="sq-step-body"><h4>Digite iniciar squad demo</h4><p>Use <code>iniciar squad demo</code> (1 ângulo, rápido — ideal para começar). O modo completo <code>iniciar squad</code> roda 3 ângulos (A/B/C + comparativo, ~36 arquivos) e é bem mais pesado.</p><span class="sq-step-tag">Execução</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">6</div>
-            <div class="sq-step-body"><h4>Responda o briefing e confirme</h4><p>O squad faz as perguntas num único bloco. Responda, confira o resumo e confirme — então os agentes executam em sequência.</p><span class="sq-step-tag">Execução</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">7</div>
-            <div class="sq-step-body"><h4>Pegue o resultado em output/</h4><p>Quando terminar, os entregáveis estão na pasta <code>output/</code> (veja a lista abaixo). Reveja, ajuste se quiser e use.</p><span class="sq-step-tag">Entrega</span></div>
           </div>
       </div>
 

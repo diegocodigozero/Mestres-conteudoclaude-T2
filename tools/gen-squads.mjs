@@ -432,9 +432,6 @@ ${treeRow('└── ', 'dir', 'folder', 'output/', 'tudo que o squad gera fica 
     </section>
 `;
 
-/* squads que NÃO mostram a seção "Como montar e rodar" */
-const NO_STEPS = new Set(['05-rh-triagem']);
-
 /* exemplos de solicitação por squad (pra usar na aula — é só adaptar) */
 const EXAMPLES = {
   '01-prospeccao': `Me traga 30 clínicas odontológicas em São Paulo, no bairro Pinheiros, com e-mail e WhatsApp, e prepara o disparo usando este e-mail de apresentação (me mostra renderizado pra eu aprovar antes de enviar):
@@ -515,12 +512,6 @@ function buildSquadTopic(q, idx) {
           </div>`;
   }).join('');
 
-  const steps = buildSteps(q).map((s, i) => `
-          <div class="sq-step">
-            <div class="sq-step-num">${i + 1}</div>
-            <div class="sq-step-body"><h4>${s.t}</h4><p>${s.d}</p>${s.tag ? `<span class="sq-step-tag">${s.tag}</span>` : ''}</div>
-          </div>`).join('');
-
   const gates = (q.gates || []).map((g) => {
     const variant = g.kind === 'warn' ? ' sq-callout--warn' : (g.kind === 'gate' ? ' sq-callout--gate' : '');
     return `
@@ -567,11 +558,7 @@ function buildSquadTopic(q, idx) {
       <h2 class="section-title">Antes de começar, prepare isto</h2>
       <div class="sq-premises">${premises}
       </div>
-${NO_STEPS.has(q.slug) ? '' : `
-      <h2 class="section-title">Como montar e rodar</h2>
-      <div class="sq-steps">${steps}
-      </div>
-`}
+
       <h2 class="section-title">O prompt para criar o squad</h2>
       <p class="section-desc">É só copiar este pedido em linguagem natural e colar no Claude Code (numa pasta vazia). Ele monta o squad inteiro pra você.</p>
       <div class="sq-simplecard">
