@@ -468,26 +468,15 @@ Abraço,
 Diego Caldas — DC Sites
 (11) 98888-7777 · contato@dcsites.com.br`,
   '02-espionagem-youtube': 'Analise os 03 vídeos mais recentes do canal "https://www.youtube.com/@tiagolemosx" e me devolva 3 roteiros originais (um vídeo longo, um Reel e um Stories) sobre os temas que mais performaram.',
-  '03-imagem-google-ai': `Use o squad e gere um lote de imagens seguindo as regras abaixo:
-
-Substituição de pessoa em lote usando referência facial.
-
-Pessoa de referência (rosto a inserir):
-D:\\Downloads\\Imagem-Aula\\persona\\tiago.png
-
-Pasta com as imagens-base (onde os personagens serão substituídos):
-D:\\Downloads\\Imagem-Aula\\img-ref
+  '03-imagem-google-ai': `Use o squad e gere um lote de 10 imagens aleatórias do Rio de Janeiro.
 
 O que fazer:
-Pegue TODAS as imagens da pasta img-ref e, em cada uma, substitua a pessoa/personagem pelo rosto do tiago.png, mantendo a mesma cena, pose, enquadramento, roupa, iluminação e estilo da imagem original. Só o rosto/identidade da pessoa muda; o resto da imagem permanece igual.
+Gere 10 imagens de cenas variadas do Rio de Janeiro, cada uma de um lugar ou ângulo diferente (ex.: Cristo Redentor, Pão de Açúcar, praia de Copacabana, orla da Barra, favela colorida, pôr do sol na Lagoa, bondinho de Santa Teresa, calçadão de Ipanema, vista aérea da Baía de Guanabara, Escadaria Selarón). Fique à vontade pra variar horário do dia, clima e enquadramento.
 
 Regras:
-- Processe todas as imagens da pasta, uma por uma.
-- Mantenha a resolução e o formato de cada imagem original.
-- Preserve consistência da identidade do tiago em todas as saídas (mesmo rosto reconhecível).
-- Se uma imagem tiver mais de uma pessoa, [me diga qual substituir OU substitua a pessoa em destaque/primeiro plano].
-
-Saída: salve as imagens já com a substituição feita, nomeando cada uma como o nome original + sufixo "_tiago" (ex.: cena01_tiago.png), prontas pra usar.`,
+- 10 imagens no total, uma cena distinta em cada.
+- Qualidade e resolução altas.
+- Sem texto sobreposto nas imagens.`,
   '04-instagram-respostas': 'Puxe os comentários novos do meu último post no Instagram, classifique cada um e redija as respostas no meu tom de voz — me mostra no painel pra eu aprovar antes de publicar.',
   '05-rh-triagem': 'Tenho 20 currículos em cvs/ e a vaga "Desenvolvedor(a) Python Pleno" em vagas/. Pontue todos e me traga o ranking dos 5 melhores, com a evidência e os gaps de cada um.',
   '06-oferta-hormozi': 'Monte uma oferta irresistível para um curso de inglês para executivos de R$ 2.000: avatar, dor, equação de valor, bônus, preço, garantia e o funil completo.',
