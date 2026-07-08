@@ -251,10 +251,19 @@ function toolsLine(q) {
   return t;
 }
 
+/* chaves de API — entregues direto no pedido, sempre no final */
+function keyLines(q) {
+  const hay = `${q.whatIs} ${q.tagline} ${q.premises.map((p) => p.title + ' ' + p.html).join(' ')} ${q.skills.map((s) => s.join(' ')).join(' ')}`.toLowerCase();
+  const k = [];
+  if (/composio/.test(hay)) k.push('Essa aqui é minha chave do Composio: XXXXXXXXXXXXXXXXXXXXXX — use ela em todo lugar que precisar do Composio.');
+  if (/transcriptapi/.test(hay)) k.push('Essa aqui é minha chave da TranscriptAPI: XXXXXXXXXXXXXXXXXXXXXX — use ela em todo lugar que precisar da TranscriptAPI.');
+  if (/google ai|gemini|aistudio|google_ai/.test(hay)) k.push('Essa aqui é minha Google API key (Google AI Studio): XXXXXXXXXXXXXXXXXXXXXX — use ela em todo lugar que precisar da API do Google.');
+  return k;
+}
+
 /* PROMPT SIMPLES — linguagem natural, ~como uma pessoa leiga pediria (<= 20 linhas) */
 function buildSimplePrompt(q) {
   const tools = toolsLine(q);
-  const hasKey = q.premises.some((p) => p.kind === 'key');
   const rules = (q.gates || []).map((g) => g.title);
   const deliver = q.outputs.map((o) => {
     const p = o.split(' — ');
@@ -267,7 +276,6 @@ function buildSimplePrompt(q) {
   L.push(`O que eu preciso: ${q.whatIs}`);
   L.push('');
   if (tools.length) L.push(`Pode usar ${tools.join('; ')}.`);
-  if (hasKey) L.push('Eu te passo a chave de API que precisar — só me diga qual configurar.');
   if (/transcriptapi/i.test(`${q.whatIs} ${q.tagline}`)) {
     L.push('A TranscriptAPI fica em https://transcriptapi.com/ — lá você gera a chave de API e encontra a documentação do conector MCP (use-a para configurar a integração).');
   }
@@ -285,6 +293,11 @@ function buildSimplePrompt(q) {
   }
   L.push('');
   L.push('Organize como um squad de agentes (um orquestrador que coordena + agentes especializados pra cada etapa, cada um com sua skill) e deixe pronto pra eu rodar digitando "iniciar squad".');
+  const keys = keyLines(q);
+  if (keys.length) {
+    L.push('');
+    keys.forEach((k) => L.push(k));
+  }
   return L.join('\n').replace(/\n{3,}/g, '\n\n');
 }
 
