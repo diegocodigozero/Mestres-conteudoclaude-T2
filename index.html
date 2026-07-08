@@ -12033,20 +12033,17 @@ Confirmação:
         </div>
         <pre class="sq-simplecard__pre" id="sq-simple-03">Use a skill mestre-squad-builder para criar um squad chamado "Imagem Profissional" (Google AI Studio · Gemini).
 
-O que eu preciso: Um squad de geração de imagem com qualidade de direção de arte. Você passa um briefing (objetivo, estilo, paleta, texto) e ele devolve variações profissionais geradas pela API do Google AI Studio, já avaliadas e ranqueadas, com um contato-sheet visual.
+Objetivo: um orquestrador de geração de imagem em lote. Eu passo um briefing e o squad gera as imagens pela API do Google AI Studio (Gemini).
 
-Pode usar a API do Google AI Studio (Gemini) pra gerar as imagens.
+O squad trabalha em dois modos, e eu informo qual no próprio comando:
+1. Por descrição: eu descrevo o tipo de imagem que quero (tema, estilo, paleta, texto) e o squad gera as variações do zero.
+2. Por referência: eu anexo uma imagem e o squad gera outras imagens a partir dela (mesma pegada, variações, ou aplicando o que eu pedir).
 
-No final, quero receber:
-- as imagens profissionais geradas (PNG), prontas pra usar.
-- avaliação de QA com o Top 3 ranqueado.
-- contato-sheet visual pra comparar as variações.
+Entrega final: as imagens geradas, organizadas e prontas pra usar.
 
-No onboarding, me pergunte: o que vai ser a imagem (o tema/assunto), quantas imagens, o estilo, a paleta e o texto. Pergunte também se eu prefiro que o squad pesquise o tema antes (ex.: notícias recentes de IA) — se sim, inclua um agente de pesquisa que busca as novidades e usa como base para criar as imagens.
+Estrutura: monte como squad de agentes, um orquestrador que coordena agentes especializados por etapa (briefing, geração, entrega), cada um com sua skill. Deixe pronto pra rodar quando eu digitar "iniciar squad".
 
-Organize como um squad de agentes (um orquestrador que coordena + agentes especializados pra cada etapa, cada um com sua skill) e deixe pronto pra eu rodar digitando "iniciar squad".
-
-Essa aqui é minha Google API key (Google AI Studio): XXXXXXXXXXXXXXXXXXXXXX — use ela em todo lugar que precisar da API do Google.</pre>
+Minha Google API key (Google AI Studio): XXXXXXXXXXXXXXXXXXXXXX. Use essa chave sempre que precisar da API do Google.</pre>
       </div>
 
       <details class="sq-complete">

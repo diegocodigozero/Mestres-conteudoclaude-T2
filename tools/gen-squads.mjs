@@ -261,8 +261,26 @@ function keyLines(q) {
   return k;
 }
 
+/* pedidos totalmente customizados — substituem o prompt simples gerado */
+const SIMPLE_OVERRIDES = {
+  '03-imagem-google-ai': `Use a skill mestre-squad-builder para criar um squad chamado "Imagem Profissional" (Google AI Studio · Gemini).
+
+Objetivo: um orquestrador de geração de imagem em lote. Eu passo um briefing e o squad gera as imagens pela API do Google AI Studio (Gemini).
+
+O squad trabalha em dois modos, e eu informo qual no próprio comando:
+1. Por descrição: eu descrevo o tipo de imagem que quero (tema, estilo, paleta, texto) e o squad gera as variações do zero.
+2. Por referência: eu anexo uma imagem e o squad gera outras imagens a partir dela (mesma pegada, variações, ou aplicando o que eu pedir).
+
+Entrega final: as imagens geradas, organizadas e prontas pra usar.
+
+Estrutura: monte como squad de agentes, um orquestrador que coordena agentes especializados por etapa (briefing, geração, entrega), cada um com sua skill. Deixe pronto pra rodar quando eu digitar "iniciar squad".
+
+Minha Google API key (Google AI Studio): XXXXXXXXXXXXXXXXXXXXXX. Use essa chave sempre que precisar da API do Google.`,
+};
+
 /* PROMPT SIMPLES — linguagem natural, ~como uma pessoa leiga pediria (<= 20 linhas) */
 function buildSimplePrompt(q) {
+  if (SIMPLE_OVERRIDES[q.slug]) return SIMPLE_OVERRIDES[q.slug];
   const tools = toolsLine(q);
   const rules = (q.gates || []).map((g) => g.title);
   const deliver = q.outputs.map((o) => {
