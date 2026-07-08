@@ -434,7 +434,7 @@ ${treeRow('└── ', 'dir', 'folder', 'output/', 'tudo que o squad gera fica 
 
 /* exemplos de solicitação por squad (pra usar na aula — é só adaptar) */
 const EXAMPLES = {
-  '01-prospeccao': `Me traga 30 clínicas odontológicas em São Paulo, no bairro Pinheiros, com e-mail e WhatsApp, e prepara o disparo usando este e-mail de apresentação (me mostra renderizado pra eu aprovar antes de enviar):
+  '01-prospeccao': `Me traga 05 clínicas odontológicas em São Paulo, no bairro Pinheiros, com e-mail e WhatsApp, e prepara o disparo usando este e-mail de apresentação (me mostra renderizado pra eu aprovar antes de enviar):
 
 Assunto: Um site profissional para a [NOME]
 
