@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula 04 · Squads de Agentes</title>
+  <meta name="description" content="Aula 04 da Implementação Claude: squads de agentes de IA que automatizam tarefas reais. Aprenda o que é um squad e monte os 10 squads prontos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="topbar__brand" href="">
+        <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1.5v3M15 1.5v3M9 19.5v3M15 19.5v3M1.5 9h3M1.5 15h3M19.5 9h3M19.5 15h3"/><rect x="10" y="10" width="4" height="4" rx=".5"/></svg></span>
+        <b>Squads</b><span>· Aula 04</span>
+      </a>
+      <span class="topbar__spacer"></span>
+      
+      <a class="topbar__link" href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Voltar ao curso</a>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="wrap hero__inner">
+        <span class="eyebrow">Aula 04 · Automação</span>
+        <h1 class="display"><span class="grad">Squads de Agentes</span></h1>
+        <p class="lead">Times de IA que trabalham por você. Cada squad é um pequeno exército de agentes especializados — você cola um prompt, configura o que for preciso e digita <span class="mono" style="color:var(--green-2)">iniciar squad</span>. O resto roda sozinho.</p>
+        <div class="hero__meta">
+          <span class="hero__stat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1.5v3M15 1.5v3M9 19.5v3M15 19.5v3M1.5 9h3M1.5 15h3M19.5 9h3M19.5 15h3"/><rect x="10" y="10" width="4" height="4" rx=".5"/></svg> <b>10</b> squads</span>
+          <span class="hero__stat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> <b>56</b> agentes</span>
+          <span class="hero__stat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> <b>52</b> skills</span>
+        </div>
+        <div class="termline">
+          <span class="prompt">você@claude</span><span>~/squads $</span><span class="cmd">iniciar squad</span><span class="cursor"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="o-que-e">
+      <div class="wrap">
+        <div class="section__head" data-reveal>
+          <span class="eyebrow">Conceito</span>
+          <h2>O que é um squad?</h2>
+          <p>Pense num time de trabalho. Em vez de você fazer tudo, um <b>orquestrador</b> distribui as tarefas para <b>agentes</b> especialistas, e cada agente segue suas <b>skills</b> (o passo a passo de como fazer). Você aprova o resultado no final.</p>
+        </div>
+        <div class="concepts">
+          <div class="concept" data-reveal>
+            <div class="concept__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1.5v3M15 1.5v3M9 19.5v3M15 19.5v3M1.5 9h3M1.5 15h3M19.5 9h3M19.5 15h3"/><rect x="10" y="10" width="4" height="4" rx=".5"/></svg></div>
+            <h3>Orquestrador</h3>
+            <p>O maestro do time. Faz o onboarding com você, decide a ordem e aciona os agentes certos. Ele coordena — não faz o trabalho braçal.</p>
+          </div>
+          <div class="concept concept--violet" data-reveal>
+            <div class="concept__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg></div>
+            <h3>Agentes</h3>
+            <p>Especialistas com <b>uma</b> função cada (coletar, analisar, redigir...). Trabalham isolados e entregam sua parte. Vivem em <code>.claude/agents/</code>.</p>
+          </div>
+          <div class="concept concept--cyan" data-reveal>
+            <div class="concept__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg></div>
+            <h3>Skills</h3>
+            <p>Os manuais de "como fazer" que os agentes seguem — o passo a passo técnico de cada tarefa. Vivem em <code>.claude/skills/</code>.</p>
+          </div>
+        </div>
+        <div class="analogy" data-reveal style="margin-top:18px">
+          <span class="pill">você</span><span class="arrow">→</span>
+          <span class="pill">orquestrador</span><span class="arrow">→</span>
+          <span class="pill">agentes</span><span class="arrow">+</span>
+          <span class="pill">skills</span><span class="arrow">→</span>
+          <b>resultado pronto para você aprovar</b>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight" id="anatomia">
+      <div class="wrap">
+        <div class="section__head" data-reveal>
+          <span class="eyebrow">Anatomia</span>
+          <h2>A hierarquia de pastas de um squad</h2>
+          <p>Todo squad segue a mesma estrutura. Entender essas pastas é o suficiente para saber onde tudo mora — e onde você coloca suas chaves e dados.</p>
+        </div>
+        <div class="window" data-reveal>
+          <div class="window__bar">
+            <div class="window__dots"><i></i><i></i><i></i></div>
+            <span class="window__file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg> <b>nome-do-squad</b>/</span>
+          </div>
+          <div class="window__body">
+            <div class="tree">
+              <div class="tree__row"><span class="branch">├─</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span><span class="self">CLAUDE.md</span><span class="tree__note">o manual-mãe: <b>o que o squad é</b> e as regras</span></div>
+              <div class="tree__row"><span class="branch">├─</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span><span class="self">prompt-montagem.md</span><span class="tree__note">o prompt que <b>monta o squad</b> — você cola isso no Claude Code</span></div>
+              <div class="tree__row"><span class="branch">├─</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg></span><span class="dir">config/</span></div>
+              <div class="tree__row" style="padding-left:30px"><span class="branch">│&nbsp;&nbsp;├─</span><span class="file">.env.example</span><span class="tree__note">modelo das chaves (versionado, vazio)</span></div>
+              <div class="tree__row" style="padding-left:30px"><span class="branch">│&nbsp;&nbsp;└─</span><span class="key">.env</span><span class="tree__note"><b>suas chaves de verdade</b> — nunca versionado</span></div>
+              <div class="tree__row"><span class="branch">├─</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg></span><span class="dir">.claude/</span></div>
+              <div class="tree__row" style="padding-left:30px"><span class="branch">│&nbsp;&nbsp;├─</span><span class="dir">agents/</span><span class="tree__note">os especialistas — 1 arquivo <b>.md</b> por agente</span></div>
+              <div class="tree__row" style="padding-left:30px"><span class="branch">│&nbsp;&nbsp;└─</span><span class="dir">skills/</span><span class="tree__note">os "como fazer" — 1 pasta por skill (com SKILL.md)</span></div>
+              <div class="tree__row"><span class="branch">└─</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg></span><span class="dir">output/</span><span class="tree__note">tudo que o squad <b>gera</b> fica aqui</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend__item" data-reveal><span class="tag tag--self">CLAUDE.md</span><p>O cérebro do projeto. O Claude Code lê esse arquivo automaticamente e entende o que o squad faz e como se comportar.</p></div>
+          <div class="legend__item" data-reveal><span class="tag tag--self">prompt-montagem.md</span><p>O gerador do squad. Você copia o conteúdo dele e cola no Claude Code — ele cria os agentes, as skills e o resto sozinho.</p></div>
+          <div class="legend__item" data-reveal><span class="tag tag--key">config/.env</span><p>Onde ficam suas chaves de API (quando o squad precisa). Nunca é versionado — fica só na sua máquina.</p></div>
+          <div class="legend__item" data-reveal><span class="tag tag--dir">.claude/agents · skills</span><p>O coração do squad: os agentes (especialistas) e as skills (os manuais técnicos que eles seguem).</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="squads">
+      <div class="wrap">
+        <div class="section__head" data-reveal>
+          <span class="eyebrow">Biblioteca</span>
+          <h2>Os 10 squads</h2>
+          <p>Cada card abre uma página com o passo a passo completo: o que configurar antes, como montar e o prompt pronto para copiar.</p>
+        </div>
+        <div class="squads">
+        <a class="squad" href="squads/01-prospeccao.html" data-reveal>
+          <div class="squad__top">
+            <span class="squad__num">01</span>
+            <span class="squad__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span>
+          </div>
+          <h3>Prospecção B2B Local</h3>
+          <p class="squad__desc">Captura leads qualificados direto do Google Maps, dispara e-mails de apresentação e follow-up e gera um painel de WhatsApp pronto pra usar.</p>
+          <div class="squad__foot">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 4</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 4</span>
+            <span class="mchip mchip--key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.5 12.5 8-8M16 5l3 3M14 7l2.5 2.5"/></svg> chave</span>
+            <span class="squad__go">Abrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="squad" href="squads/02-espionagem-youtube.html" data-reveal>
+          <div class="squad__top">
+            <span class="squad__num">02</span>
+            <span class="squad__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          </div>
+          <h3>Espionagem YouTube</h3>
+          <p class="squad__desc">Espiona canais concorrentes, analisa o que performa e reescreve tudo em roteiros e posts 100% originais — YouTube, Reels, Stories e legendas.</p>
+          <div class="squad__foot">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 4</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 4</span>
+            <span class="mchip mchip--free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> grátis</span>
+            <span class="squad__go">Abrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="squad" href="squads/03-imagem-google-ai.html" data-reveal>
+          <div class="squad__top">
+            <span class="squad__num">03</span>
+            <span class="squad__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="m21 15-5-5L5 21"/></svg></span>
+          </div>
+          <h3>Imagem Profissional</h3>
+          <p class="squad__desc">De um briefing a um pacote de imagens profissionais, já ranqueadas por QA visual e com um contato-sheet HTML pronto.</p>
+          <div class="squad__foot">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 4</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 3</span>
+            <span class="mchip mchip--key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.5 12.5 8-8M16 5l3 3M14 7l2.5 2.5"/></svg> chave</span>
+            <span class="squad__go">Abrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="squad" href="squads/04-instagram-respostas.html" data-reveal>
+          <div class="squad__top">
+            <span class="squad__num">04</span>
+            <span class="squad__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-11.6 7.8L3 21l1.7-6.4A8.4 8.4 0 1 1 21 11.5Z"/></svg></span>
+          </div>
+          <h3>Respostas no Instagram</h3>
+          <p class="squad__desc">Coleta os comentários novos, classifica em 5 categorias e redige a resposta no tom da marca — você revisa e aprova num dashboard antes de publicar.</p>
+          <div class="squad__foot">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 4</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 6</span>
+            <span class="mchip mchip--key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.5 12.5 8-8M16 5l3 3M14 7l2.5 2.5"/></svg> chave</span>
+            <span class="squad__go">Abrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="squad" href="squads/05-rh-triagem.html" data-reveal>
+          <div class="squad__top">
+            <span class="squad__num">05</span>
+            <span class="squad__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></span>
+          </div>
+          <h3>RH · Triagem de CVs</h3>
+          <p class="squad__desc">Pontua cada currículo contra a vaga numa matriz de pesos e devolve um ranking auditável — com evidência textual e gaps por candidato.</p>
+          <div class="squad__foot">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 3</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 3</span>
+            <span class="mchip mchip--free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> grátis</span>
+            <span class="squad__go">Abrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="squad" href="squads/06-oferta-hormozi.html" data-reveal>
+          <div class="squad__top">
+            <span class="squad__num">06</span>
+            <span class="squad__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.6 2.6 21 11a2 2 0 0 1 0 2.8l-6.2 6.2a2 2 0 0 1-2.8 0L3.6 11.6A2 2 0 0 1 3 10.2V4a1 1 0 0 1 1-1h6.2a2 2 0 0 1 1.4.6Z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg></span>
+          </div>
+          <h3>Oferta Hormozi</h3>
+          <p class="squad__desc">Aplica o framework $100M Offers e entrega ângulos de oferta completos — do avatar à entrega — num HTML navegável estilo Hormozi.</p>
+          <div class="squad__foot">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 14</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 13</span>
+            <span class="mchip mchip--free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> grátis</span>
+            <span class="squad__go">Abrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="squad" href="squads/07-deep-research.html" data-reveal>
+          <div class="squad__top">
+            <span class="squad__num">07</span>
+            <span class="squad__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+          </div>
+          <h3>Deep Research</h3>
+          <p class="squad__desc">Transforma uma pergunta de negócio num relatório executivo multi-seção onde cada afirmação tem uma fonte citada.</p>
+          <div class="squad__foot">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 5</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 4</span>
+            <span class="mchip mchip--free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> grátis</span>
+            <span class="squad__go">Abrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="squad" href="squads/08-dossie-concorrencia.html" data-reveal>
+          <div class="squad__top">
+            <span class="squad__num">08</span>
+            <span class="squad__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 7.6 7 9 4-1.4 7-4.5 7-9V6l-7-3Z"/><path d="m9.5 12 2 2 3.5-3.5"/></svg></span>
+          </div>
+          <h3>Dossiê de Concorrência</h3>
+          <p class="squad__desc">De 2 a 4 URLs de concorrentes a um dossiê estilo consultoria: matriz comparativa, SWOT, gaps de mercado e battle cards.</p>
+          <div class="squad__foot">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 6</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 5</span>
+            <span class="mchip mchip--free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> grátis</span>
+            <span class="squad__go">Abrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="squad" href="squads/09-calendario-social.html" data-reveal>
+          <div class="squad__top">
+            <span class="squad__num">09</span>
+            <span class="squad__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg></span>
+          </div>
+          <h3>Calendário Social</h3>
+          <p class="squad__desc">Transforma um nicho num calendário editorial de 30 dias com cada legenda já escrita no tom da marca — num grid visual colorido.</p>
+          <div class="squad__foot">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 6</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 5</span>
+            <span class="mchip mchip--free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> grátis</span>
+            <span class="squad__go">Abrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="squad" href="squads/10-guardiao-reputacao.html" data-reveal>
+          <div class="squad__top">
+            <span class="squad__num">10</span>
+            <span class="squad__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.8-4.5 4.2 1.2 6L12 17l-5.4 2.6 1.2-6L3.3 9.4l6.1-.8L12 3Z"/></svg></span>
+          </div>
+          <h3>Guardião da Reputação</h3>
+          <p class="squad__desc">Monitora reviews, classifica o sentimento, detecta risco de crise e redige a resposta no tom da marca — você só aprova e publica.</p>
+          <div class="squad__foot">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 6</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 5</span>
+            <span class="mchip mchip--free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> grátis</span>
+            <span class="squad__go">Abrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>Aula 04 · Automação — Squads de Agentes</span>
+      <a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:13px;height:13px"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Voltar ao guia das aulas</a>
+    </div>
+  </footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>

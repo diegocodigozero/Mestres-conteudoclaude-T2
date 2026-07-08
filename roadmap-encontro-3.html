@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implementação 3 — Claude Code na Veia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f1ea;
+    --bg-2:#ede7dd;
+    --paper:#fffdf8;
+    --accent:#e85d2f;
+    --accent-soft:rgba(232,93,47,0.08);
+    --accent-soft-2:rgba(232,93,47,0.18);
+    --ink:#1a1815;
+    --ink-2:#4a4a4a;
+    --muted:#7a7a7a;
+    --line:rgba(26,26,26,0.08);
+    --line-2:rgba(26,26,26,0.15);
+    --green:#4a7c3f;
+    --red:#b8442a;
+    --gold:#d4a843;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth;scroll-padding-top:100px}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.65;
+    font-size:16px;
+  }
+  code{
+    font-family:'JetBrains Mono',monospace;
+    background:var(--accent-soft);
+    color:var(--accent);
+    padding:0.15rem 0.5rem;
+    border-radius:5px;
+    font-size:0.88em;
+    font-weight:600;
+  }
+  a{color:var(--accent);text-decoration:none;font-weight:600;border-bottom:1px solid rgba(232,93,47,0.3);transition:all 0.2s}
+  a:hover{background:var(--accent-soft);border-bottom-color:var(--accent)}
+
+  /* HEADER */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(245,241,234,0.92);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+    padding:1rem 2rem;
+  }
+  .header-inner{
+    max-width:1100px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  }
+  .brand{
+    display:flex;align-items:center;gap:0.75rem;
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-weight:700;font-size:1.1rem;
+    letter-spacing:-0.02em;
+  }
+  .brand .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 14px rgba(232,93,47,0.5);
+    animation:pulse 2s infinite;
+  }
+  .brand .small{color:var(--muted);font-weight:500;font-family:'Inter',sans-serif;font-size:0.92rem}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+  .header-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;color:var(--muted);
+    letter-spacing:0.08em;text-transform:uppercase;
+    font-weight:700;
+  }
+
+  /* HERO */
+  .hero{
+    max-width:1100px;margin:0 auto;
+    padding:5rem 2rem 4rem;
+    border-bottom:2px solid var(--ink);
+  }
+  .hero-eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;font-weight:700;
+    letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:1.5rem;
+  }
+  .hero h1{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:clamp(2.8rem,5vw,4.2rem);
+    font-weight:800;line-height:1.02;
+    letter-spacing:-0.035em;
+    margin-bottom:1.5rem;
+    max-width:780px;
+  }
+  .hero .lead{
+    font-size:1.3rem;line-height:1.45;
+    color:var(--ink-2);
+    max-width:680px;
+    font-weight:400;
+    margin-bottom:2.5rem;
+  }
+  .hero-stats{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:2rem;
+    padding-top:2rem;
+    border-top:1px solid var(--line-2);
+  }
+  .stat{
+    display:flex;flex-direction:column;gap:0.25rem;
+  }
+  .stat .num{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:2.4rem;
+    font-weight:800;letter-spacing:-0.03em;
+    line-height:1;color:var(--ink);
+  }
+  .stat .num .accent{color:var(--accent)}
+  .stat .label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;color:var(--muted);
+    letter-spacing:0.1em;text-transform:uppercase;
+    font-weight:700;
+    margin-top:0.5rem;
+  }
+
+  /* SECTIONS */
+  main{max-width:1100px;margin:0 auto;padding:4rem 2rem}
+  section{margin-bottom:5rem;scroll-margin-top:100px}
+  .section-head{
+    margin-bottom:2.5rem;
+    padding-bottom:1rem;
+    border-bottom:1px solid var(--line-2);
+  }
+  .section-meta{
+    display:flex;align-items:center;gap:1rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;font-weight:700;
+    color:var(--muted);
+    letter-spacing:0.15em;text-transform:uppercase;
+    margin-bottom:1rem;
+  }
+  .section-meta .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--accent);
+  }
+  h2{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:clamp(2rem,3.5vw,2.8rem);
+    font-weight:800;line-height:1.05;
+    letter-spacing:-0.025em;
+    color:var(--ink);
+    max-width:780px;
+  }
+  h2 .accent{color:var(--accent)}
+  .section-lead{
+    font-size:1.15rem;line-height:1.5;
+    color:var(--ink-2);
+    margin-top:1.2rem;
+    max-width:680px;
+  }
+  h3{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:1.45rem;
+    font-weight:700;letter-spacing:-0.015em;
+    line-height:1.2;
+    margin-bottom:0.8rem;
+    color:var(--ink);
+  }
+  h4{
+    font-family:'Inter',sans-serif;
+    font-size:0.92rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:0.1em;
+    color:var(--accent);
+    margin-bottom:0.6rem;
+  }
+  p{margin-bottom:1rem;color:var(--ink-2)}
+
+  /* PHASE CARDS */
+  .phase{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:4px solid var(--accent);
+    padding:2rem 2.2rem;
+    margin-bottom:1.2rem;
+    transition:all 0.2s;
+  }
+  .phase:hover{box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+  .phase-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    gap:1.5rem;
+    margin-bottom:1rem;
+    padding-bottom:1rem;
+    border-bottom:1px dashed var(--line-2);
+  }
+  .phase-num{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:3rem;font-weight:800;
+    line-height:1;letter-spacing:-0.04em;
+    color:var(--accent);
+    min-width:80px;
+  }
+  .phase-title-wrap{flex:1}
+  .phase-tag{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;font-weight:700;
+    letter-spacing:0.15em;text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:0.3rem;
+  }
+  .phase-time{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;font-weight:700;
+    color:var(--accent);
+    background:var(--accent-soft);
+    padding:0.4rem 0.8rem;
+    border-radius:5px;
+    white-space:nowrap;
+  }
+  .phase-body{font-size:1rem;line-height:1.6;color:var(--ink-2)}
+  .phase-body ul{list-style:none;margin-top:1rem}
+  .phase-body ul li{
+    padding:0.5rem 0;
+    padding-left:1.5rem;
+    position:relative;
+    font-size:0.96rem;
+  }
+  .phase-body ul li::before{
+    content:'→';
+    position:absolute;left:0;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .phase-body ul li strong{color:var(--ink)}
+
+  /* CALLOUTS */
+  .callout{
+    display:grid;grid-template-columns:32px 1fr;
+    gap:1rem;
+    padding:1.2rem 1.4rem;
+    border-radius:6px;
+    margin:1.5rem 0;
+    background:var(--paper);
+    border:1px solid var(--line);
+  }
+  .callout.tip{border-left:4px solid var(--accent);background:var(--accent-soft)}
+  .callout.warn{border-left:4px solid var(--gold);background:rgba(212,168,67,0.08)}
+  .callout.power{border-left:4px solid var(--green);background:rgba(74,124,63,0.06)}
+  .callout.danger{border-left:4px solid var(--red);background:rgba(184,68,42,0.05)}
+  .callout .icon{
+    width:32px;height:32px;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:1.2rem;
+    color:var(--accent);
+  }
+  .callout.warn .icon{color:var(--gold)}
+  .callout.power .icon{color:var(--green)}
+  .callout.danger .icon{color:var(--red)}
+  .callout .label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;font-weight:700;
+    letter-spacing:0.12em;text-transform:uppercase;
+    margin-bottom:0.4rem;
+    color:var(--muted);
+  }
+  .callout strong{color:var(--ink)}
+
+  /* CARDS GRID */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.5rem}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:1.5rem}
+  @media(max-width:780px){
+    .grid-2,.grid-3{grid-template-columns:1fr}
+    .hero-stats{grid-template-columns:1fr 1fr;gap:1.5rem}
+  }
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:1.5rem;
+    border-radius:6px;
+    transition:all 0.2s;
+  }
+  .card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .card-icon{
+    width:40px;height:40px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--accent-soft);
+    border-radius:6px;
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-weight:800;font-size:1.1rem;
+    color:var(--accent);
+    margin-bottom:1rem;
+  }
+  .card h4{margin-bottom:0.5rem;color:var(--ink);text-transform:none;letter-spacing:-0.01em;font-size:1.1rem}
+  .card p{font-size:0.92rem;margin:0;color:var(--ink-2);line-height:1.5}
+
+  /* TIMELINE */
+  .timeline{
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:2rem;
+    border-radius:6px;
+  }
+  .timeline-row{
+    display:grid;grid-template-columns:90px 100px 1fr;
+    gap:1.5rem;
+    padding:1rem 0;
+    border-bottom:1px solid var(--line);
+    align-items:center;
+  }
+  .timeline-row:last-child{border-bottom:none}
+  .timeline-time{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;font-weight:700;
+    color:var(--accent);
+  }
+  .timeline-duration{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;font-weight:600;
+    color:var(--muted);
+    background:var(--bg-2);
+    padding:0.25rem 0.6rem;
+    border-radius:4px;
+    text-align:center;
+    width:fit-content;
+  }
+  .timeline-content{font-size:0.95rem}
+  .timeline-content strong{color:var(--ink);font-weight:700}
+
+  /* STACK */
+  .stack-row{
+    display:grid;grid-template-columns:80px 1fr 200px;
+    gap:1.5rem;
+    padding:1.5rem;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-bottom:1rem;
+    align-items:center;
+  }
+  .stack-icon{
+    width:60px;height:60px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--ink);
+    border-radius:8px;
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-weight:800;color:#fff;
+    font-size:1.1rem;
+    letter-spacing:-0.02em;
+  }
+  .stack-icon.anthropic{background:#cc785c}
+  .stack-icon.vercel{background:#000}
+  .stack-icon.supabase{background:#3ecf8e}
+  .stack-icon.replicate{background:#000}
+  .stack-info h4{margin-bottom:0.3rem;color:var(--ink);text-transform:none;letter-spacing:-0.01em;font-size:1.05rem}
+  .stack-info p{font-size:0.88rem;margin:0;line-height:1.45}
+  .stack-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;font-weight:700;
+    color:var(--muted);
+    text-align:right;
+  }
+  .stack-meta .price{color:var(--green);font-size:0.85rem;margin-top:0.2rem}
+
+  /* CHECKLIST */
+  .checklist{
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:2rem;
+    border-radius:6px;
+  }
+  .check-item{
+    display:flex;align-items:flex-start;gap:0.8rem;
+    padding:0.8rem 0;
+    border-bottom:1px solid var(--line);
+  }
+  .check-item:last-child{border-bottom:none}
+  .check-box{
+    width:20px;height:20px;
+    border:2px solid var(--line-2);
+    border-radius:4px;
+    flex-shrink:0;
+    margin-top:2px;
+  }
+  .check-text{font-size:0.95rem;color:var(--ink-2)}
+  .check-text strong{color:var(--ink)}
+
+  /* RESOURCES */
+  .res-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+  @media(max-width:780px){.res-grid{grid-template-columns:1fr}}
+  .res-link{
+    display:flex;align-items:center;gap:1rem;
+    padding:1.2rem 1.4rem;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:6px;
+    transition:all 0.2s;
+    border-bottom:1px solid var(--line);
+  }
+  .res-link:hover{border-color:var(--accent);background:var(--accent-soft);transform:translateY(-2px)}
+  .res-link .icon{
+    width:40px;height:40px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--bg-2);
+    border-radius:6px;
+    font-weight:800;color:var(--accent);
+    flex-shrink:0;
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:1.3rem;
+  }
+  .res-link .info{flex:1}
+  .res-link .label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;font-weight:700;
+    color:var(--muted);
+    letter-spacing:0.1em;text-transform:uppercase;
+    margin-bottom:0.2rem;
+  }
+  .res-link .title{font-weight:700;color:var(--ink);font-size:1rem;margin-bottom:0.15rem}
+  .res-link .desc{font-size:0.85rem;color:var(--ink-2);line-height:1.4}
+  .res-link .arrow{font-size:1.2rem;color:var(--accent);font-weight:700}
+
+  /* PROMPT BLOCK */
+  .prompt-block{
+    background:#1a1815;color:#fffdf8;
+    padding:1.5rem 1.8rem;
+    border-radius:6px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;line-height:1.6;
+    margin:1.5rem 0;
+    border-left:4px solid var(--accent);
+    overflow-x:auto;
+    white-space:pre-wrap;
+  }
+  .prompt-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;font-weight:700;
+    letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:0.8rem;
+  }
+
+  /* FOOTER */
+  footer{
+    background:var(--ink);color:#fffdf8;
+    padding:3rem 2rem;
+    margin-top:6rem;
+    text-align:center;
+  }
+  footer .inner{max-width:1100px;margin:0 auto}
+  footer .mantra{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-size:1.6rem;font-weight:700;
+    line-height:1.25;letter-spacing:-0.02em;
+    margin-bottom:1.5rem;
+    max-width:680px;
+    margin-left:auto;margin-right:auto;
+  }
+  footer .mantra span{color:var(--accent)}
+  footer .signature{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;font-weight:700;
+    color:var(--muted);
+    letter-spacing:0.15em;text-transform:uppercase;
+  }
+  footer .signature span{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="dot"></div>
+      <div>
+        Implementação 3 · Claude Code na Veia
+        <div class="small">Mestres do Claude · Sessão ao vivo</div>
+      </div>
+    </div>
+    <div class="header-meta">Roadmap · v1</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">SESSÃO AO VIVO · 90 MIN</div>
+  <h1>Sua primeira landing premium <span style="color:var(--accent)">no ar</span>.</h1>
+  <p class="lead">Em 90 minutos você vai construir do zero — e colocar em produção — uma landing imobiliária de alto padrão estilo Jurerê Internacional. Com mapa, gráfico de valorização interativo e simulador de pagamento ao vivo. Usando Claude Code dentro do app. Sem terminal. Sem código na mão.</p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="num">90<span class="accent">min</span></div>
+      <div class="label">Duração total</div>
+    </div>
+    <div class="stat">
+      <div class="num">13<span class="accent"> seções</span></div>
+      <div class="label">Landing completa</div>
+    </div>
+    <div class="stat">
+      <div class="num">1<span class="accent"> URL</span></div>
+      <div class="label">Pública sua no ar</div>
+    </div>
+    <div class="stat">
+      <div class="num">0<span class="accent">x</span></div>
+      <div class="label">Linhas de código manual</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- O QUE VOCÊ VAI CONSTRUIR -->
+<section id="projeto">
+  <div class="section-head">
+    <div class="section-meta"><span class="dot"></span>O Projeto</div>
+    <h2>Landing Imobiliária <span class="accent">Premium</span></h2>
+    <p class="section-lead">Inspirada na <a href="https://jurere-landing.vercel.app/" target="_blank">Jurerê Internacional Landing</a>. Mesma sofisticação. Mesmas features interativas. Construída do zero em linguagem natural.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-icon">→</div>
+      <h4>O fluxo da construção</h4>
+      <p>Você cola UM prompt detalhado no Claude Code. Em 5-8 minutos sai uma landing com 13 seções completas: hero com carrossel, ficha técnica, galeria de ambientes, <strong>mapa Google embed</strong>, <strong>gráfico interativo de valorização (Recharts)</strong>, <strong>simulador de pagamento em tempo real com sliders</strong>, formulário multi-step que salva no Supabase e deploy na Vercel.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">★</div>
+      <h4>O que você leva pra casa</h4>
+      <p>Uma URL pública funcional. Sua. Conectada com Supabase capturando leads. Com gráfico animado de valorização, mapa do imóvel e simulador de financiamento interativo. <strong>Padrão de mercado: R$ 8-15k em agência. Você fez em 90min.</strong></p>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="icon">⚡</div>
+    <div>
+      <div class="label">Por que esse projeto e não outro</div>
+      <strong>Modelo de negócio embutido.</strong> Cobrando R$ 3k por landing (metade do mercado), 4 entregas/mês = <strong>R$ 12k/mês</strong>. Corretor de alto padrão paga sem pestanejar — eles ganham R$ 200-400k de comissão por venda. <strong>Esse template funciona pra QUALQUER nicho premium</strong>: imóvel, automóvel, embarcação, joia, curso high-ticket.
+    </div>
+  </div>
+</section>
+
+<!-- A STACK -->
+<section id="stack">
+  <div class="section-head">
+    <div class="section-meta"><span class="dot"></span>A Stack</div>
+    <h2>4 ferramentas. <span class="accent">Cada uma com função clara.</span></h2>
+    <p class="section-lead">Antes de mexer em nada, entende o que cada peça faz. Sem isso, o resto vira mistério.</p>
+  </div>
+
+  <div class="stack-row">
+    <div class="stack-icon vercel">V</div>
+    <div class="stack-info">
+      <h4>Vercel · onde teu site fica de pé</h4>
+      <p>Hospedagem inteligente. Você dá um comando e em 30 segundos o site tá no ar. URL pública pronta. Tipo o "lar" da tua aplicação na internet.</p>
+    </div>
+    <div class="stack-meta">
+      DEPLOY
+      <div class="price">Plano gratuito serve</div>
+    </div>
+  </div>
+
+  <div class="stack-row">
+    <div class="stack-icon supabase">S</div>
+    <div class="stack-info">
+      <h4>Supabase · o cérebro do app</h4>
+      <p>Banco de dados onde tudo é guardado. Histórico de respostas, configurações do usuário, tags. Tipo um Excel turbinado que tua aplicação consulta em tempo real.</p>
+    </div>
+    <div class="stack-meta">
+      BANCO
+      <div class="price">Plano gratuito serve</div>
+    </div>
+  </div>
+
+  <div class="stack-row">
+    <div class="stack-icon" style="background:#000">R</div>
+    <div class="stack-info">
+      <h4>Recharts · gráfico interativo de valorização</h4>
+      <p>Biblioteca React pra gráficos interativos. É o que vai dar vida ao "Histórico de Valorização" com barras animadas, tooltip customizado e cores em gradiente. Vem na construção do Claude Code automaticamente.</p>
+    </div>
+    <div class="stack-meta">
+      VISUALIZAÇÃO
+      <div class="price">Open source · grátis</div>
+    </div>
+  </div>
+
+  <div class="stack-row">
+    <div class="stack-icon" style="background:#4285F4">M</div>
+    <div class="stack-info">
+      <h4>Google Maps Embed · localização real</h4>
+      <p>Iframe oficial do Google que mostra o mapa do imóvel embed na landing. Sem precisar de API Key complicada. Só copia a URL com o endereço e cola no src. Funciona em produção imediatamente.</p>
+    </div>
+    <div class="stack-meta">
+      MAPA
+      <div class="price">Sem custo · sem chave</div>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-top:1.5rem">
+    <div class="icon">!</div>
+    <div>
+      <div class="label">Sobre os custos</div>
+      <strong>Tudo funciona 100% nos planos gratuitos.</strong> Vercel Hobby + Supabase Free + Recharts (open source) + Google Maps Embed (sem chave) = R$ 0,00 pra colocar sua landing no ar. Você só paga quando ultrapassar 100GB de tráfego/mês (= milhares de visitantes) ou guardar mais de 500MB de leads no Supabase.
+    </div>
+  </div>
+</section>
+
+<!-- ANTES DO ENCONTRO -->
+<section id="antes">
+  <div class="section-head">
+    <div class="section-meta"><span class="dot"></span>Pré-Encontro · 48h antes</div>
+    <h2>Chega <span class="accent">pronto pra construir</span>.</h2>
+    <p class="section-lead">90 minutos passam rápido. Quem chegar sem o setup feito vira espectador.</p>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num">01</div>
+      <div class="phase-title-wrap">
+        <div class="phase-tag">PRÉ-REQUISITO TÉCNICO</div>
+        <h3>Git + Node.js + Claude Code funcionando</h3>
+      </div>
+      <div class="phase-time">JÁ DEVE TER</div>
+    </div>
+    <div class="phase-body">
+      <p>Você já passou por isso na imersão. Se ainda não está com Git e Node.js instalados, faz isso AGORA. Sem essa base, o encontro não acontece.</p>
+      <ul>
+        <li><strong>Git instalado:</strong> roda <code>git --version</code> no Terminal e tem que aparecer um número.</li>
+        <li><strong>Node.js instalado:</strong> roda <code>node --version</code> e tem que aparecer um número.</li>
+        <li><strong>Claude Code aberto:</strong> aba Code do Claude Desktop ativa e visível.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num">02</div>
+      <div class="phase-title-wrap">
+        <div class="phase-tag">CONTAS · 10 MIN DE TRABALHO</div>
+        <h3>3 cadastros (todos gratuitos)</h3>
+      </div>
+      <div class="phase-time">FAZ ANTES</div>
+    </div>
+    <div class="phase-body">
+      <p>Você não quer perder os 90 minutos do encontro criando conta. Faz isso na noite anterior:</p>
+      <ul>
+        <li><strong>GitHub</strong> · <a href="https://github.com" target="_blank">github.com</a> — vai virar teu login pro Vercel e Supabase.</li>
+        <li><strong>Vercel</strong> · <a href="https://vercel.com" target="_blank">vercel.com</a> — login com GitHub, escolhe plano Hobby (gratuito).</li>
+        <li><strong>Supabase</strong> · <a href="https://supabase.com" target="_blank">supabase.com</a> — login com GitHub, cria projeto chamado <code>landing-premium</code>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num">03</div>
+      <div class="phase-title-wrap">
+        <div class="phase-tag">MATERIAL · OPCIONAL</div>
+        <h3>Pensa em qual nicho vai personalizar depois</h3>
+      </div>
+      <div class="phase-time">5 MIN ANTES</div>
+    </div>
+    <div class="phase-body">
+      <p>Durante o encontro a gente clona o template estilo Jurerê. Mas você sai com o template pra adaptar pro SEU nicho. Pensa antes pra acelerar:</p>
+      <ul>
+        <li><strong>Qual produto ou serviço premium</strong> você quer vender com landing dessas? (imóvel, curso high-ticket, embarcação, serviço B2B)</li>
+        <li><strong>5 fotos do produto</strong> em alta qualidade (deixa numa pasta).</li>
+        <li><strong>1 endereço real</strong> pra usar no Google Maps (se aplicável).</li>
+        <li><strong>1 lista de valores históricos</strong> pra preencher o gráfico (se aplicável).</li>
+      </ul>
+      <p style="margin-top:1rem">Quando sua landing tiver no ar, você cola um segundo prompt no Claude Code e adapta a estrutura inteira pra sua realidade em minutos.</p>
+    </div>
+  </div>
+
+  <div class="callout danger">
+    <div class="icon">!</div>
+    <div>
+      <div class="label">Atenção crítica</div>
+      <strong>Credenciais do Supabase são senhas.</strong> A URL do projeto + a Anon Key vão ser coladas no <code>.env.local</code> e na Vercel. <strong>NUNCA</strong> compartilha em chat público, screenshot ou commit no GitHub. Se vazar, qualquer um pode escrever no seu banco.
+    </div>
+  </div>
+</section>
+
+<!-- HIERARQUIA · A LÓGICA POR TRÁS -->
+<section id="hierarquia">
+  <div class="section-head">
+    <div class="section-meta"><span class="dot"></span>A Lógica</div>
+    <h2>Quem conecta <span class="accent">com quem</span>.</h2>
+    <p class="section-lead">Antes de criar conta em qualquer plataforma, entende a hierarquia. Sem isso, você vai se perder no "por que tô fazendo isso".</p>
+  </div>
+
+  <!-- DIAGRAMA -->
+  <div style="background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:3rem 2rem;margin-bottom:2rem">
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:0.5rem">
+
+      <!-- GITHUB CENTRO -->
+      <div style="background:var(--ink);color:var(--paper);padding:1.5rem 2.5rem;border-radius:8px;text-align:center;min-width:220px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.15em;color:var(--accent);margin-bottom:0.3rem">CENTRO DE TUDO</div>
+        <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.02em">GITHUB</div>
+      </div>
+
+      <!-- SETAS DE LOGIN -->
+      <div style="display:flex;align-items:center;gap:8rem;margin:0.5rem 0">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--muted);letter-spacing:0.1em">↓ LOGIN</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--muted);letter-spacing:0.1em">LOGIN ↓</div>
+      </div>
+
+      <!-- VERCEL + SUPABASE LADO A LADO -->
+      <div style="display:flex;gap:2rem;align-items:center">
+
+        <div style="background:#000;color:var(--paper);padding:1.2rem 2rem;border-radius:8px;text-align:center;min-width:160px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.15em;color:#fff;opacity:0.6;margin-bottom:0.2rem">VITRINE</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:-0.02em">VERCEL</div>
+        </div>
+
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:700;color:var(--muted);letter-spacing:0.05em;text-align:center;line-height:1.2">
+          ←──→<br>
+          <span style="font-size:0.6rem;opacity:0.7">NÃO se conectam<br>direto</span>
+        </div>
+
+        <div style="background:#3ecf8e;color:var(--ink);padding:1.2rem 2rem;border-radius:8px;text-align:center;min-width:160px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.15em;opacity:0.7;margin-bottom:0.2rem">COFRE</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:-0.02em">SUPABASE</div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EXPLICAÇÃO -->
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon">G</div>
+      <h4>GitHub · o passaporte</h4>
+      <p>Guarda teu código E serve de login universal pras outras 2 plataformas. <strong>Sem GitHub, o resto não funciona.</strong></p>
+    </div>
+    <div class="card">
+      <div class="card-icon">V</div>
+      <h4>Vercel · a vitrine</h4>
+      <p>Pega o código que tá no GitHub e bota no ar — URL pública. É o "endereço" do teu app na internet.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">S</div>
+      <h4>Supabase · o cofre</h4>
+      <p>Guarda os dados (leads, respostas, qualquer informação). É o "Excel turbinado" que tua aplicação consulta em tempo real.</p>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="icon">→</div>
+    <div>
+      <div class="label">O detalhe que confunde 100% dos iniciantes</div>
+      <strong>Vercel e Supabase NÃO se conectam direto.</strong> Eles se "encontram" DENTRO do teu APP — porque o app (que tá hospedado na Vercel) faz chamadas pro Supabase usando as credenciais (URL + Anon Key). Você vai colar essas credenciais no app durante o encontro.
+    </div>
+  </div>
+
+  <!-- ORDEM CORRETA -->
+  <h3 style="margin-top:3rem;font-family:'Bricolage Grotesque',sans-serif;font-size:1.6rem;font-weight:800">A ordem correta <span style="color:var(--accent)">do passo a passo</span></h3>
+
+  <div class="timeline" style="margin-top:1.5rem">
+    <div class="timeline-row">
+      <div class="timeline-time">01</div>
+      <div class="timeline-duration">CONTA</div>
+      <div class="timeline-content"><strong>GitHub</strong> — cria conta (vira teu login universal).</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">02</div>
+      <div class="timeline-duration">CONTA</div>
+      <div class="timeline-content"><strong>Vercel</strong> — cria conta logando com GitHub.</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">03</div>
+      <div class="timeline-duration">CONTA + TABELA</div>
+      <div class="timeline-content"><strong>Supabase</strong> — cria conta com GitHub, cria o projeto, cria a tabela, pega as credenciais (URL + Anon Key).</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">04</div>
+      <div class="timeline-duration">CONSTRUIR</div>
+      <div class="timeline-content"><strong>Claude Code</strong> — cola prompt pra criar o app JÁ com as credenciais do Supabase.</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">05</div>
+      <div class="timeline-duration">TESTE</div>
+      <div class="timeline-content"><strong>App roda local</strong> — testa o formulário, vê se está salvando no Supabase.</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">06</div>
+      <div class="timeline-duration">DEPLOY</div>
+      <div class="timeline-content"><strong>Vercel</strong> — deploy do app pro ar. URL pública sua.</div>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-top:1.5rem">
+    <div class="icon">!</div>
+    <div>
+      <div class="label">A regra que evita retrabalho</div>
+      <strong>Supabase ANTES do app.</strong> Se você criar o app antes do banco existir, vai dar erro no formulário. E aí pra arrumar tem que voltar e colar credenciais depois — mais trabalho. <strong>Banco primeiro, app depois.</strong>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIG GITHUB · ESSENCIAL -->
+<section id="github-config">
+  <div class="section-head">
+    <div class="section-meta"><span class="dot"></span>Configurações Críticas do GitHub</div>
+    <h2>Depois de criar a conta, <span class="accent">faz isso primeiro</span>.</h2>
+    <p class="section-lead">GitHub sem essas 3 configurações = Vercel e Supabase recusando teu login. 5 minutos pra evitar trava no encontro.</p>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num">01</div>
+      <div class="phase-title-wrap">
+        <div class="phase-tag">OBRIGATÓRIO</div>
+        <h3>Confirmar email</h3>
+      </div>
+      <div class="phase-time">2 MIN</div>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li><strong>Vai no email</strong> que você cadastrou.</li>
+        <li><strong>Clica no link de confirmação</strong> que o GitHub mandou.</li>
+        <li><strong>Sem isso, Vercel e Supabase não aceitam login com tua conta.</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num">02</div>
+      <div class="phase-title-wrap">
+        <div class="phase-tag">OBRIGATÓRIO</div>
+        <h3>Ativar 2FA (autenticação em 2 fatores)</h3>
+      </div>
+      <div class="phase-time">3 MIN</div>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Vai em <strong>Settings → Password and authentication → Two-factor authentication</strong>.</li>
+        <li>Escolhe <strong>"Authenticator app"</strong> (Google Authenticator, 1Password ou Authy).</li>
+        <li>Sem 2FA, o GitHub pode <strong>bloquear pushes e integrações</strong> em algum momento.</li>
+        <li><strong>Guarda os códigos de recuperação</strong> num lugar seguro (1Password ou anotação física).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num">03</div>
+      <div class="phase-title-wrap">
+        <div class="phase-tag">RECOMENDADO</div>
+        <h3>Configurar email privado</h3>
+      </div>
+      <div class="phase-time">2 MIN</div>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Vai em <strong>Settings → Emails</strong>.</li>
+        <li>Marca <strong>"Keep my email addresses private"</strong>.</li>
+        <li>Marca <strong>"Block command line pushes that expose my email"</strong>.</li>
+        <li>Isso <strong>protege teu email real</strong> quando o Claude Code fizer commits.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout power">
+    <div class="icon">✓</div>
+    <div>
+      <div class="label">Pronto pra próxima etapa</div>
+      Email confirmado · 2FA ativado · email privado marcado. <strong>Agora sim você pode partir pra criar conta na Vercel logando com GitHub.</strong>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-top:1rem">
+    <div class="icon">i</div>
+    <div>
+      <div class="label">O que NÃO precisa fazer agora</div>
+      Foto de perfil, bio, repositório manual, SSH keys, README público — <strong>tudo isso é cosmético ou avançado e não tem impacto no encontro</strong>. Foca nos 3 itens acima.
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE DO ENCONTRO -->
+<section id="durante">
+  <div class="section-head">
+    <div class="section-meta"><span class="dot"></span>Durante o Encontro · 90 min</div>
+    <h2>A timeline <span class="accent">minuto a minuto</span>.</h2>
+    <p class="section-lead">7 blocos. Cada um termina com uma vitória visível. Você acompanha aqui em tempo real.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-row">
+      <div class="timeline-time">0:00</div>
+      <div class="timeline-duration">5 min</div>
+      <div class="timeline-content">
+        <strong>Bloco 0 · Abertura</strong> — vejo a versão final pronta funcionando. Crio o destino mental do que vou construir.
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">0:05</div>
+      <div class="timeline-duration">8 min</div>
+      <div class="timeline-content">
+        <strong>Bloco 1 · Conceito</strong> — entendo cada peça da stack em 1 frase. Vercel, Supabase, Recharts, Google Maps Embed.
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">0:13</div>
+      <div class="timeline-duration">10 min</div>
+      <div class="timeline-content">
+        <strong>Bloco 2 · Login nas contas</strong> — abro as 4 plataformas, confirmo que tô logado, organizo as API keys.
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">0:23</div>
+      <div class="timeline-duration">10 min</div>
+      <div class="timeline-content">
+        <strong>Bloco 3 · Banco no Supabase</strong> — crio tabela <code>respostas</code> com 5 colunas. Pego URL + Anon Key.
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">0:33</div>
+      <div class="timeline-duration">22 min</div>
+      <div class="timeline-content">
+        <strong>Bloco 4 · Construir a landing</strong> — Tiago cola o Prompt 1 no Claude Code. As 13 seções são criadas: hero, mapa, gráfico Recharts, simulador de pagamento com sliders, formulário multi-step. Testa local.
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">0:55</div>
+      <div class="timeline-duration">10 min</div>
+      <div class="timeline-content">
+        <strong>Bloco 5 · Conectar Supabase</strong> — Prompt 2 plugar o banco no app. Cada lead que preenche o formulário é salvo na tabela do Supabase em tempo real.
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">1:05</div>
+      <div class="timeline-duration">12 min</div>
+      <div class="timeline-content">
+        <strong>Bloco 6 · Deploy</strong> — Prompt 3 pra subir tudo na Vercel. URL pública sai. <strong>Galera testa AO VIVO na URL do Tiago.</strong>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-time">1:17</div>
+      <div class="timeline-duration">13 min</div>
+      <div class="timeline-content">
+        <strong>Bloco 7 · Cada um sobe a sua</strong> — você repete o processo no seu Claude Code. Tiago + equipe de apoio respondem no chat. URL pública sua no ar.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout power" style="margin-top:2rem">
+    <div class="icon">✓</div>
+    <div>
+      <div class="label">O que vai acontecer no fim</div>
+      <strong>1:30:</strong> sua URL pública tá no ar. Você abre no celular. Mostra a landing premium do imóvel — com mapa, gráfico de valorização animado e simulador de pagamento ao vivo. Preenche o formulário e vê o lead chegando no Supabase em tempo real. Manda pro grupo da comunidade. <strong>Você acabou de virar dev sem ser dev.</strong>
+    </div>
+  </div>
+</section>
+
+<!-- OS PROMPTS -->
+<section id="prompts">
+  <div class="section-head">
+    <div class="section-meta"><span class="dot"></span>Os 4 Prompts</div>
+    <h2>Tudo se constrói <span class="accent">com 4 prompts</span>.</h2>
+    <p class="section-lead">Esses 4 blocos de texto vão construir o sistema inteiro no Claude Code — landing pública + dashboard privado. Você não precisa decorar. Durante o encontro eu cuido. Eles ficam aqui pra referência depois.</p>
+  </div>
+
+  <div class="prompt-label">PROMPT 1 · Cria a landing premium estilo imóvel de alto padrão</div>
+  <div class="prompt-block">Cria uma landing page de imóvel de altíssimo padrão estilo Airbnb premium,
+inspirada no estilo da Jurerê Internacional.
+
+STACK:
+- Next.js 14 (App Router) + TypeScript
+- Tailwind CSS
+- Estética premium dark elegante com accent dourado/champagne
+- Tipografia: Inter (corpo) + Playfair Display (títulos)
+- 100% responsivo mobile-first
+
+ESTRUTURA DE SEÇÕES (na ordem):
+
+1. HERO COM GALERIA
+- Imagem grande de fachada/varanda em destaque
+- Carrossel de 5 imagens (slide automático + clicável)
+- Badges: "Pronto para morar" · "Imóvel verificado" · "4.9 (142 avaliações)"
+- Nome do imóvel em fonte grande: "Casa Mareterra"
+- Localização: "Jurerê Internacional, Florianópolis/SC"
+- Tagline: "À beira-mar, em uma das praias mais nobres do Brasil"
+
+2. FICHA TÉCNICA RÁPIDA (cards horizontais)
+- 240m² · Área
+- 4 · Quartos
+- 4 · Suítes
+- 4 · Vagas
+- Tags coloridas: Vista mar / Pé na areia / Smart Home / Piscina aquecida
+
+3. PREÇO + CTA PRINCIPAL
+- "A partir de R$ 6.800.000"
+- "R$ 28.500/m²"
+- Botão grande WhatsApp: "Falar com corretor" → link wa.me/5548999999999
+
+4. SOBRE A RESIDÊNCIA
+- Parágrafo descritivo elegante
+- Botão "Mostrar mais" expandindo
+
+5. AMBIENTES (grid de fotos)
+- 5 ambientes em grid responsivo:
+  - Varanda Gourmet (vista panorâmica do mar)
+  - Suíte Master (refúgio com closet integrado)
+  - Cozinha Premium (bancada em quartzo e ilha gourmet)
+  - Academia Privativa (equipamentos Technogym)
+  - Piscina Infinita (integrada à vista mar)
+- Cada foto com título + 1 linha descritiva
+- Botão "Ver tudo" no canto
+
+6. O QUE A CASA OFERECE
+- "8 comodidades para o seu estilo de vida"
+- Grid de ícones + texto:
+  - Piscina aquecida · Academia privativa · Cozinha gourmet · 4 vagas cobertas
+  - Automação total · Adega climatizada · Varanda gourmet · Segurança 24h
+
+7. LOCALIZAÇÃO COM GOOGLE MAPS EMBED
+- Título: "Localização" · Subtítulo: "Jurerê Internacional, Florianópolis/SC"
+- IFRAME do Google Maps Embed API:
+  src="https://www.google.com/maps?q=Jurerê+Internacional+Florianópolis+SC&output=embed"
+  width 100%, height 400px desktop / 280px mobile
+  border-radius 16px, loading=lazy, allowFullScreen
+- Grid 3 colunas com 6 pontos próximos (ícones Lucide React):
+  - Praia de Jurerê · 2 min (Waves)
+  - Parador 12 · 4 min (UtensilsCrossed)
+  - Donna Beach Club · 5 min (Music)
+  - Shopping Jurerê Open · 6 min (ShoppingBag)
+  - Marina · 7 min (Anchor)
+  - Aeroporto Hercílio Luz · 28 min (Plane)
+
+8. HISTÓRICO DE VALORIZAÇÃO (GRÁFICO INTERATIVO REAL)
+- Título: "Histórico de Valorização" · Subtítulo: "Preço médio do m² em Jurerê"
+
+- BIG NUMBER em destaque no canto superior direito:
+  "+56.6%" em fonte gigante (clamp 3rem a 5rem) cor dourado
+  Label: "Valorização em 5 anos"
+
+- GRÁFICO INTERATIVO usando Recharts (npm install recharts):
+  - BarChart vertical com bordas arredondadas no topo
+  - Cores em gradiente cinza (2021) → dourado intenso (2025)
+  - Anos no eixo X: 2021, 2022, 2023, 2024, 2025
+  - Valores das barras (R$ por m²):
+    2021: R$ 18.200 · 2022: R$ 21.400 · 2023: R$ 24.100
+    2024: R$ 26.800 · 2025: R$ 28.500
+  - Eixo Y formatado "R$ Xk" (R$ 18k, R$ 28k)
+  - TOOLTIP customizado: "Ano: 2023 · R$ 24.100/m² · +13% YoY"
+  - Animação sequencial de subida das barras
+  - Grid sutil de fundo
+
+- 3 CARDS LATERAIS abaixo (ícone TrendingUp):
+  - R$ 18.2k/m² em 2021 (valor inicial)
+  - R$ 28.5k/m² em 2025 (valor atual)
+  - +R$ 10.3k de valorização absoluta
+
+9. PLANO DE PAGAMENTO (SIMULADOR INTERATIVO COM SLIDERS)
+- Título: "Plano de pagamento" · Subtítulo: "Simule diretamente com o corretor"
+
+- 3 TABS NO TOPO:
+  - "Entrada + Parcelado" (default ativa)
+  - "À vista" (badge "Desconto especial")
+  - "Financiado" (badge "Direto com banco")
+
+- ABA "ENTRADA + PARCELADO" - SIMULADOR EM TEMPO REAL:
+
+  CONTROLE 1 · Slider de entrada:
+  - Label: "Entrada: R$ [VALOR] · [X]% do total"
+  - Range customizado: 10% a 50% (padrão 20%)
+  - Trilho cinza + thumb dourado grande (Tailwind webkit-slider-thumb)
+  - Atualiza valor EM TEMPO REAL via useState
+
+  CONTROLE 2 · Slider de prazo:
+  - Label: "Prazo: [X] meses · [Y] anos"
+  - Range: 24 a 240 meses (padrão 120, step 12)
+  - Mesmo estilo
+
+  CARDS DE RESULTADO (atualizam ao mexer sliders):
+  - Entrada: R$ [calculado dinamicamente]
+  - Prazo: [X] meses
+  - Mensais: R$ [calculado] / mês
+  - Total: R$ 6.800.000 (fixo)
+
+  FÓRMULA cravada:
+  - precoTotal = 6800000
+  - entrada = precoTotal * (entradaPercent / 100)
+  - parcelado = precoTotal - entrada
+  - mensal = parcelado / prazoMeses
+  - Use useMemo pra cálculos + transition 200ms entre valores
+
+- ABA "À VISTA": card "R$ 6.460.000" + badge "Economia R$ 340.000"
+- ABA "FINANCIADO": slider 60-360 meses + simulação CET 9% a.a.
+
+- BOTÃO CTA FINAL: "Falar com corretor sobre essa simulação"
+  → abre WhatsApp com simulação atual pré-preenchida na URL do wa.me
+
+- Disclaimer pequeno: "Simulação ilustrativa. Sujeita à aprovação de crédito."
+
+10. FORMULÁRIO DE INTERESSE (multi-step)
+- Título: "Tenho interesse · Deixe seus dados e fale com o corretor"
+- 4 passos visuais com progress bar
+- Passo 1: "Quando você pretende comprar?" → 5 opções:
+  Quero fechar o quanto antes / Nos próximos 30 dias / Em até 3 meses /
+  Em 6 meses ou mais / Ainda estou pesquisando
+- Passos 2-4: dados de contato (nome, telefone, email, comentário)
+- SALVA NO SUPABASE (vou colar credenciais no Prompt 2)
+- Botão final ABRE WhatsApp com mensagem pré-preenchida
+
+11. CARTÃO DO CORRETOR
+- Foto circular grande
+- Nome: "Tiago Lemos"
+- Título: "Especialista em imóveis de alto padrão"
+- CRECI: "CRECI/SC 38.421"
+- Stats: "5.0 · 187 negócios · 12 anos"
+- 2 botões: "Ligar" (tel:) e "WhatsApp" (wa.me/)
+
+12. FOOTER
+- Logo + nome do imóvel + localização
+- Ícones redes sociais (Instagram, WhatsApp, Email)
+- "© 2026 Tiago Lemos · CRECI/SC 38.421"
+
+13. BOTÃO FLUTUANTE FIXO (mobile + desktop)
+- Aparece após scroll de 30%
+- "A partir de R$ 6.800.000" + botão "Falar agora" → WhatsApp
+
+CONFIGURAÇÕES:
+- WhatsApp: 5548999999999
+- Mensagem: "Olá! Tenho interesse na Casa Mareterra"
+
+BIBLIOTECAS OBRIGATÓRIAS:
+- recharts (gráfico de valorização)
+- lucide-react (ícones)
+- @supabase/supabase-js (formulário)
+
+IMAGENS:
+- Usa placeholders do Unsplash com keywords (luxury beach house,
+  brazilian coast, modern interior) ou deixa espaços nomeados
+
+Cria o projeto completo agora. Não pergunta entre os passos.
+Quando terminar, me avisa pra eu rodar localmente.</div>
+
+  <div class="prompt-label" style="margin-top:2.5rem">PROMPT 2 · Conecta o formulário ao Supabase</div>
+  <div class="prompt-block">Agora conecta o formulário multi-step da landing ao Supabase
+pra salvar cada lead que se cadastra.
+
+CREDENCIAIS DO SUPABASE:
+- Project URL: [VOU COLAR]
+- Anon Key: [VOU COLAR]
+
+TABELA:
+Nome: leads
+Colunas:
+- id (uuid, auto · primary key)
+- nome (text)
+- telefone (text)
+- email (text)
+- prazo_compra (text · "imediato", "30 dias", "3 meses", etc.)
+- mensagem (text · opcional)
+- imovel (text · default "Casa Mareterra")
+- created_at (timestamp, auto)
+
+O QUE FAZER:
+1. Instala @supabase/supabase-js
+2. Cria cliente Supabase em /lib/supabase.ts (usa variáveis de ambiente)
+3. Adiciona variáveis ao .env.local:
+   - NEXT_PUBLIC_SUPABASE_URL
+   - NEXT_PUBLIC_SUPABASE_ANON_KEY
+4. No submit final do formulário multi-step, insere o lead na tabela
+5. Após salvar com sucesso:
+   - Mostra tela de "Recebemos seu interesse! Vamos te chamar no WhatsApp em breve."
+   - Abre o WhatsApp automaticamente com mensagem pré-preenchida
+6. Se der erro, mostra mensagem amigável
+
+Executa sem perguntar.</div>
+
+  <div class="prompt-label" style="margin-top:2.5rem">PROMPT 3 · Deploy na Vercel</div>
+  <div class="prompt-block">Faz o deploy dessa landing na Vercel agora.
+
+PASSOS:
+1. Inicializa o repositório Git
+2. Cria o projeto no Vercel (vou autorizar quando aparecer)
+3. Configura as variáveis de ambiente no Vercel:
+   - NEXT_PUBLIC_SUPABASE_URL
+   - NEXT_PUBLIC_SUPABASE_ANON_KEY
+4. Faz o deploy de produção
+5. Me devolve a URL pública final
+
+Executa sem perguntar entre os passos.</div>
+
+  <div class="callout tip" style="margin-top:1.5rem;margin-bottom:2.5rem">
+    <div class="icon">★</div>
+    <div>
+      <div class="label">O Prompt 4 fecha o ciclo</div>
+      Os 3 primeiros prompts criam a <strong>face do produto</strong> (landing pública). O Prompt 4 cria o <strong>cérebro do operador</strong> (dashboard privado com leads em tempo real). É a hora em que a galera entra na MINHA landing AO VIVO durante o encontro e vê os leads chegando no meu dashboard. Momento de pico.
+    </div>
+  </div>
+
+  <div class="prompt-label" style="margin-top:2.5rem">PROMPT 4 · Dashboard do Corretor (fecha o ciclo)</div>
+  <div class="prompt-block">Agora vamos fechar o ciclo. A landing tá no ar e capturando
+leads no Supabase. Quero construir o DASHBOARD DO CORRETOR
+— uma página privada onde eu vejo todos os leads que entram,
+em tempo real, com analytics.
+
+ESTRUTURA:
+
+1. ROTA PRIVADA
+- Cria uma nova rota: /dashboard
+- Protege com senha simples (middleware ou layout):
+  senha hardcoded "casamareterra2026" por enquanto
+  (depois evoluímos pra Supabase Auth)
+
+2. HEADER DO DASHBOARD
+- Logo + "Dashboard do Corretor · Casa Mareterra"
+- Indicador de "Atualização em tempo real" com ponto verde pulsando
+- Botão "Sair" no canto
+
+3. CARDS DE MÉTRICAS NO TOPO (4 cards em grid)
+- Card 1: TOTAL DE LEADS — número grande + variação vs ontem
+- Card 2: LEADS HOJE — número grande + "+X% vs média"
+- Card 3: LEADS QUENTES — quantos escolheram "Quero fechar o quanto antes"
+   ou "Nos próximos 30 dias"
+- Card 4: TAXA DE CONVERSÃO ESTIMADA — % com prazo curto / total
+- Cada card com ícone Lucide React + número grande + label
+
+4. GRÁFICO DE LEADS POR HORA (Recharts)
+- LineChart ou AreaChart mostrando últimas 24h
+- Eixo X: horas do dia (0h, 1h, 2h...)
+- Eixo Y: número de leads
+- Cor accent dourado
+- Tooltip ao passar mouse
+
+5. GRÁFICO DE DISTRIBUIÇÃO POR PRAZO DE COMPRA (Recharts)
+- PieChart ou BarChart horizontal
+- Segmenta os leads pelas 5 opções:
+  - Quero fechar o quanto antes
+  - Nos próximos 30 dias
+  - Em até 3 meses
+  - Em 6 meses ou mais
+  - Ainda estou pesquisando
+- Cores em gradiente: quente (laranja/dourado) → frio (cinza)
+- Mostra % de cada categoria
+
+6. TABELA DE LEADS (a peça central)
+- Lista todos os leads em ordem cronológica reversa (mais novo no topo)
+- Colunas:
+  - Status (badge colorido: quente / morno / frio)
+  - Nome
+  - Telefone (com botão "Ligar" tel: e botão "WhatsApp" wa.me/)
+  - Email
+  - Prazo de compra
+  - Quando entrou (tempo relativo: "há 2min", "há 1h")
+  - Ações: botão "Marcar como contatado"
+- Filtros no topo da tabela:
+  - Por status (todos / quente / morno / frio)
+  - Por prazo
+  - Busca por nome ou telefone
+- Paginação se passar de 20 leads
+
+LÓGICA DO STATUS (classificação automática):
+- Quente: prazo = "Quero fechar o quanto antes" OU "Nos próximos 30 dias"
+- Morno: prazo = "Em até 3 meses"
+- Frio: prazo = "Em 6 meses ou mais" OU "Ainda estou pesquisando"
+
+7. ATUALIZAÇÃO EM TEMPO REAL (o pulo do gato)
+- Usa Supabase Realtime subscription
+- Quando um novo lead chega na tabela "leads",
+  o dashboard ATUALIZA SOZINHO sem refresh
+- Animação sutil: o novo lead aparece de cima com fade-in
+- Notificação no canto: "Novo lead: [nome] — há instantes"
+- Toca um som curto (opcional)
+
+8. AÇÃO RÁPIDA
+- Botão flutuante "Exportar CSV" no canto inferior
+- Exporta todos os leads filtrados em formato CSV
+  (nome, telefone, email, prazo, data)
+
+ESTILO:
+- Mantém a mesma estética da landing (dark premium + accent dourado)
+- Tabela com hover sutil, linhas alternadas
+- Cards com glassmorphism leve
+- Tipografia: Inter (corpo) + Playfair Display (títulos)
+
+BIBLIOTECAS:
+- recharts (já instalado)
+- lucide-react (já instalado)
+- @supabase/supabase-js (já instalado, usa Realtime channel)
+
+CREDENCIAIS:
+- Usa as mesmas variáveis NEXT_PUBLIC_SUPABASE_URL e
+  NEXT_PUBLIC_SUPABASE_ANON_KEY já configuradas
+
+TESTE FINAL:
+- Roda local em /dashboard com senha "casamareterra2026"
+- Verifica que os leads de teste já aparecem
+- Verifica que ao adicionar lead via landing, ele aparece
+  AUTOMATICAMENTE no dashboard sem refresh
+
+Quando terminar, me mostra a rota /dashboard funcionando.
+Depois fazemos deploy de novo na Vercel pra atualizar o ar.
+
+Executa sem perguntar entre os passos.</div>
+
+  <div class="callout power" style="margin-top:1.5rem">
+    <div class="icon">⚡</div>
+    <div>
+      <div class="label">A âncora financeira que muda o jogo</div>
+      <strong>Landing solta:</strong> R$ 2.500-5.000 no mercado. <strong>Landing + Dashboard CRM em tempo real:</strong> R$ 8.000-15.000. Mesma estrutura técnica, 3x mais valor cobrado. Por quê? Deixa de ser "página bonita" e vira <strong>FERRAMENTA OPERACIONAL</strong>. Corretor de alto padrão paga sem pestanejar.
+    </div>
+  </div>
+
+  <div class="callout tip" style="margin-top:1.5rem">
+    <div class="icon">→</div>
+    <div>
+      <div class="label">Quem manda esses prompts</div>
+      Durante o encontro <strong>o Tiago vai conduzir TODOS os 4 prompts</strong> ao vivo, narrando o que tá acontecendo. Você só observa e acompanha. Depois, no Bloco 7, é a sua vez de repetir no SEU Claude Code.
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIS DO ENCONTRO -->
+<section id="depois">
+  <div class="section-head">
+    <div class="section-meta"><span class="dot"></span>Depois do Encontro · Próximos 7 dias</div>
+    <h2>O que fazer <span class="accent">com tua ferramenta nova</span>.</h2>
+    <p class="section-lead">A versão que sai do encontro é a base. A versão que vira ATIVO de verdade nasce nos próximos 7 dias.</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon">D+1</div>
+      <h4>Adapta pro teu produto</h4>
+      <p>Troca textos, imagens, valores e endereço pro produto que você quer vender — imóvel real, curso high-ticket, serviço premium. 30min no Claude Code com 1 prompt de adaptação.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">D+3</div>
+      <h4>Personaliza a estética</h4>
+      <p>Troca cores, fonte, logo. Substitui o dourado por champagne, esmeralda ou cobre. Cada landing fica única. Ninguém percebe que é o mesmo template.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">D+7</div>
+      <h4>Conecta domínio próprio</h4>
+      <p>Compra um domínio (R$ 40/ano) e plugga na Vercel em 5min. URL vira <code>casamareterra.com</code> em vez de <code>vercel.app</code>. Vira venda profissional.</p>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="icon">★</div>
+    <div>
+      <div class="label">Ideia que vira dinheiro</div>
+      <strong>Vende essa landing como serviço pra corretor de alto padrão.</strong> Cobra R$ 2.500-5.000 por landing entregue em 3 dias (mercado cobra R$ 8-15k em 4 semanas). 4 landings/mês = <strong>R$ 10-20k de receita</strong>. Corretor de imóvel premium ganha R$ 200-400k de comissão por venda — paga sem pestanejar. Mesma lógica vale pra carro de luxo, embarcação, joia, curso high-ticket. Vamos aprofundar isso no Encontro 06.
+    </div>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section id="checklist">
+  <div class="section-head">
+    <div class="section-meta"><span class="dot"></span>Checklist Final</div>
+    <h2>Antes de entrar <span class="accent">na sessão</span>.</h2>
+    <p class="section-lead">Imprime mental ou marca aqui. Cada item é OBRIGATÓRIO pra você não virar espectador.</p>
+  </div>
+
+  <div class="checklist">
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>Git instalado e funcionando</strong> — <code>git --version</code> retorna número</div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>Node.js instalado e funcionando</strong> — <code>node --version</code> retorna número</div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>Claude Desktop aberto</strong> com a aba Code ativa</div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>Conta GitHub</strong> criada e logada</div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>Conta Vercel</strong> criada (via GitHub login)</div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>Conta Supabase</strong> criada + projeto <code>landing-premium</code> criado</div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>Pasta vazia</strong> no computador pra abrir o projeto novo (sugestão: <code>~/Documentos/landing-premium</code>)</div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>Conexão internet estável</strong> + computador carregando (90min puxa bastante)</div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>3 mensagens reais</strong> de clientes prontas pra testar no app (opcional mas recomendado)</div>
+    </div>
+  </div>
+</section>
+
+<!-- LINKS -->
+<section id="recursos">
+  <div class="section-head">
+    <div class="section-meta"><span class="dot"></span>Recursos</div>
+    <h2>Tudo que você <span class="accent">precisa abrir antes</span>.</h2>
+  </div>
+
+  <div class="res-grid">
+    <a href="https://vercel.com" target="_blank" class="res-link">
+      <div class="icon">V</div>
+      <div class="info">
+        <div class="label">Hospedagem</div>
+        <div class="title">Vercel</div>
+        <div class="desc">Cria conta com GitHub. Plano Hobby gratuito.</div>
+      </div>
+      <div class="arrow">↗</div>
+    </a>
+    <a href="https://supabase.com" target="_blank" class="res-link">
+      <div class="icon">S</div>
+      <div class="info">
+        <div class="label">Banco de Dados</div>
+        <div class="title">Supabase</div>
+        <div class="desc">Cria conta + projeto. Região São Paulo.</div>
+      </div>
+      <div class="arrow">↗</div>
+    </a>
+    <a href="https://jurere-landing.vercel.app/" target="_blank" class="res-link">
+      <div class="icon">J</div>
+      <div class="info">
+        <div class="label">Referência visual</div>
+        <div class="title">Jurerê Landing</div>
+        <div class="desc">A landing inspiração que vamos clonar ao vivo. Abre, scroll e observa.</div>
+      </div>
+      <div class="arrow">↗</div>
+    </a>
+    <a href="https://recharts.org/" target="_blank" class="res-link">
+      <div class="icon">R</div>
+      <div class="info">
+        <div class="label">Gráfico interativo</div>
+        <div class="title">Recharts</div>
+        <div class="desc">Biblioteca de gráficos. Já vem na construção. Open source.</div>
+      </div>
+      <div class="arrow">↗</div>
+    </a>
+    <a href="https://github.com" target="_blank" class="res-link">
+      <div class="icon">G</div>
+      <div class="info">
+        <div class="label">Login Universal</div>
+        <div class="title">GitHub</div>
+        <div class="desc">Vira login pra Vercel + Supabase.</div>
+      </div>
+      <div class="arrow">↗</div>
+    </a>
+    <a href="https://desktop.github.com/" target="_blank" class="res-link">
+      <div class="icon">↓</div>
+      <div class="info">
+        <div class="label">Pré-requisito</div>
+        <div class="title">GitHub Desktop</div>
+        <div class="desc">Instala o Git automaticamente. Pra quem ainda não tem.</div>
+      </div>
+      <div class="arrow">↗</div>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="inner">
+    <div class="mantra">
+      Você não vai sair com <span>"aprendi"</span>.<br>
+      Você vai sair com <span>"tá rodando"</span>.
+    </div>
+    <div class="signature">
+      IMPLEMENTAÇÃO 3 · CLAUDE CODE NA VEIA · <span>MESTRES DO CLAUDE</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

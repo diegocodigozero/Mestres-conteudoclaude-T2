@@ -1,0 +1,2242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Squad 05 · RH · Triagem de CVs — Aula 04</title>
+  <meta name="description" content="RH · Triagem de CVs: Pontua cada currículo contra a vaga numa matriz de pesos e devolve um ranking auditável — com evidência textual e gaps por candidato." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="topbar__brand" href="../index.html">
+        <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1.5v3M15 1.5v3M9 19.5v3M15 19.5v3M1.5 9h3M1.5 15h3M19.5 9h3M19.5 15h3"/><rect x="10" y="10" width="4" height="4" rx=".5"/></svg></span>
+        <b>Squads</b><span>· Aula 04</span>
+      </a>
+      <span class="topbar__spacer"></span>
+      <a class="topbar__link" href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Todos os squads</a>
+      <a class="topbar__link" href="../../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Voltar ao curso</a>
+    </div>
+  </header>
+  <main>
+    <section class="shead">
+      <div class="wrap wrap--narrow">
+        <div data-reveal>
+          <span class="shead__code">SQUAD 05 · Matriz decisória com pesos</span>
+          <h1>RH · Triagem de CVs</h1>
+          <p class="shead__sub">Um squad que transforma a triagem subjetiva de currículos em um processo reproduzível. Ele lê a vaga, pontua cada CV em 10 critérios técnicos (0–10, com a evidência que justifica a nota) e aplica uma matriz de pesos para gerar um ranking final.</p>
+          <div class="shead__chips">
+            <span class="mchip mchip--agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> 3 agentes</span>
+            <span class="mchip mchip--skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> 3 skills</span>
+            <span class="mchip mchip--free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> grátis</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="wrap wrap--narrow stack">
+        <div class="callout callout--info" data-reveal>
+          <span class="callout__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v6M12 15v6M3 12h6M15 12h6M6 6l3 3M15 15l3 3M18 6l-3 3M9 15l-3 3"/></svg></span>
+          <div><h4>Para quem é</h4><p>Recrutadores e times técnicos que precisam priorizar entrevistas com critérios claros, auditáveis e iguais para todos.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="wrap wrap--narrow">
+        <div class="section__head" data-reveal><span class="eyebrow">Composição</span><h2>Quem trabalha neste squad</h2></div>
+        <div class="roster">
+          <div class="roster__col roster__col--agents">
+            <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 4h6"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/></svg> Agentes <span class="count">3</span></h3>
+            <div class="unit"><span class="unit__dot"></span><div><div class="unit__name">triagem</div><div class="unit__role">Orquestrador: conduz o onboarding, carrega a vaga e os CVs, define a matriz e dispara o fluxo.</div></div></div>
+            <div class="unit"><span class="unit__dot"></span><div><div class="unit__name">avaliador</div><div class="unit__role">Lê cada CV e atribui nota 0–10 por critério, sempre com evidência textual.</div></div></div>
+            <div class="unit"><span class="unit__dot"></span><div><div class="unit__name">ponderador</div><div class="unit__role">Aplica os pesos, calcula o score ponderado final e monta o ranking em markdown.</div></div></div>
+          </div>
+          <div class="roster__col roster__col--skills">
+            <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M14.5 5.5a4 4 0 0 0 5 5l-1.8 1.8 4 4a2.1 2.1 0 0 1-3 3l-4-4-1.8 1.8a4 4 0 0 1-5-5L4 16 8 12l-1.9-5.6L9.5 4Z"/></svg> Skills <span class="count">3</span></h3>
+            <div class="unit"><span class="unit__dot"></span><div><div class="unit__name">parsear-vaga-md</div><div class="unit__role">Extrai obrigatórios e diferenciais do arquivo da vaga.</div></div></div>
+            <div class="unit"><span class="unit__dot"></span><div><div class="unit__name">scoring-curriculo</div><div class="unit__role">Aplica a rubrica 0–10 por critério em cada CV.</div></div></div>
+            <div class="unit"><span class="unit__dot"></span><div><div class="unit__name">matriz-ponderada</div><div class="unit__role">Calcula Σ(nota×peso)/Σ(peso) e gera o ranking.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="wrap wrap--narrow">
+        <div class="section__head" data-reveal><span class="eyebrow">Premissas</span><h2>Antes de começar, prepare isto</h2><p>O que precisa estar configurado para o squad rodar de verdade.</p></div>
+        <div class="premises">
+          <div class="premise premise--ok" data-reveal>
+            <div class="premise__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <div><h4>Sem API key paga</h4><p>100% offline — o cálculo é aritmética simples. Não precisa de chave nem internet.</p></div>
+          </div>
+          <div class="premise " data-reveal>
+            <div class="premise__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+            <div><h4>Coloque a vaga e os CVs</h4><p>Ponha 1 vaga em <code>vagas/</code> e os currículos em <code>cvs/</code> (o squad já vem com 20 CVs de exemplo e 1 vaga modelo para você testar na hora).</p></div>
+          </div></div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="wrap wrap--narrow">
+        <div class="section__head" data-reveal><span class="eyebrow">Passo a passo</span><h2>Como montar e rodar</h2><p>Siga na ordem. Primeiro um, depois o outro — sem pular etapas.</p></div>
+        <div class="steps">
+          <div class="step" data-reveal>
+            <div class="step__rail"><div class="step__num">1</div><div class="step__line"></div></div>
+            <div class="step__body"><h4>Abra a pasta do squad no Claude Code</h4><p>Abra a pasta <code>05-rh-triagem/</code> no Claude Code (ou crie uma pasta nova e trabalhe nela). É aqui que o squad vai ser montado.</p><span class="step__tag">Setup</span></div>
+          </div>
+          <div class="step" data-reveal>
+            <div class="step__rail"><div class="step__num">2</div><div class="step__line"></div></div>
+            <div class="step__body"><h4>Cole o prompt de montagem</h4><p>Copie o prompt mais abaixo nesta página e cole no Claude Code. Ele cria sozinho os agentes, as skills, o <code>CLAUDE.md</code> e a estrutura de pastas.</p><span class="step__tag">Montagem</span></div>
+          </div>
+          <div class="step" data-reveal>
+            <div class="step__rail"><div class="step__num">3</div><div class="step__line"></div></div>
+            <div class="step__body"><h4>Coloque seus dados de entrada</h4><p>Ponha 1 vaga em <code>vagas/</code> e os currículos em <code>cvs/</code> (o squad já vem com 20 CVs de exemplo e 1 vaga modelo para você testar na hora).</p><span class="step__tag">Premissa</span></div>
+          </div>
+          <div class="step" data-reveal>
+            <div class="step__rail"><div class="step__num">4</div><div class="step__line"></div></div>
+            <div class="step__body"><h4>Digite iniciar squad</h4><p>No Claude Code, digite <code>iniciar squad</code>. O orquestrador assume daqui: valida os pré-requisitos (Passo 0) e abre o onboarding.</p><span class="step__tag">Execução</span></div>
+          </div>
+          <div class="step" data-reveal>
+            <div class="step__rail"><div class="step__num">5</div><div class="step__line"></div></div>
+            <div class="step__body"><h4>Responda o briefing e confirme</h4><p>O squad faz as perguntas num único bloco. Responda, confira o resumo e confirme — então os agentes executam em sequência.</p><span class="step__tag">Execução</span></div>
+          </div>
+          <div class="step" data-reveal>
+            <div class="step__rail"><div class="step__num">6</div><div class="step__line"></div></div>
+            <div class="step__body"><h4>Pegue o resultado em output/</h4><p>Quando terminar, os entregáveis estão na pasta <code>output/</code> (veja a lista abaixo). Reveja, ajuste se quiser e use.</p><span class="step__tag">Entrega</span></div>
+          </div></div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="wrap wrap--narrow">
+        <div class="section__head" data-reveal><span class="eyebrow">O prompt de montagem</span><h2>Copie e cole no Claude Code</h2><p>Este é o prompt que constrói o squad inteiro. Abra a pasta do squad no Claude Code, cole tudo e deixe ele montar.</p></div>
+        <div class="terminal" data-reveal>
+          <div class="terminal__bar">
+            <div class="terminal__dots"><i></i><i></i><i></i></div>
+            <span class="terminal__file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg> <b>prompt-montagem.md</b></span>
+            <button class="terminal__copy" data-copy-target="prompt-05" aria-label="Copiar o prompt de montagem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span class="copy-label">Copiar prompt</span></button>
+          </div>
+          <div class="terminal__scroll"><pre id="prompt-05"># Prompt de Montagem — Squad 05 · RH Triagem de CVs com Matriz Decisória
+
+&gt; **Como usar este arquivo.** Este é um prompt de montagem **fiel**: ele embute,
+&gt; em blocos de código, o conteúdo **EXATO** (verbatim) de cada arquivo do Squad
+&gt; 05. Copiando e colando os blocos abaixo em outro Claude Code, um aluno recria
+&gt; o squad **idêntico** — nada aqui é paráfrase. Os blocos usam cercas de **4
+&gt; crases** (` ```` `) porque o conteúdo interno usa cercas de 3 crases; ao salvar
+&gt; cada arquivo, **não** copie a linha de abertura/fechamento de 4 crases — apenas
+&gt; o conteúdo entre elas.
+
+---
+
+## Índice
+
+1. Visão geral e fluxo
+2. Arquitetura de diretórios
+3. `CLAUDE.md` (raiz do squad) — verbatim
+4. Agentes (`.claude/agents/`) — verbatim
+   - 4.1. `triagem.md`
+   - 4.2. `avaliador.md`
+   - 4.3. `ponderador.md`
+5. Skills (`.claude/skills/`) — verbatim
+   - 5.1. `parsear-vaga-md/SKILL.md`
+   - 5.2. `scoring-curriculo/SKILL.md`
+   - 5.3. `matriz-ponderada/SKILL.md`
+6. Vaga (`vagas/engenheiro-agentes-ia-pleno.md`) — verbatim
+7. `.gitignore` (raiz) — verbatim
+8. Dados de exemplo: os 20 CVs (`cvs/*.md`) — verbatim
+9. Instruções finais para o Claude Code
+
+---
+
+## 1. Visão geral e fluxo
+
+O **Squad 05 de RH** é um squad multi-agente que automatiza a **triagem de
+currículos** contra uma vaga aberta usando uma **matriz decisória com pesos**.
+Em vez de o recrutador ler CV por CV e decidir subjetivamente, o squad:
+
+1. **Carrega a vaga** (markdown) e extrai obrigatórios e diferenciais.
+2. **Pontua cada currículo** em 10 critérios numa rubrica 0–10, sempre com
+   **evidência textual** extraída do próprio CV (nada de inferência).
+3. **Aplica os pesos da matriz** e calcula
+   `score_final = Σ(score×peso)/Σ(peso)` normalizado em 0–10.
+4. **Gera um ranking** em markdown com Top N, ranking completo e observações.
+
+São **3 agentes** (`triagem` orquestrador, `avaliador` de scoring, `ponderador`
+de matriz) e **3 skills** (`parsear-vaga-md`, `scoring-curriculo`,
+`matriz-ponderada`). A vaga de exemplo é **Engenheiro(a) de Agentes de IA
+Pleno** e há **20 currículos** variados (fortes, médios e fracos em IA).
+
+O squad é **100% offline e não usa API key** — os cálculos são aritmética
+simples. O fluxo dispara com `iniciar squad`: o orquestrador mostra o **banner**,
+roda o **Passo 0 de pré-requisitos**, faz as **4 perguntas em um bloco**,
+**confirma** o resumo e encadeia `avaliador` → `ponderador`.
+
+---
+
+## 2. Arquitetura de diretórios
+
+Crie a estrutura abaixo. **Todos os caminhos nos arquivos são relativos** (nunca
+use caminhos absolutos como `D:\VibeCode\Aula\...`).
+
+````
+05-rh-triagem/
+├── CLAUDE.md                          # contexto do squad (raiz, fora de .claude/)
+├── prompt-montagem.md                 # este prompt
+├── .gitignore                         # ignora config/.env e *.env
+├── .claude/
+│   ├── agents/
+│   │   ├── triagem.md                 # orquestrador
+│   │   ├── avaliador.md               # scoring 0–10 por critério
+│   │   └── ponderador.md              # matriz ponderada + ranking
+│   └── skills/
+│       ├── parsear-vaga-md/SKILL.md
+│       ├── scoring-curriculo/SKILL.md
+│       └── matriz-ponderada/SKILL.md
+├── vagas/
+│   └── engenheiro-agentes-ia-pleno.md
+├── cvs/
+│   ├── candidato-01-anacarvalho.md
+│   ├── candidato-02-brunosouza.md
+│   ├── ... (20 arquivos)
+│   └── candidato-20-vanessaborges.md
+└── output/
+    ├── scores-&lt;data&gt;.json             # gerado pelo avaliador ao rodar o squad
+    └── ranking-&lt;vaga&gt;-&lt;data&gt;.md       # gerado pelo ponderador ao rodar o squad
+````
+
+&gt; **IMPORTANTE:** O `CLAUDE.md` fica na **raiz** do squad (`05-rh-triagem/`),
+&gt; **não** dentro de `.claude/`. NÃO crie `.claude/CLAUDE.md`.
+
+---
+
+## 3. CLAUDE.md (raiz do squad) — verbatim
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/CLAUDE.md`:
+
+````markdown
+# Squad 05 — RH · Triagem de CVs com Matriz Decisória
+
+Squad multi-agente para **triagem automatizada de currículos** contra uma vaga
+aberta, usando uma **matriz decisória com pesos** que transforma a avaliação
+subjetiva de RH em um processo reproduzível, auditável e ranqueado por score
+ponderado. O squad lê a vaga, pontua cada CV em 10 critérios técnicos (0–10,
+com evidência textual) e devolve um ranking final em markdown com Top N,
+ranking completo e observações de gaps — pronto para o recrutador decidir
+quem avanta para entrevista.
+
+## Composição do Squad
+
+| Agente | Papel | Quando é acionado |
+|--------|-------|-------------------|
+| `triagem` | **Orquestrador** — conduz o onboarding, carrega a vaga e os CVs, define a matriz default e dispara o fluxo avaliador → ponderador | Quando o usuário digita `iniciar squad` |
+| `avaliador` | **Scoring por critério** — lê cada CV e atribui nota 0–10 por critério, sempre com evidência textual do currículo | Invocado pelo orquestrador após o onboarding |
+| `ponderador` | **Matriz decisória** — aplica pesos, calcula o score final ponderado (0–10) e gera o ranking em markdown | Invocado após o `avaliador` gravar `scores-&lt;data&gt;.json` |
+
+## Skills
+
+| Skill | Função |
+|-------|--------|
+| `parsear-vaga-md` | Extrai obrigatórios e diferenciais de `vagas/&lt;arquivo&gt;.md` e cruza com a matriz default |
+| `scoring-curriculo` | Aplica a rubrica 0–10 por critério sobre cada CV, com evidência textual |
+| `matriz-ponderada` | Aplica a fórmula `Σ(score×peso)/Σ(peso)` e gera o ranking final em markdown |
+
+## Matriz Decisória Default (Total: 28)
+
+Esta é a matriz padrão usada quando o usuário não passa pesos customizados no
+onboarding. Os pesos refletem a prioridade da vaga `engenheiro-agentes-ia-pleno.md`.
+
+| # | Critério | Peso | Justificativa |
+|---|----------|------|---------------|
+| 1 | `python_fastapi_asyncio` | 4 | Obrigatório — base técnica da stack |
+| 2 | `llm_producao` | 5 | Obrigatório — núcleo da vaga (maior peso) |
+| 3 | `multi_agente` | 5 | Diferencial alto — coração do cargo |
+| 4 | `prompt_engineering` | 3 | Diferencial — necessário para qualidade |
+| 5 | `integracao_apis` | 2 | Diferencial — Composio, webhooks, etc |
+| 6 | `playwright` | 1 | Nice-to-have |
+| 7 | `git_docker` | 2 | Obrigatório — higiene de engenharia |
+| 8 | `open_source` | 2 | Diferencial — sinal de senioridade/comunidade |
+| 9 | `ingles` | 2 | Obrigatório — leitura de docs e code review |
+| 10 | `lideranca` | 2 | Diferencial — tech lead / mentoria |
+| | **Total** | **28** | |
+
+## Onboarding (gatilho: `iniciar squad`)
+
+O orquestrador `triagem` conduz o onboarding no padrão da casa: **banner →
+Passo 0 (pré-requisitos) → perguntas em um bloco → confirmação com etapa**.
+
+### Banner de abertura
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║              SQUAD 05 — RH · Triagem de CVs                    ║
+║   Matriz decisória ponderada · scoring 0–10 com evidência      ║
+║   100% offline · sem API key · ranking auditável em markdown   ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
+### Passo 0 — Pré-requisitos (validar ANTES de perguntar)
+
+Rode o checklist abaixo e mostre `[OK]` / `[FALTA]` para cada item. **Só avance
+para as perguntas se tudo estiver `[OK]`.** Este squad **não usa API key** — os
+cálculos são aritmética simples (Σ(score×peso)/Σ(peso)); roda **100% offline**.
+
+```
+Passo 0 — Pré-requisitos
+[OK] Python disponível ........ python --version  (cálculos = aritmética simples)
+[OK] Pasta output/ gravável ... output/ existe e aceita escrita
+[OK] Vaga encontrada .......... vagas/engenheiro-agentes-ia-pleno.md
+[OK] CVs encontrados .......... 20 arquivos em cvs/candidato-*.md
+[--] API key .................. NÃO NECESSÁRIA (100% offline, sem API key)
+```
+
+Se algum item der `[FALTA]` (ex.: pasta `output/` ausente, vaga inexistente,
+zero CVs), **interrompa** e oriente o usuário a corrigir antes de continuar.
+
+### Perguntas (UM bloco numerado)
+
+Apresente as 4 perguntas de uma vez, com a **matriz default inline** para o
+usuário ver os pesos antes de escolher:
+
+```
+Responda (Enter aceita o default entre colchetes):
+
+1) Qual vaga? [vagas/engenheiro-agentes-ia-pleno.md]
+2) Quais CVs considerar? [todos os 20 em cvs/]
+3) Pesos da matriz — (d)efault ou (c)ustom? [default]
+   Matriz default (total 28):
+     python_fastapi_asyncio .. 4    playwright ......... 1
+     llm_producao ............ 5    git_docker ......... 2
+     multi_agente ............ 5    open_source ........ 2
+     prompt_engineering ...... 3    ingles ............. 2
+     integracao_apis ......... 2    lideranca .......... 2
+4) Top N para destacar no relatório? [5]
+```
+
+### Confirmação (com indicação de etapa)
+
+Antes de executar, mostre o resumo com a etapa atual:
+
+```
+Etapa 1/3 — Confirmação do onboarding
+Resumo: vaga=engenheiro-agentes-ia-pleno · 20 CVs · pesos=default (total 28) · Top 5.
+Confirmar e rodar avaliador → ponderador? (s/n)
+```
+
+Após o `s`: **Etapa 2/3** dispara o `avaliador` (gera `scores-&lt;data&gt;.json`) e
+**Etapa 3/3** dispara o `ponderador` (gera `ranking-&lt;vaga&gt;-&lt;data&gt;.md`). Ao
+final, apresente o Top N e o caminho do relatório.
+
+&gt; Modo não-interativo: se o usuário passar tudo via prompt
+&gt; (ex.: "rode para vaga X com pesos default"), pule as perguntas — mas **ainda
+&gt; rode o Passo 0** e registre no relatório que o onboarding foi pulado.
+
+## Estrutura do diretório
+
+```
+05-rh-triagem/
+├── CLAUDE.md                          # este arquivo (contexto do squad)
+├── prompt-montagem.md                 # prompt completo para recriar o squad
+├── .claude/
+│   ├── agents/
+│   │   ├── triagem.md                 # orquestrador
+│   │   ├── avaliador.md               # scoring 0–10 por critério
+│   │   └── ponderador.md              # matriz ponderada + ranking
+│   └── skills/
+│       ├── parsear-vaga-md/SKILL.md
+│       ├── scoring-curriculo/SKILL.md
+│       └── matriz-ponderada/SKILL.md
+├── vagas/
+│   └── engenheiro-agentes-ia-pleno.md
+├── cvs/
+│   ├── candidato-01-anacarvalho.md
+│   ├── ...
+│   └── candidato-20-vanessaborges.md
+└── output/
+    ├── scores-&lt;data&gt;.json             # saída do avaliador
+    └── ranking-&lt;vaga&gt;-&lt;data&gt;.md       # saída do ponderador
+```
+
+## Convenções de saída
+
+- Datas no formato `YYYY-MM-DD`.
+- `output/scores-&lt;data&gt;.json` — JSON com `scores{}` e `evidencias{}` por candidato.
+- `output/ranking-&lt;vaga&gt;-&lt;data&gt;.md` — relatório final em markdown (Top N + ranking completo + observações).
+- Todos os caminhos referenciados pelos agentes são **relativos** à raiz do squad.
+````
+
+---
+
+## 4. Agentes (`.claude/agents/`) — verbatim
+
+Cada agente começa com **frontmatter YAML** (`---` / `name` / `description` / `---`).
+
+---
+
+## 4.1. `triagem.md` — orquestrador
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/.claude/agents/triagem.md`:
+
+````markdown
+---
+name: triagem
+description: Orquestrador do Squad 05 de RH. Use ao iniciar o squad de triagem de CVs / quando o usuario digitar `iniciar squad`, ou quando o usuário pedir para rodar a triagem de currículos contra uma vaga. Conduz o onboarding, carrega vaga e CVs, define a matriz decisória e encadeia `avaliador` → `ponderador`. Não atribui notas nem calcula scores.
+---
+
+# Agente: triagem — Orquestrador do Squad RH
+
+## Papel
+
+Você é o **triagem**, orquestrador do Squad 05 de RH (Triagem de CVs com Matriz
+Decisória). Sua responsabilidade é **conduzir o onboarding** com o usuário,
+**carregar a vaga e os CVs**, **definir a matriz decisória** (default ou
+customizada) e **disparar o fluxo de avaliação** encadeando os subagentes
+`avaliador` → `ponderador`. Ao final, você apresenta o ranking e o caminho do
+relatório gerado.
+
+Você **não** atribui notas nem calcula scores — isso é papel dos subagentes.
+
+## Quando você é acionado
+
+- Quando o usuário digita `iniciar squad`.
+- Quando o usuário pede diretamente para rodar a triagem (ex.: "rode a triagem
+  para a vaga X com pesos default") — neste caso, pule o onboarding interativo
+  e execute em modo não-interativo.
+
+## Passo a passo
+
+### 1. Banner de abertura
+
+Imprima o banner ASCII em caixa Unicode (sempre, no início do fluxo interativo):
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║              SQUAD 05 — RH · Triagem de CVs                    ║
+║   Matriz decisória ponderada · scoring 0–10 com evidência      ║
+║   100% offline · sem API key · ranking auditável em markdown   ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
+### 2. Passo 0 — Pré-requisitos (ANTES de perguntar)
+
+Valide o ambiente e mostre `[OK]` / `[FALTA]` por item. **Só avance para as
+perguntas se tudo estiver `[OK]`.** Este squad **não usa API key** — os cálculos
+são aritmética simples; roda **100% offline**.
+
+```
+Passo 0 — Pré-requisitos
+[OK] Python disponível ........ python --version  (cálculos = aritmética simples)
+[OK] Pasta output/ gravável ... output/ existe e aceita escrita
+[OK] Vaga encontrada .......... vagas/engenheiro-agentes-ia-pleno.md
+[OK] CVs encontrados .......... 20 arquivos em cvs/candidato-*.md
+[--] API key .................. NÃO NECESSÁRIA (100% offline, sem API key)
+```
+
+Mostre a **contagem real** de CVs encontrados em `cvs/`. Se algum item der
+`[FALTA]` (pasta `output/` ausente, vaga inexistente, zero CVs), **interrompa**
+e oriente o usuário a corrigir antes de continuar.
+
+### 3. Perguntas — UM bloco numerado (com matriz inline)
+
+Apresente as 4 perguntas de uma vez, mostrando o **default** entre colchetes e a
+**matriz default inline** para o usuário ver os pesos antes de escolher:
+
+```
+Responda (Enter aceita o default entre colchetes):
+
+1) Qual vaga? [vagas/engenheiro-agentes-ia-pleno.md]
+2) Quais CVs considerar? [todos os 20 em cvs/]
+3) Pesos da matriz — (d)efault ou (c)ustom? [default]
+   Matriz default (total 28):
+     python_fastapi_asyncio .. 4    playwright ......... 1
+     llm_producao ............ 5    git_docker ......... 2
+     multi_agente ............ 5    open_source ........ 2
+     prompt_engineering ...... 3    ingles ............. 2
+     integracao_apis ......... 2    lideranca .......... 2
+4) Top N para destacar no relatório? [5]
+```
+
+### 4. Confirmar resumo (com indicação de etapa)
+
+Antes de executar, apresente o resumo com a etapa atual:
+
+```
+Etapa 1/3 — Confirmação do onboarding
+Resumo: vaga=engenheiro-agentes-ia-pleno · 20 CVs · pesos=default (total 28) · Top 5.
+Confirmar e rodar avaliador → ponderador? (s/n)
+```
+
+### 5. Carregar vaga e CVs (Etapa 2/3)
+
+- Use a skill `parsear-vaga-md` para ler `vagas/&lt;arquivo&gt;.md` e extrair
+  obrigatórios e diferenciais.
+- Liste os arquivos de `cvs/` selecionados e valide que existem.
+
+### 6. Disparar o avaliador (Etapa 2/3)
+
+- Passe para o subagente `avaliador`: a vaga parseada, a lista de CVs e a
+  matriz de critérios (com pesos, embora o avaliador só use os critérios).
+- O avaliador vai gerar `output/scores-&lt;data&gt;.json`.
+
+### 7. Disparar o ponderador (Etapa 3/3)
+
+- Passe para o subagente `ponderador`: o `scores-&lt;data&gt;.json` gerado, os pesos
+  da matriz e o Top N.
+- O ponderador vai gerar `output/ranking-&lt;vaga&gt;-&lt;data&gt;.md`.
+
+### 8. Apresentar resultado
+
+Exiba o Top N em tabela no terminal e informe o caminho do relatório completo.
+
+## Matriz decisória default (peso total 28)
+
+| Critério | Peso | Justificativa |
+|----------|------|---------------|
+| `python_fastapi_asyncio` | 4 | Obrigatório — base técnica da stack |
+| `llm_producao` | 5 | Obrigatório — núcleo da vaga (maior peso) |
+| `multi_agente` | 5 | Diferencial alto — coração do cargo |
+| `prompt_engineering` | 3 | Diferencial — necessário para qualidade |
+| `integracao_apis` | 2 | Diferencial — Composio, webhooks, etc |
+| `playwright` | 1 | Nice-to-have |
+| `git_docker` | 2 | Obrigatório — higiene de engenharia |
+| `open_source` | 2 | Diferencial — sinal de senioridade/comunidade |
+| `ingles` | 2 | Obrigatório — leitura de docs e code review |
+| `lideranca` | 2 | Diferencial — tech lead / mentoria |
+| **Total** | **28** | |
+
+## Regras inegociáveis
+
+1. **Nunca** atribua notas ou calcule scores — delegue aos subagentes.
+2. **Sempre** mostre o default em cada pergunta do onboarding.
+3. **Sempre** confirme o resumo antes de executar (modo interativo).
+4. **Sempre** use caminhos relativos (`vagas/`, `cvs/`, `output/`).
+5. Se um arquivo de vaga ou CV não existir, **interrompa** e informe o usuário.
+6. Em modo não-interativo, registre no relatório que o onboarding foi pulado.
+
+## Entregável final
+
+&gt; "Ranking gerado em `output/ranking-&lt;vaga&gt;-&lt;data&gt;.md`. Top N ranqueados. Scores
+&gt; brutos em `output/scores-&lt;data&gt;.json`."
+````
+
+---
+
+## 4.2. `avaliador.md` — scoring por critério
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/.claude/agents/avaliador.md`:
+
+````markdown
+---
+name: avaliador
+description: Subagente de scoring por critério da triagem de CVs. Use quando o orquestrador `triagem` precisar pontuar os 20 currículos contra a vaga, atribuindo nota 0–10 por critério com evidência textual, antes do `ponderador` aplicar os pesos.
+---
+
+# Agente: avaliador — Subagente de Scoring por Critério
+
+## Papel
+
+Você é o **avaliador**, subagente do Squad 05 de RH. Sua responsabilidade é
+**ler a vaga e cada currículo** e atribuir uma **nota de 0 a 10** para cada um
+dos 10 critérios da matriz decisória, sempre fundamentada em **evidência
+textual** extraída do próprio CV. Você **não aplica pesos** e **não ranqueia**
+— isso é papel do `ponderador`.
+
+## Quando você é acionado
+
+Você é invocado pelo orquestrador `triagem` ao final do onboarding, após a vaga
+ser parseada e a lista de CVs confirmada. Recebe como entrada:
+- a vaga parseada (obrigatórios + diferenciais),
+- a lista de arquivos de CV em `cvs/`,
+- a lista de critérios da matriz (somente os nomes, não os pesos).
+
+## Critérios a avaliar
+
+Para a vaga `engenheiro-agentes-ia-pleno.md`, avalie os 10 critérios abaixo.
+Para cada um, atribua uma nota 0–10 seguindo a **rubrica** e registre a
+**evidência textual** (frase, número de anos, nome de projeto) que justifica
+a nota.
+
+| # | Critério | O que avaliar |
+|---|----------|---------------|
+| 1 | `python_fastapi_asyncio` | Senioridade em Python + FastAPI + asyncio (anos, profundidade, produção) |
+| 2 | `llm_producao` | Tempo e experiência com Claude/OpenAI API em **produção real** (não hobby/curso) |
+| 3 | `multi_agente` | Experiência com orquestração multi-agente (papéis, hand-off, debate, subagentes) |
+| 4 | `prompt_engineering` | Profundidade em prompt engineering (system prompts, function calling, structured output, versionamento, testes) |
+| 5 | `integracao_apis` | Integração com APIs externas (Composio, Google AI Studio, Slack, Notion, webhooks) |
+| 6 | `playwright` | Experiência com Playwright / automação web |
+| 7 | `git_docker` | Práticas de Git + Docker + CI/CD + testes automatizados |
+| 8 | `open_source` | Contribuições open-source / participação em comunidade técnica (palestras, mentoria) |
+| 9 | `ingles` | Nível de inglês técnico (leitura de docs, code review em inglês) |
+| 10 | `lideranca` | Tech lead / coordenação de pessoas / mentoria |
+
+## Rubrica de pontuação (0–10)
+
+| Faixa | Significado |
+|-------|-------------|
+| 0–2 | Nada / não menciona / insuficiente |
+| 3–4 | Básico / hobby / curso sem produção |
+| 5–6 | Intermediário / algum tempo em produção |
+| 7–8 | Sólido / produção real com boa profundidade |
+| 9–10 | Expert / excepcional / referência na área |
+
+## Passo a passo
+
+1. **Receba** a vaga parseada e a lista de CVs do orquestrador.
+2. Para **cada CV** em `cvs/`:
+   a. Leia o arquivo completo.
+   b. Para cada um dos 10 critérios, localize no CV a evidência mais forte
+      (frase textual, número de anos, nome de projeto, nome de tecnologia).
+   c. Aplique a rubrica e atribua a nota 0–10.
+   d. Registre a **evidência textual** literal (ou paráfrase curta com aspas).
+3. Monte o objeto JSON de saída (ver formato abaixo).
+4. Grave em `output/scores-&lt;data&gt;.json` (data no formato `YYYY-MM-DD`).
+5. Retorne o caminho do arquivo e um resumo de quantos CVs foram pontuados.
+
+## Formato do JSON de saída
+
+```json
+[
+  {
+    "candidato": "Ana Beatriz Carvalho",
+    "arquivo": "cvs/candidato-01-anacarvalho.md",
+    "scores": {
+      "python_fastapi_asyncio": 9,
+      "llm_producao": 8,
+      "multi_agente": 8,
+      "prompt_engineering": 8,
+      "integracao_apis": 7,
+      "playwright": 5,
+      "git_docker": 8,
+      "open_source": 7,
+      "ingles": 9,
+      "lideranca": 4
+    },
+    "evidencias": {
+      "python_fastapi_asyncio": "5 anos Python, FastAPI 4a, asyncio 4a (skills técnicas)",
+      "llm_producao": "Claude API 3a + OpenAI API 3a em triagem de CVs na Vortex AI",
+      "multi_agente": "Construiu squad de 6 agentes para triagem de currículos",
+      "prompt_engineering": "function calling, structured output, pipeline RAG",
+      "integracao_apis": "Slack, Notion, Linear via webhooks",
+      "playwright": "Playwright 2a (skills técnicas)",
+      "git_docker": "Git 5a, Docker 4a (skills técnicas)",
+      "open_source": "agent-recruiter open-source + prompt-lab 600★",
+      "ingles": "Inglês fluente — leitura/escrita",
+      "lideranca": "Sem menção explícita a liderança"
+    }
+  }
+]
+```
+
+## Regras inegociáveis
+
+1. **Avalie apenas com base no que o CV afirma.** Não infira experiência que
+   não esteja escrita. Se o CV não menciona o critério, nota 0–2.
+2. **Seja conservador.** Na dúvida entre duas faixas, escolha a menor.
+   Experiência de hobby/curso **não** conta como produção.
+3. **Toda nota deve ter evidência textual.** Sem evidência, nota máxima 2.
+4. **Não aplique pesos.** Não calcule scores finais. Não ranqueie.
+5. **Não invente** tecnologias ou anos que não estão no CV.
+6. Use **caminhos relativos** no campo `arquivo` (`cvs/candidato-XX-*.md`).
+
+## O que você NÃO faz
+
+- Não aplica pesos da matriz (papel do `ponderador`).
+- Não gera ranking (papel do `ponderador`).
+- Não decide quem avança para entrevista.
+- Não edita currículos.
+
+## Entregável final
+
+&gt; "Scores calculados para 20 candidatos em `output/scores-&lt;data&gt;.json`. Cada
+&gt; critério tem nota 0–10 + evidência textual. Pronto para o ponderador aplicar
+&gt; os pesos."
+````
+
+---
+
+## 4.3. `ponderador.md` — matriz decisória e ranking
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/.claude/agents/ponderador.md`:
+
+````markdown
+---
+name: ponderador
+description: Subagente de matriz decisória e ranking. Use após o `avaliador` gravar `output/scores-&lt;data&gt;.json` para aplicar os pesos da matriz, calcular o score final ponderado (0–10) e gerar o relatório de ranking em markdown com Top N e observações de gaps.
+---
+
+# Agente: ponderador — Subagente de Matriz Decisória e Ranking
+
+## Papel
+
+Você é o **ponderador**, subagente do Squad 05 de RH. Sua responsabilidade é
+**aplicar os pesos da matriz decisória** sobre os scores brutos gerados pelo
+`avaliador`, **calcular o score final ponderado** (0–10) de cada candidato,
+**ordenar** o ranking e **gerar o relatório final em markdown** com Top N,
+ranking completo e observações de gaps.
+
+## Quando você é acionado
+
+Você é invocado pelo orquestrador `triagem` **após** o `avaliador` gravar
+`output/scores-&lt;data&gt;.json`. Recebe como entrada:
+- o caminho do `scores-&lt;data&gt;.json`,
+- os pesos da matriz (default ou customizados no onboarding),
+- o Top N definido no onboarding.
+
+## Fórmula do score final
+
+Para cada candidato:
+
+```
+score_final = Σ(score[i] × peso[i]) / Σ(peso[i])
+```
+
+- `score[i]` é a nota 0–10 do candidato no critério `i` (vinda do `avaliador`).
+- `peso[i]` é o peso do critério `i` na matriz (default ou custom).
+- O resultado é automaticamente normalizado em 0–10 (pois a soma dos pesos
+  está no denominador).
+- Arredonde para **2 casas decimais**.
+
+## Passo a passo
+
+1. **Leia** `output/scores-&lt;data&gt;.json`.
+2. **Leia** os pesos (default do `triagem` ou customizados).
+3. Para **cada candidato**, calcule o `score_final` pela fórmula acima.
+4. **Ordene** os candidatos em ordem decrescente de `score_final`.
+5. **Gere** `output/ranking-&lt;vaga&gt;-&lt;data&gt;.md` no formato abaixo.
+6. **Identifique padrões** para a seção de observações:
+   - Quem domina os **2 critérios de maior peso** (`llm_producao` + `multi_agente`).
+   - Quem tem **gaps relevantes** (nota 0–3 em critério obrigatório).
+   - **Diferencial raro (derivado dinamicamente):** varra os scores e encontre
+     critérios em que **apenas um** candidato tem a nota máxima do grupo. Só
+     chame alguém de "único" depois de confirmar que nenhum outro empata na
+     mesma nota. Nunca afirme exclusividade sem essa checagem.
+7. Retorne o caminho do relatório e o Top 1 (nome + score).
+
+## Formato do relatório markdown
+
+```markdown
+# Ranking — Engenheiro(a) de Agentes de IA Pleno
+
+**Data:** 2026-06-20 · **Candidatos analisados:** 20 · **Top N:** 5
+**Matriz:** default (peso total 28)
+
+## Top 5
+
+Inclua uma **barra visual** por candidato com blocos unicode (cheios `█`,
+vazios `░`), em 10 posições proporcionais ao `score_final` (ex.: 8.50 → 9
+blocos cheios). O texto do destaque deve sair do CV REAL do candidato.
+
+| # | Candidato | Score | Barra | Destaque |
+|---|-----------|-------|-------|----------|
+| 1 | Camila Rodrigues Lima | 8.50 | `█████████░ 8.50/10` | [destaque derivado do CV real] |
+| 2 | ... | ... | `████████░░ X.XX/10` | ... |
+
+### Por que ganhou (decomposição peso × nota do Top 1)
+
+Mini-card opcional decompondo a contribuição de cada critério (`peso × nota`)
+para o Top 1, somando 28 no denominador e mostrando `score_final = soma / 28`.
+
+## Ranking completo
+
+Tabela com **10 colunas de critério** (todas as notas), na ordem da matriz:
+`python` | `llm` | `multi` | `prompt` | `apis` | `pw` | `git` | `oss` | `en` | `lid`.
+
+| # | Candidato | Score | python | llm | multi | prompt | apis | pw | git | oss | en | lid |
+|---|-----------|-------|--------|-----|-------|--------|------|----|-----|-----|----|-----|
+| 1 | Camila Rodrigues Lima | 8.50 | 9 | 8 | 9 | 8 | 9 | 3 | 9 | 8 | 10 | 9 |
+| 2 | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+...
+| 20 | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+
+## Critério decisivo
+
+Os 2 critérios de maior peso são `llm_producao` (5) e `multi_agente` (5).
+Candidatos que pontuam 8+ em ambos dominam o topo do ranking.
+
+## Observações
+
+- **Forte em ambos os critérios-chave:** [nomes com llm ≥ 8 e multi ≥ 8].
+- **Gap em obrigatório:** [nomes + critério + nota].
+- **Diferencial raro:** derive dinamicamente do `scores-&lt;data&gt;.json` — encontre
+  critérios em que apenas UM candidato tem a nota máxima do grupo (ex.: no
+  conjunto atual, Vanessa é a única com 10 em `prompt_engineering` e Lucas o
+  único com 10 em `open_source`). NUNCA chame alguém de "único" sem conferir
+  que nenhum outro candidato empata na mesma nota.
+- **Recomendação:** avançar Top N para entrevista técnica; considerar os
+  demais para vagas futuras de nível júnior/pleno.
+```
+
+## Regras inegociáveis
+
+1. **Não invente notas.** Use exatamente o que está no `scores-&lt;data&gt;.json`.
+2. **Não reescreva scores.** Se um score parecer errado, reporte na seção de
+   observações mas **não altere** o valor.
+3. **Sempre** inclua as 3 seções: Top N, Ranking completo, Observações.
+4. **Sempre** mostre o score com 2 casas decimais.
+5. **Sempre** use caminhos relativos (`output/ranking-&lt;vaga&gt;-&lt;data&gt;.md`).
+6. O ranking completo deve conter **todos** os candidatos, não apenas o Top N.
+7. Empates no score: ordene por ordem alfabética do nome como desempate.
+
+## O que você NÃO faz
+
+- Não atribui notas (papel do `avaliador`).
+- Não decide quem é contratado — apenas ranqueia e observa.
+- Não edita currículos nem o `scores-&lt;data&gt;.json`.
+
+## Entregável final
+
+&gt; "Ranking final em `output/ranking-&lt;vaga&gt;-&lt;data&gt;.md`. Top 1: [nome] (score X.XX).
+&gt; 20 candidatos ranqueados, Top 5 destacados, observações de gaps incluídas."
+````
+
+---
+
+## 5. Skills (`.claude/skills/`) — verbatim
+
+Cada skill começa com **frontmatter YAML** (`name` + `description` com triggers).
+
+---
+
+## 5.1. `parsear-vaga-md/SKILL.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/.claude/skills/parsear-vaga-md/SKILL.md`:
+
+````markdown
+---
+name: parsear-vaga-md
+description: Extrai requisitos obrigatórios e diferenciais de uma vaga em markdown e cruza com a matriz decisória default. Use quando precisar carregar uma vaga para triagem de CVs, quando o orquestrador `triagem` iniciar o onboarding, quando o usuário pedir para "carregar a vaga", "ler a vaga", "extrair critérios da vaga", ou quando for preparar a entrada para o subagente `avaliador`. Também use quando o usuário passar pesos customizados e for necessário ajustar a matriz.
+---
+
+# Skill: parsear-vaga-md
+
+## Quando acionar
+
+- No início do onboarding do Squad 05, quando o orquestrador `triagem` precisa
+  carregar a vaga antes de disparar o `avaliador`.
+- Quando o usuário pede para "carregar a vaga", "ler a vaga", "extrair
+  critérios da vaga".
+- Quando o usuário passa pesos customizados e a matriz default precisa ser
+  ajustada.
+
+## Procedimento
+
+1. **Leia** `vagas/&lt;arquivo&gt;.md` (o arquivo vem do onboarding; default:
+   `vagas/engenheiro-agentes-ia-pleno.md`).
+2. **Identifique as seções** do arquivo de vaga:
+   - Resumo da posição
+   - Responsabilidades
+   - Requisitos obrigatórios
+   - Requisitos diferenciais
+   - Competências comportamentais
+   - O que oferecem / Contrato (informativo, não entra na matriz)
+3. **Extraia palavras-chave** por critério técnico e mapeie cada uma para um
+   dos 10 critérios da matriz default:
+   - `python_fastapi_asyncio`, `llm_producao`, `multi_agente`,
+     `prompt_engineering`, `integracao_apis`, `playwright`, `git_docker`,
+     `open_source`, `ingles`, `lideranca`.
+4. **Cruze com a matriz default** (peso total 28). Se o usuário passou pesos
+   customizados no onboarding, substitua os pesos mantendo os 10 critérios.
+5. **Valide** que todos os 10 critérios estão presentes e que a soma dos pesos
+   é &gt; 0. Todos os 10 critérios têm peso default &gt; 0; só zere um peso se o
+   usuário pedir explicitamente. Nunca remova critérios da matriz.
+6. **Gere** o arquivo de saída em JSON (ver formato abaixo).
+
+## Formato de saída
+
+Grave em `output/vaga-parseada-&lt;data&gt;.json`:
+
+```json
+{
+  "vaga": "engenheiro-agentes-ia-pleno",
+  "arquivo": "vagas/engenheiro-agentes-ia-pleno.md",
+  "resumo": "Procuramos uma pessoa Engenheira de Agentes de IA com domínio prático de LLMs, orquestração multi-agente e integração com APIs.",
+  "obrigatorios": [
+    "Python 3+ anos (FastAPI, asyncio, type hints)",
+    "LLMs em produção 1+ ano (OpenAI, Anthropic, Gemini)",
+    "Orquestração (LangChain, LlamaIndex, custom)",
+    "Prompt engineering (system, function calling, structured output)",
+    "Integração APIs REST e webhooks",
+    "Git, CI/CD, testes automatizados",
+    "Inglês técnico (leitura)"
+  ],
+  "diferenciais": [
+    "Playwright / automação web",
+    "Multi-agent systems (papéis, hand-off, debate)",
+    "Contribuição open-source",
+    "Segurança (prompt injection, jailbreak, sandboxing)"
+  ],
+  "comportamentais": [
+    "Autonomia para resolver problemas ambíguos",
+    "Comunicação técnica clara (PT e EN)",
+    "Curiosidade ativa pelo ecossistema"
+  ],
+  "matriz": {
+    "python_fastapi_asyncio": 4,
+    "llm_producao": 5,
+    "multi_agente": 5,
+    "prompt_engineering": 3,
+    "integracao_apis": 2,
+    "playwright": 1,
+    "git_docker": 2,
+    "open_source": 2,
+    "ingles": 2,
+    "lideranca": 2
+  },
+  "peso_total": 28,
+  "pesos_customizados": false
+}
+```
+
+## Restrições
+
+- Use **apenas** o que está escrito na vaga — não infira requisitos.
+- Todos os 10 critérios têm peso default &gt; 0. Só zere um peso se o usuário
+  pedir explicitamente. Nunca remova critérios da matriz.
+- **Caminhos relativos** apenas (`vagas/`, `output/`).
+- Não atribua notas a candidatos (isso é papel da skill `scoring-curriculo`).
+
+## Saída
+
+Arquivo `output/vaga-parseada-&lt;data&gt;.json` no formato acima, mais um resumo
+impresso no terminal com a lista de obrigatórios, diferenciais e a matriz
+(pesos e total) para confirmação do usuário.
+````
+
+---
+
+## 5.2. `scoring-curriculo/SKILL.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/.claude/skills/scoring-curriculo/SKILL.md`:
+
+````markdown
+---
+name: scoring-curriculo
+description: Atribui scores 0–10 por critério da matriz decisória a cada currículo, sempre com evidência textual extraída do próprio CV. Use quando o subagente `avaliador` precisar pontuar candidatos, quando o usuário pedir para "avaliar os CVs", "pontuar os candidatos", "calcular scores", "aplicar a rubrica", ou quando o `scores-&lt;data&gt;.json` precisar ser (re)gerado. Adota postura conservadora: na dúvida entre duas faixas, escolha a menor.
+---
+
+# Skill: scoring-curriculo
+
+## Quando acionar
+
+- Quando o subagente `avaliador` precisa pontuar os CVs após o onboarding.
+- Quando o usuário pede para "avaliar os CVs", "pontuar os candidatos",
+  "calcular scores", "reavaliar os currículos".
+- Quando o `output/scores-&lt;data&gt;.json` precisa ser gerado ou regenerado.
+
+## Procedimento
+
+1. **Receba** a vaga parseada (de `parsear-vaga-md`) e a lista de critérios
+   da matriz (10 critérios, sem os pesos — pesos são do ponderador).
+2. **Para cada CV** em `cvs/`:
+   a. Leia o arquivo completo.
+   b. Identifique as seções típicas: Resumo, Experiência, Formação, Skills
+      Técnicas, Idiomas, Projetos, Links.
+   c. Para **cada um dos 10 critérios**, localize a evidência mais forte no
+      CV (frase textual, número de anos, nome de tecnologia, nome de projeto).
+   d. Aplique a **rubrica** abaixo e atribua a nota 0–10.
+   e. Registre a **evidência textual** literal ou parafraseada curta.
+3. **Monte** o array JSON com todos os candidatos.
+4. **Grave** em `output/scores-&lt;data&gt;.json` (data no formato `YYYY-MM-DD`).
+5. **Imprima** um resumo no terminal: número de CVs pontuados, caminho do
+   arquivo e a nota média por critério (para inspeção rápida).
+
+## Os 10 critérios padrão
+
+1. `python_fastapi_asyncio` — Python + FastAPI + asyncio (anos, profundidade)
+2. `llm_producao` — Claude/OpenAI API em **produção real** (não hobby/curso)
+3. `multi_agente` — Orquestração multi-agente (papéis, hand-off, subagentes)
+4. `prompt_engineering` — System prompts, function calling, structured output, versionamento, testes
+5. `integracao_apis` — APIs externas (Composio, Slack, Notion, webhooks)
+6. `playwright` — Playwright / automação web
+7. `git_docker` — Git + Docker + CI/CD + testes automatizados
+8. `open_source` — Contribuições open-source / comunidade (palestras, mentoria)
+9. `ingles` — Inglês técnico (leitura, escrita, code review)
+10. `lideranca` — Tech lead / coordenação de pessoas / mentoria
+
+## Rubrica de pontuação (0–10)
+
+| Faixa | Significado |
+|-------|-------------|
+| 0–2 | Nada / não menciona / insuficiente |
+| 3–4 | Básico / hobby / curso sem produção |
+| 5–6 | Intermediário / algum tempo em produção |
+| 7–8 | Sólido / produção real com boa profundidade |
+| 9–10 | Expert / excepcional / referência na área |
+
+## Formato do JSON de saída
+
+```json
+[
+  {
+    "candidato": "Ana Beatriz Carvalho",
+    "arquivo": "cvs/candidato-01-anacarvalho.md",
+    "scores": {
+      "python_fastapi_asyncio": 9,
+      "llm_producao": 8,
+      "multi_agente": 8,
+      "prompt_engineering": 8,
+      "integracao_apis": 7,
+      "playwright": 5,
+      "git_docker": 8,
+      "open_source": 7,
+      "ingles": 9,
+      "lideranca": 4
+    },
+    "evidencias": {
+      "python_fastapi_asyncio": "5 anos Python, FastAPI 4a, asyncio 4a",
+      "llm_producao": "Claude API 3a + OpenAI API 3a em triagem de CVs na Vortex AI",
+      "multi_agente": "Construiu squad de 6 agentes para triagem de currículos",
+      "prompt_engineering": "function calling, structured output, pipeline RAG",
+      "integracao_apis": "Slack, Notion, Linear via webhooks",
+      "playwright": "Playwright 2a (skills técnicas)",
+      "git_docker": "Git 5a, Docker 4a",
+      "open_source": "agent-recruiter open-source + prompt-lab 600★",
+      "ingles": "Inglês fluente — leitura/escrita",
+      "lideranca": "Sem menção explícita a liderança"
+    }
+  }
+]
+```
+
+## Restrições
+
+1. **Avalie apenas com base no que o CV afirma.** Não infira experiência
+   que não esteja escrita. Se o CV não menciona o critério, nota 0–2.
+2. **Seja conservador.** Na dúvida entre duas faixas, escolha a menor.
+   Experiência de hobby/curso **não** conta como produção.
+3. **Toda nota deve ter evidência textual.** Sem evidência, nota máxima 2.
+4. **Não aplique pesos** — pesos são da skill `matriz-ponderada`.
+5. **Não ranqueie** — ranking é da skill `matriz-ponderada`.
+6. **Não invente** tecnologias ou anos que não estão no CV.
+7. Use **caminhos relativos** no campo `arquivo` (`cvs/candidato-XX-*.md`).
+
+## Saída
+
+- Arquivo `output/scores-&lt;data&gt;.json` no formato acima.
+- Resumo no terminal: nº de CVs, caminho do arquivo, nota média por critério.
+- Confirmação de que está pronto para o `ponderador` aplicar os pesos.
+````
+
+---
+
+## 5.3. `matriz-ponderada/SKILL.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/.claude/skills/matriz-ponderada/SKILL.md`:
+
+````markdown
+---
+name: matriz-ponderada
+description: Aplica os pesos da matriz decisória sobre os scores brutos e gera o ranking final em markdown com Top N, ranking completo e observações de gaps. Use quando o subagente `ponderador` precisar calcular o score final ponderado dos candidatos, quando o usuário pedir para "gerar o ranking", "ranquear os candidatos", "aplicar os pesos", "calcular o score final", ou quando o `output/ranking-&lt;vaga&gt;-&lt;data&gt;.md` precisar ser (re)gerado. Fórmula: score_final = Σ(score×peso)/Σ(peso), normalizado 0–10.
+---
+
+# Skill: matriz-ponderada
+
+## Quando acionar
+
+- Quando o subagente `ponderador` precisa calcular o score final após o
+  `avaliador` gerar `output/scores-&lt;data&gt;.json`.
+- Quando o usuário pede para "gerar o ranking", "ranquear os candidatos",
+  "aplicar os pesos", "recalcular o ranking".
+- Quando o `output/ranking-&lt;vaga&gt;-&lt;data&gt;.md` precisa ser gerado ou regenerado.
+
+## Fórmula
+
+Para cada candidato:
+
+```
+score_final = Σ(score[i] × peso[i]) / Σ(peso[i])
+```
+
+- `score[i]` = nota 0–10 do candidato no critério `i` (vinda do `avaliador`).
+- `peso[i]` = peso do critério `i` na matriz (default ou custom).
+- Resultado normalizado em 0–10 (a soma dos pesos está no denominador).
+- Arredonde para **2 casas decimais**.
+
+## Procedimento
+
+1. **Leia** `output/scores-&lt;data&gt;.json` (gerado pela skill `scoring-curriculo`).
+2. **Leia** os pesos da matriz:
+   - Default (peso total 28) se o usuário não customizou no onboarding.
+   - Custom se o usuário passou pesos próprios.
+3. **Para cada candidato**, calcule `score_final` pela fórmula acima.
+4. **Valide** que todos os 10 critérios estão presentes nos scores e nos pesos.
+   Se um critério estiver ausente, interrompa e reporte o erro.
+5. **Ordene** os candidatos em ordem **decrescente** de `score_final`.
+   - Empate: desempate por ordem alfabética do nome.
+6. **Gere** `output/ranking-&lt;vaga&gt;-&lt;data&gt;.md` com as 3 seções obrigatórias:
+   - **Top N** (default 5, conforme onboarding) com tabela destacada, incluindo
+     uma **barra visual** por candidato (blocos unicode `█`/`░`).
+   - **Ranking completo** (todos os candidatos) com as **10 colunas de critério**
+     (`python` | `llm` | `multi` | `prompt` | `apis` | `pw` | `git` | `oss` |
+     `en` | `lid`).
+   - **Observações** com padrões e gaps identificados — o **diferencial raro**
+     deve ser derivado dinamicamente dos scores (critério em que só um candidato
+     tem a nota máxima do grupo).
+7. **Imprima** no terminal o caminho do relatório e o Top 1 (nome + score).
+
+## Matriz default (peso total 28)
+
+| Critério | Peso |
+|----------|------|
+| `python_fastapi_asyncio` | 4 |
+| `llm_producao` | 5 |
+| `multi_agente` | 5 |
+| `prompt_engineering` | 3 |
+| `integracao_apis` | 2 |
+| `playwright` | 1 |
+| `git_docker` | 2 |
+| `open_source` | 2 |
+| `ingles` | 2 |
+| `lideranca` | 2 |
+| **Total** | **28** |
+
+## Formato do relatório markdown
+
+```markdown
+# Ranking — Engenheiro(a) de Agentes de IA Pleno
+
+**Data:** 2026-06-20 · **Candidatos analisados:** 20 · **Top N:** 5
+**Matriz:** default (peso total 28)
+
+## Top 5
+
+Cada candidato do Top N leva uma **barra visual** com blocos unicode (`█`
+cheio, `░` vazio) em 10 posições proporcionais ao `score_final`.
+
+| # | Candidato | Score | Barra | Destaque |
+|---|-----------|-------|-------|----------|
+| 1 | Camila Rodrigues Lima | 8.50 | `█████████░ 8.50/10` | [destaque do CV real] |
+| 2 | ... | ... | `████████░░ X.XX/10` | ... |
+
+### Por que ganhou (decomposição peso × nota do Top 1)
+
+Tabela opcional, porém recomendada: decompõe a contribuição (`peso × nota`)
+de cada critério para o Top 1 e fecha com `score_final = soma / 28`.
+
+## Ranking completo
+
+Tabela com as **10 colunas de critério** (todas as notas), na ordem da matriz:
+
+| # | Candidato | Score | python | llm | multi | prompt | apis | pw | git | oss | en | lid |
+|---|-----------|-------|--------|-----|-------|--------|------|----|-----|-----|----|-----|
+| 1 | ... | 8.50 | 9 | 8 | 9 | 8 | 9 | 3 | 9 | 8 | 10 | 9 |
+...
+| 20 | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+
+## Critério decisivo
+
+Os 2 critérios de maior peso são `llm_producao` (5) e `multi_agente` (5).
+Candidatos que pontuam 8+ em ambos dominam o topo do ranking.
+
+## Observações
+
+- **Forte em ambos os critérios-chave:** [nomes com llm ≥ 8 e multi ≥ 8].
+- **Gap em obrigatório:** [nomes + critério + nota].
+- **Diferencial raro (derive dos scores):** encontre critérios em que apenas
+  UM candidato tem a nota máxima do grupo. Só use a palavra "único" após
+  confirmar que ninguém empata na mesma nota — nunca a presuma.
+- **Recomendação:** [sugestão de avanço para entrevista].
+```
+
+## Restrições
+
+1. **Não invente notas.** Use exatamente o que está no `scores-&lt;data&gt;.json`.
+2. **Não reescreva scores.** Se um score parecer errado, reporte na seção de
+   observações mas **não altere** o valor.
+3. **Sempre** inclua as 3 seções: Top N, Ranking completo, Observações.
+4. **Sempre** mostre o score com 2 casas decimais.
+5. **Sempre** use caminhos relativos (`output/ranking-&lt;vaga&gt;-&lt;data&gt;.md`).
+6. O ranking completo deve conter **todos** os candidatos, não apenas o Top N.
+7. Empates: desempate por ordem alfabética do nome.
+
+## Saída
+
+- Arquivo `output/ranking-&lt;vaga&gt;-&lt;data&gt;.md` no formato acima.
+- Resumo no terminal: caminho do relatório, Top 1 (nome + score), nº total de
+  candidatos ranqueados.
+- Confirmação de que o relatório está pronto para o recrutador revisar.
+````
+
+---
+
+## 6. Vaga (`vagas/engenheiro-agentes-ia-pleno.md`) — verbatim
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/vagas/engenheiro-agentes-ia-pleno.md`:
+
+````markdown
+# Vaga — Engenheiro(a) de Agentes de IA Pleno
+
+## Empresa
+VibeCode — squad de squads. Construímos times de agentes para devs e times técnicos.
+
+## Resumo da posição
+Procuramos uma pessoa **Engenheira de Agentes de IA** com domínio prático de
+LLMs, orquestração multi-agente e integração com APIs. Vai trabalhar com nosso
+time na construção, manutenção e evolução de squads autônomos.
+
+## Responsabilidades
+- Projetar, implementar e manter **squads/agentes** com Claude/OpenAI.
+- Desenvolver **skills** em Python/Node integrando APIs externas (Composio, Google AI Studio, transcriptapi, etc).
+- Implementar **orquestradores** com memória, contexto e ferramentas.
+- Escrever **prompts de sistema** robustos, testáveis e versionáveis.
+- Criar **pipelines** que combinam LLMs, APIs determinísticas e armazenamento.
+- Revisar código e arquitetura de squads existentes.
+- Documentar decisões em CLAUDE.md e ADRs.
+
+## Requisitos obrigatórios
+- 3+ anos com **Python** (FastAPI, asyncio, type hints).
+- 1+ ano com **LLMs** em produção (OpenAI, Anthropic, Gemini).
+- Experiência com **orquestração** (LangChain, LlamaIndex, custom, etc).
+- Domínio de **prompt engineering** (system, function calling, structured output).
+- **Integração com APIs** REST e webhooks.
+- Git, CI/CD, testes automatizados.
+- Leitura em inglês técnico.
+
+## Requisitos diferenciais
+- Experiência com **Playwright** ou automação web.
+- Conhecimento de **Multi-agent systems** (papéis, hand-off, debate).
+- Contribuição em projetos open-source.
+- Noção de **segurança** (prompt injection, jailbreak, sandboxing).
+
+## Competências comportamentais
+- Autonomia para resolver problemas ambíguos.
+- Comunicação técnica clara em português e inglês.
+- Curiosidade ativa por novidades do ecossistema.
+
+## O que oferecemos
+- Trabalho remoto, horário flexível.
+- Acesso às APIs premium (Anthropic, OpenAI, Google AI Studio, Composio).
+- Budget para cursos e livros.
+- Participação no produto desde o design.
+
+## Contrato
+PJ · R$ 12.000–16.000/mês · Início imediato.
+````
+
+---
+
+## 7. `.gitignore` (raiz) — verbatim
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/.gitignore`:
+
+````
+# Segredos — nunca versionar
+config/.env
+*.env
+
+# NÃO ignorar output/ — os arquivos de exemplo (scores-*.json, ranking-*.md)
+# são intencionais para a aula e devem ser versionados.
+
+````
+
+---
+
+## 8. Dados de exemplo: os 20 CVs (`cvs/*.md`) — verbatim
+
+Os 20 currículos abaixo são os **dados de exemplo** da aula. Cada bloco é o
+conteúdo exato de um arquivo em `cvs/`. Perfis variados (fortes, médios e fracos
+em IA) para demonstrar o ranqueamento.
+
+---
+
+### 8.1. `candidato-01-anacarvalho.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-01-anacarvalho.md`:
+
+````markdown
+# Currículo — Candidato 01
+
+**Nome:** Ana Beatriz Carvalho
+**Cidade:** São Paulo, SP · **Idade:** 29
+
+## Resumo
+Engenheira de software com 5 anos de experiência em Python e foco em LLMs em
+produção desde 2023. Atuação com orquestração multi-agente e integração via APIs.
+
+## Experiência
+
+### Vortex AI — Engenheira de IA Plena (2023–atual)
+- Construiu squad de 6 agentes para triagem de currículos (Python + Anthropic API).
+- Implementou function calling, structured output e pipeline RAG.
+- Integração com Slack, Notion e Linear via webhooks.
+
+### Hashflow — Engenheira Backend (2021–2023)
+- FastAPI + Postgres + Redis em microsserviços.
+- Migrou monolito para arquitetura assíncrona (asyncio + uvloop).
+
+## Formação
+- Bacharelado em Ciência da Computação — USP (2017–2020).
+
+## Skills Técnicas
+Python (5a), FastAPI (4a), asyncio (4a), Claude API (3a), OpenAI API (3a),
+LangChain (2a), prompt engineering (4a), Git (5a), Docker (4a),
+Postgres (4a), Playwright (2a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente — leitura/escrita)
+
+## Projetos
+- **agent-recruiter** (open-source): squad para triagem de CVs com matriz decisória.
+- **prompt-lab**: ferramenta de A/B test de prompts (GitHub 600★).
+
+## Links
+github.com/anacarvalho · linkedin.com/in/anacarvalho
+````
+
+---
+
+### 8.2. `candidato-02-brunosouza.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-02-brunosouza.md`:
+
+````markdown
+# Currículo — Candidato 02
+
+**Nome:** Bruno Henrique Souza
+**Cidade:** Belo Horizonte, MG · **Idade:** 26
+
+## Resumo
+Desenvolvedor full-stack com 3 anos em Node/TypeScript. Curioso por IA,
+fiz 2 cursos online e criei 1 chatbot simples com OpenAI.
+
+## Experiência
+
+### Stone — Engenheiro de Software (2022–atual)
+- APIs em Node + TypeScript, microservices, AWS Lambda.
+- Testes com Jest, CI/CD com GitHub Actions.
+
+### Freelance — Dev Full-stack (2021–2022)
+- Projetos em React + Node para clientes PJ.
+
+## Formação
+- Sistemas de Informação — UFMG (2018–2022).
+
+## Skills Técnicas
+TypeScript (4a), Node.js (4a), React (3a), OpenAI API (6m — hobby),
+Python (1a), LangChain (não usei), prompt engineering (básico),
+Playwright (não usei), Git (4a), Docker (2a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (intermediário — leitura OK, fala limitada)
+
+## Projetos
+- **chatbot-curioso**: chatbot FAQ com OpenAI Embeddings + Qdrant (pessoal).
+- Sem contribuições open-source.
+
+## Links
+github.com/brunohsouza
+````
+
+---
+
+### 8.3. `candidato-03-camilalima.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-03-camilalima.md`:
+
+````markdown
+# Currículo — Candidato 03
+
+**Nome:** Camila Rodrigues Lima
+**Cidade:** Curitiba, PR · **Idade:** 31
+
+## Resumo
+Cientista de dados sênior com 7 anos de experiência. Migrei para IA generativa
+em 2023 e lidero squad de 4 pessoas em projeto multi-agente com Claude.
+
+## Experiência
+
+### Cognita Labs — Tech Lead IA Generativa (2023–atual)
+- Liderança técnica de squad de 4 engenheiros.
+- Arquitetou sistema multi-agente (orquestrador + 5 subagentes) com Anthropic Claude.
+- Function calling, structured output, validação com Pydantic.
+- Integração com Composio (Gmail, Notion, Slack) e APIs internas.
+- Prompt engineering com versionamento em git e regression tests.
+
+### iFood — Senior Data Scientist (2020–2023)
+- Modelos de recomendação, A/B testing, Spark.
+
+### Accenture — Data Scientist (2018–2020)
+- NLP clássico, classificação, clusterização.
+
+## Formação
+- Mestrado em Ciência da Computação — UFPR (2016–2018).
+- Bacharelado em Estatística — UFPR (2012–2015).
+
+## Skills Técnicas
+Python (7a), Claude API (3a), OpenAI API (3a), LangChain (2a),
+orquestração multi-agente (3a), prompt engineering (4a), Pydantic (4a),
+FastAPI (4a), asyncio (3a), Playwright (1a — só básico), Git (6a),
+Docker (5a), Kubernetes (3a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente)
+- Espanhol (intermediário)
+
+## Projetos
+- **squad-cognito** (interno): orquestrador de agentes para automação de marketing.
+- Palestra "Multi-agent systems in production" — Python Brasil 2024.
+- Mentora no PyLatam.
+
+## Links
+github.com/camilalima · linkedin.com/in/camilalima
+````
+
+---
+
+### 8.4. `candidato-04-diegomartins.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-04-diegomartins.md`:
+
+````markdown
+# Currículo — Candidato 04
+
+**Nome:** Diego Ferreira Martins
+**Cidade:** Recife, PE · **Idade:** 24
+
+## Resumo
+Jovem desenvolvedor autodidata, 2 anos de experiência em Python. Foco total
+em agentes de IA. Contribuidor ativo em 3 projetos open-source de LLM.
+
+## Experiência
+
+### StartupFlux — Engenheiro IA Júnior (2023–atual)
+- Construiu agentes com OpenAI e Anthropic em produção.
+- Pipelines RAG com pgvector e Qdrant.
+- Integração com Telegram Bot API, WhatsApp Business API.
+- Escreveu 5 ADRs de arquitetura de agentes.
+
+## Formação
+- Tecnólogo em ADS — IFPE (2021–2023).
+
+## Skills Técnicas
+Python (3a), Claude API (2a), OpenAI API (2a), LangChain (2a),
+LlamaIndex (1a), prompt engineering (3a — autodidata),
+FastAPI (2a), asyncio (2a), Playwright (1a — curso),
+Git (3a), Docker (2a), Postgres (2a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (avançado — leitura técnica fluida, fala básica)
+
+## Projetos
+- **agentkit-light**: framework minimalista de agentes (open-source, 200★).
+- **llm-router**: roteador entre provedores LLM (open-source, 80★).
+- Contribuidor de langchain-ai/langchain (PRs mergeadas).
+
+## Links
+github.com/diegofmartins · linkedin.com/in/diegofmartins
+````
+
+---
+
+### 8.5. `candidato-05-elisapereira.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-05-elisapereira.md`:
+
+````markdown
+# Currículo — Candidato 05
+
+**Nome:** Elisa Mendes Pereira
+**Cidade:** Porto Alegre, RS · **Idade:** 33
+
+## Resumo
+Engenheira de software sênior, 8 anos com backend Python. Migrei para IA em
+2024 e já entreguei 3 squads multi-agente em produção.
+
+## Experiência
+
+### Méliuz — Engenheira Sênior (2022–atual)
+- Backend Python em FastAPI.
+- 2024–atual: tech lead do squad de IA Generativa.
+  - Orquestrador multi-agente (Claude + OpenAI fallback).
+  - Integração com banco interno via SQLAlchemy.
+  - Function calling, structured output, validação Pydantic v2.
+
+### Nubank — Engenheira de Software (2018–2022)
+- Microservices Python, Kafka, Datadog.
+
+### ThoughtWorks — Engenheira (2016–2018)
+- Python, AWS, práticas ágeis.
+
+## Formação
+- Bacharelado em Engenharia de Software — UFRGS (2011–2015).
+
+## Skills Técnicas
+Python (8a), FastAPI (6a), asyncio (5a), Claude API (2a),
+OpenAI API (2a), prompt engineering (3a), LangChain (1a),
+Pydantic (5a), Postgres (6a), Docker (5a), Kubernetes (4a),
+Playwright (2a), Git (7a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente)
+
+## Projetos
+- **squad-fiscal** (interno): 4 agentes para análise fiscal com RAG.
+- **prompt-evaluator** (open-source): framework de avaliação de prompts.
+
+## Links
+github.com/elisamp · linkedin.com/in/elisamp
+````
+
+---
+
+### 8.6. `candidato-06-felipenogueira.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-06-felipenogueira.md`:
+
+````markdown
+# Currículo — Candidato 06
+
+**Nome:** Felipe Augusto Nogueira
+**Cidade:** Rio de Janeiro, RJ · **Idade:** 28
+
+## Resumo
+Engenheiro de ML com 4 anos. Experiência com LLMs em produção desde 2023.
+Contribui para 2 projetos open-source de agents.
+
+## Experiência
+
+### Z1 Bank — Engenheiro de IA (2023–atual)
+- Squad de agentes para KYC e onboarding (Claude + OpenAI).
+- RAG com pgvector, avaliação humana + LLM-as-judge.
+- Integração com Mixpanel, Segment, Datadog.
+
+### QuintoAndar — Engenheiro de ML (2021–2023)
+- Modelos de precificação e risco.
+
+## Formação
+- Mestrado em Engenharia Elétrica — UFRJ (2018–2020).
+- Bacharelado em Ciência da Computação — UFF (2014–2018).
+
+## Skills Técnicas
+Python (5a), Claude API (2a), OpenAI API (3a), LangChain (2a),
+LlamaIndex (1a), prompt engineering (4a), FastAPI (3a),
+asyncio (3a), Playwright (1a — uso básico), Git (5a),
+Docker (4a), Postgres (4a), Kubernetes (2a), MLflow (3a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente)
+
+## Projetos
+- **kyc-agent** (interno): agente de validação de documentos.
+- Contribuidor langchain-ai/langchain.
+- Artigo no Medium "Avaliação de LLMs em produção".
+
+## Links
+github.com/felipean · linkedin.com/in/felipean
+````
+
+---
+
+### 8.7. `candidato-07-gabrielarocha.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-07-gabrielarocha.md`:
+
+````markdown
+# Currículo — Candidato 07
+
+**Nome:** Gabriela Santos Rocha
+**Cidade:** Florianópolis, SC · **Idade:** 27
+
+## Resumo
+Engenheira de software com 4 anos em Python. Últimos 18 meses focada em IA
+generativa e multi-agentes. Boa base de backend.
+
+## Experiência
+
+### RD Station — Engenheira de Software (2021–atual)
+- 2023–atual: squad de IA Generativa.
+  - Implementou 3 agentes (RAG, function calling, structured output).
+  - Integração com HubSpot, RD Station CRM.
+- 2021–2023: backend Python (Django + DRF).
+
+## Formação
+- Bacharelado em Sistemas de Informação — UFSC (2017–2021).
+
+## Skills Técnicas
+Python (4a), FastAPI (2a), Django (3a), asyncio (2a),
+Claude API (2a), OpenAI API (2a), LangChain (2a),
+prompt engineering (3a), Pydantic (3a), Playwright (não usei),
+Git (4a), Docker (3a), Postgres (4a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (avançado)
+
+## Projetos
+- **leadscoring-agent** (interno): agente de qualificação de leads.
+- **prompthub**: catálogo interno de prompts.
+
+## Links
+github.com/gabisrocha
+````
+
+---
+
+### 8.8. `candidato-08-henriquealmeida.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-08-henriquealmeida.md`:
+
+````markdown
+# Currículo — Candidato 08
+
+**Nome:** Henrique Costa Almeida
+**Cidade:** São Paulo, SP · **Idade:** 35
+
+## Resumo
+Tech lead com 12 anos de experiência. Python expert. Usei LLMs em 2 projetos
+pontuais (2023). Forte em arquitetura e backend.
+
+## Experiência
+
+### B3 — Tech Lead (2019–atual)
+- Liderança técnica de 8 pessoas.
+- Microservices Python, Kafka, Kubernetes.
+- 2023: piloto de agente para suporte interno (RAG, Claude).
+
+### Locaweb — Engenheiro Sênior (2015–2019)
+- Backend Python.
+
+## Formação
+- Bacharelado em Ciência da Computação — PUC-SP (2008–2012).
+- MBA — FGV (2017).
+
+## Skills Técnicas
+Python (10a), FastAPI (4a), asyncio (5a), Claude API (1a),
+OpenAI API (1a), LangChain (6m), prompt engineering (2a),
+Docker (8a), Kubernetes (7a), Postgres (8a), Git (9a),
+Playwright (2a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente)
+
+## Projetos
+- **suporte-agent** (interno B3): agente RAG para suporte.
+
+## Links
+github.com/hcalmeida
+````
+
+---
+
+### 8.9. `candidato-09-isabelacruz.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-09-isabelacruz.md`:
+
+````markdown
+# Currículo — Candidato 09
+
+**Nome:** Isabela Fernandes Cruz
+**Cidade:** Campinas, SP · **Idade:** 25
+
+## Resumo
+Engenheira júnior, 1.5 anos com Python. Estagiou em time de IA e contribuiu
+em 1 agente de FAQ. Forte em testes e boas práticas.
+
+## Experiência
+
+### IBM Research — Engenheira Júnior (2023–atual)
+- Time de NLP Aplicado.
+- Contribuiu em agente de FAQ com RAG + OpenAI.
+- Testes automatizados com pytest.
+
+## Formação
+- Bacharelado em Ciência da Computação — UNICAMP (2020–2024).
+
+## Skills Técnicas
+Python (2a), FastAPI (1a), asyncio (1a), OpenAI API (1a),
+Claude API (não usei), LangChain (1a), prompt engineering (2a),
+pytest (2a), Git (3a), Docker (1a), Playwright (não usei).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente)
+
+## Projetos
+- **faq-agent-ibm** (interno): agente FAQ interno.
+- Contribuidora de pytest-dev/pytest (docs).
+
+## Links
+github.com/isabelafc
+````
+
+---
+
+### 8.10. `candidato-10-joaoribeiro.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-10-joaoribeiro.md`:
+
+````markdown
+# Currículo — Candidato 10
+
+**Nome:** João Pedro Ribeiro
+**Cidade:** Manaus, AM · **Idade:** 30
+
+## Resumo
+Engenheiro de software, 6 anos com Python. Experiência sólida com multi-agentes.
+Liderou projeto de orquestrador para automação comercial.
+
+## Experiência
+
+### Bemobi — Engenheiro de Software Sênior (2021–atual)
+- Squad de automação comercial (2023–atual).
+  - Orquestrador multi-agente com Anthropic Claude (5 subagentes).
+  - Function calling, structured output, Pydantic.
+  - Integração com RD Station, HubSpot, Pipefy.
+  - Métricas: 70% redução no tempo de qualificação de leads.
+
+### TotalVoice — Engenheiro (2018–2021)
+- Backend Python + Flask.
+
+## Formação
+- Bacharelado em Engenharia da Computação — UFAM (2014–2018).
+
+## Skills Técnicas
+Python (6a), FastAPI (4a), asyncio (4a), Claude API (3a),
+OpenAI API (3a), LangChain (2a), prompt engineering (4a),
+Pydantic (3a), Playwright (3a — uso em automação), Git (6a),
+Docker (4a), Postgres (4a), Redis (3a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (avançado — leitura/escrita)
+
+## Projetos
+- **orq-comercial** (interno): orquestrador multi-agente em produção.
+- **agent-testkit**: framework interno de teste de agentes.
+
+## Links
+github.com/jpribeiro · linkedin.com/in/jpribeiro
+````
+
+---
+
+### 8.11. `candidato-11-karenbastos.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-11-karenbastos.md`:
+
+````markdown
+# Currículo — Candidato 11
+
+**Nome:** Karen Oliveira Bastos
+**Cidade:** Salvador, BA · **Idade:** 28
+
+## Resumo
+Engenheira de software, 4 anos. Atualmente focada em backend Python +
+integrações. Pouca exposição a LLMs em produção.
+
+## Experiência
+
+### PicPay — Engenheira de Software (2022–atual)
+- Backend Python (FastAPI + asyncio).
+- Integração com APIs de bancos, BACEN.
+- Testes, code review.
+
+### Locaweb — Engenheira Júnior (2020–2022)
+- PHP + Python, suporte a produto de e-mail.
+
+## Formação
+- Bacharelado em Ciência da Computação — UFBA (2016–2020).
+
+## Skills Técnicas
+Python (4a), FastAPI (3a), asyncio (3a), OpenAI API (6m — estudos),
+Claude API (não usei), LangChain (não usei), prompt engineering (básico),
+Docker (3a), Git (4a), Postgres (4a), Playwright (não usei).
+
+## Idiomas
+- Português (nativo)
+- Inglês (intermediário)
+
+## Links
+github.com/karenob
+````
+
+---
+
+### 8.12. `candidato-12-lucascardoso.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-12-lucascardoso.md`:
+
+````markdown
+# Currículo — Candidato 12
+
+**Nome:** Lucas Vinícius Cardoso
+**Cidade:** Goiânia, GO · **Idade:** 26
+
+## Resumo
+Engenheiro de IA, 3 anos de experiência. Trabalhei com multi-agentes em
+2 projetos (open-source e freelance). Forte em prompt engineering.
+
+## Experiência
+
+### Autônomo — Engenheiro de IA (2023–atual)
+- Projetos freelance de agentes para clientes internacionais.
+- 3 squads multi-agente entregues (Python + Anthropic).
+- Integração com Composio, Notion, Slack.
+
+### Movile — Engenheiro de ML (2021–2023)
+- Modelos de classificação de texto, ranking.
+
+## Formação
+- Bacharelado em Ciência da Computação — UFG (2018–2022).
+
+## Skills Técnicas
+Python (4a), Claude API (3a), OpenAI API (3a), LangChain (3a),
+LlamaIndex (2a), prompt engineering (5a), Pydantic (3a),
+FastAPI (3a), asyncio (3a), Playwright (3a), Git (4a),
+Docker (3a), Postgres (3a), Composio (2a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente — trabalhou para clientes US)
+
+## Projetos
+- **multi-agent-framework** (open-source, 1.2k★).
+- **prompt-arena**: comparador de prompts (open-source, 300★).
+- Artigo "Multi-agent orchestration patterns" — Substack 5k subs.
+
+## Links
+github.com/lucascardoso · lucascardoso.substack.com
+````
+
+---
+
+### 8.13. `candidato-13-marianalima.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-13-marianalima.md`:
+
+````markdown
+# Currículo — Candidato 13
+
+**Nome:** Mariana de Souza Lima
+**Cidade:** São Paulo, SP · **Idade:** 32
+
+## Resumo
+Engenheira de software, 7 anos. Python + Java. Últimos 2 anos com IA.
+Liderança de squad de 3 pessoas.
+
+## Experiência
+
+### Mercado Livre — Tech Lead (2022–atual)
+- Squad de IA Generativa (2023–atual).
+  - 3 engenheiros + 1 PM.
+  - Orquestrador multi-agente para atendimento pós-venda.
+  - Claude + OpenAI fallback, integração com Zendesk, Salesforce.
+- 2022–2023: backend Java + Python.
+
+### Cielo — Engenheira (2018–2022)
+- Backend Java, microsserviços.
+
+## Formação
+- Bacharelado em Ciência da Computação — UNICAMP (2011–2015).
+
+## Skills Técnicas
+Python (6a), Java (7a), FastAPI (3a), asyncio (3a),
+Claude API (2a), OpenAI API (2a), prompt engineering (3a),
+LangChain (1a), Pydantic (3a), Playwright (1a), Git (6a),
+Docker (5a), Kubernetes (3a), Postgres (5a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente)
+- Espanhol (intermediário)
+
+## Links
+github.com/maridsl
+````
+
+---
+
+### 8.14. `candidato-14-nathantavares.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-14-nathantavares.md`:
+
+````markdown
+# Currículo — Candidato 14
+
+**Nome:** Nathan Vieira Tavares
+**Cidade:** Brasília, DF · **Idade:** 23
+
+## Resumo
+Desenvolvedor júnior, 1 ano de experiência em Python. Forte autodidata em
+LLMs. Projetos pessoais com Anthropic e OpenAI.
+
+## Experiência
+
+### CWI — Estagiário (2024–atual)
+- Backend Python em cliente de telecom.
+- Estuda IA Generativa por conta própria.
+
+## Formação
+- Bacharelado em Engenharia de Software — UnB (2021–2025, em andamento).
+
+## Skills Técnicas
+Python (1.5a), FastAPI (6m), asyncio (6m), Claude API (1a — projetos pessoais),
+OpenAI API (1a), prompt engineering (3a — autodidata),
+LangChain (6m), Git (2a), Docker (básico).
+
+## Idiomas
+- Português (nativo)
+- Inglês (avançado — leitura técnica)
+
+## Projetos
+- **agent-study**: agentes para estudo pessoal (open-source, 50★).
+- **claude-cli**: ferramenta CLI para chat com Claude (open-source, 30★).
+
+## Links
+github.com/nathanvt
+````
+
+---
+
+### 8.15. `candidato-15-oliviagoncalves.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-15-oliviagoncalves.md`:
+
+````markdown
+# Currículo — Candidato 15
+
+**Nome:** Olivia Marques Gonçalves
+**Cidade:** São Paulo, SP · **Idade:** 29
+
+## Resumo
+Engenheira de software, 5 anos com Python. Trabalhei 2 anos com multi-agentes
+em startup de IA. Forte em integração de APIs externas.
+
+## Experiência
+
+### MosaicAI — Engenheira de IA (2023–atual)
+- Squad multi-agente para análise de documentos legais.
+- Integração com Google AI Studio, Anthropic, OpenAI.
+- Function calling, structured output, validação Pydantic v2.
+- Playwright para automação de fontes públicas.
+
+### Gympass — Engenheira de Software (2020–2023)
+- Backend Python + FastAPI.
+
+## Formação
+- Bacharelado em Ciência da Computação — USP (2014–2018).
+
+## Skills Técnicas
+Python (5a), FastAPI (5a), asyncio (5a), Claude API (2a),
+OpenAI API (2a), Gemini API (1a), LangChain (2a),
+prompt engineering (4a), Pydantic (4a), Playwright (3a),
+Git (5a), Docker (4a), Postgres (4a), Google AI Studio (1a),
+Composio (1a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente)
+
+## Projetos
+- **legal-agents** (interno): 5 agentes para análise contratual.
+- **api-orchestrator**: framework interno de orquestração.
+
+## Links
+github.com/oliviamg
+````
+
+---
+
+### 8.16. `candidato-16-pedrocunha.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-16-pedrocunha.md`:
+
+````markdown
+# Currículo — Candidato 16
+
+**Nome:** Pedro Henrique Cunha
+**Cidade:** Fortaleza, CE · **Idade:** 31
+
+## Resumo
+Engenheiro de software, 6 anos. Java + Kotlin no backend, Python para scripts.
+Zero experiência com LLMs. Recém-curioso por IA.
+
+## Experiência
+
+### CI&amp;T — Engenheiro de Software (2020–atual)
+- Backend Kotlin + Spring Boot.
+- AWS, Kafka, Docker.
+
+### Accenture — Engenheiro (2017–2020)
+- Java + Angular.
+
+## Formação
+- Bacharelado em Ciência da Computação — UFC (2013–2017).
+
+## Skills Técnicas
+Java (6a), Kotlin (4a), Spring (5a), Python (2a — scripts),
+Docker (4a), Kubernetes (3a), Git (5a), Postgres (5a).
+Sem experiência em LLMs, LangChain, Playwright, prompt engineering.
+
+## Idiomas
+- Português (nativo)
+- Inglês (intermediário)
+
+## Links
+github.com/phcunha
+````
+
+---
+
+### 8.17. `candidato-17-rafaelpinto.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-17-rafaelpinto.md`:
+
+````markdown
+# Currículo — Candidato 17
+
+**Nome:** Rafael Augusto Pinto
+**Cidade:** Vitória, ES · **Idade:** 27
+
+## Resumo
+Engenheiro de IA, 3 anos. Forte em RAG e avaliação de LLMs. Trabalhei com
+orquestração multi-agente em produção.
+
+## Experiência
+
+### Kunumi — Engenheiro de IA (2022–atual)
+- Squad de IA Generativa (2023–atual).
+  - 4 agentes (pesquisa, sumarização, validação, publicador).
+  - Orquestrador com Claude + OpenAI fallback.
+  - Avaliação: LLM-as-judge + avaliação humana.
+  - Pydantic para structured output.
+  - Métrica: NPS do squad 8.5/10.
+
+### Globant — Engenheiro (2020–2022)
+- Backend Python + FastAPI.
+
+## Formação
+- Bacharelado em Ciência da Computação — UFES (2016–2020).
+
+## Skills Técnicas
+Python (5a), FastAPI (4a), asyncio (4a), Claude API (3a),
+OpenAI API (3a), LangChain (3a), LlamaIndex (2a),
+prompt engineering (5a), Pydantic (4a), Playwright (2a),
+Git (5a), Docker (4a), Postgres (4a), RAG (3a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente)
+
+## Projetos
+- **multi-agent-pipeline** (interno).
+- **rag-evaluator** (open-source, 400★).
+
+## Links
+github.com/rafapinto
+````
+
+---
+
+### 8.18. `candidato-18-sabrinavieira.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-18-sabrinavieira.md`:
+
+````markdown
+# Currículo — Candidato 18
+
+**Nome:** Sabrina Lopes Vieira
+**Cidade:** São Luís, MA · **Idade:** 30
+
+## Resumo
+Engenheira de software, 6 anos com Python. Migrei para IA em 2023.
+Foco em agentes para atendimento ao cliente.
+
+## Experiência
+
+### Take Blip — Engenheira Sênior (2021–atual)
+- Squad de IA Conversacional (2023–atual).
+  - 3 agentes para atendimento (Anthropic Claude).
+  - Integração com WhatsApp Business API, Blip Desk.
+  - Function calling, structured output.
+- 2021–2023: backend Python (FastAPI + asyncio).
+
+## Formação
+- Bacharelado em Ciência da Computação — UFMA (2014–2018).
+
+## Skills Técnicas
+Python (6a), FastAPI (5a), asyncio (5a), Claude API (2a),
+OpenAI API (1a), LangChain (1a), prompt engineering (3a),
+Pydantic (3a), Docker (3a), Git (5a), Postgres (4a),
+Playwright (1a), WhatsApp Business API (2a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (avançado)
+
+## Links
+github.com/sabrinavieira
+````
+
+---
+
+### 8.19. `candidato-19-thiagoramos.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-19-thiagoramos.md`:
+
+````markdown
+# Currículo — Candidato 19
+
+**Nome:** Thiago Oliveira Ramos
+**Cidade:** São Paulo, SP · **Idade:** 34
+
+## Resumo
+Engenheiro sênior, 9 anos. Backend Python + Go. Curioso por IA,
+fiz um curso da DeepLearning.AI e criei 1 projeto pessoal.
+
+## Experiência
+
+### Globo — Engenheiro Sênior (2020–atual)
+- Backend Python (Django + DRF) + Go.
+- Microsserviços, Kubernetes, Kafka.
+
+### Resultados Digitais — Engenheiro (2016–2020)
+- Backend PHP + Python.
+
+## Formação
+- Bacharelado em Ciência da Computação — UFRJ (2009–2013).
+
+## Skills Técnicas
+Python (7a), Django (6a), FastAPI (3a), Go (3a), asyncio (3a),
+OpenAI API (3m — hobby), Claude API (não usei), LangChain (não usei),
+prompt engineering (básico), Docker (5a), Kubernetes (4a),
+Git (7a), Postgres (6a), Playwright (não usei).
+
+## Idiomas
+- Português (nativo)
+- Inglês (avançado)
+
+## Links
+github.com/thiagoramos
+````
+
+---
+
+### 8.20. `candidato-20-vanessaborges.md`
+
+Salve **exatamente** este conteúdo em `05-rh-triagem/cvs/candidato-20-vanessaborges.md`:
+
+````markdown
+# Currículo — Candidato 20
+
+**Nome:** Vanessa Cristina Borges
+**Cidade:** Ribeirão Preto, SP · **Idade:** 28
+
+## Resumo
+Engenheira de IA, 4 anos. Expert em prompt engineering e avaliação de LLMs.
+Trabalhei com multi-agentes em 2 startups.
+
+## Experiência
+
+### Pagar.me — Engenheira de IA (2023–atual)
+- Squad de agentes para risco e fraude.
+- Orquestrador multi-agente com Claude (3 subagentes).
+- Avaliação: LLM-as-judge + dataset de 500 prompts.
+- Integração com APIs internas, Slack, PagerDuty.
+
+### Loft — Engenheira de IA (2021–2023)
+- NLP aplicado a documentos jurídicos.
+- RAG, embeddings, fine-tuning.
+
+## Formação
+- Bacharelado em Ciência da Computação — USP-RP (2016–2020).
+
+## Skills Técnicas
+Python (5a), FastAPI (4a), asyncio (4a), Claude API (3a),
+OpenAI API (3a), LangChain (3a), LlamaIndex (2a),
+prompt engineering (5a — expert), Pydantic (4a),
+Playwright (1a), Git (5a), Docker (4a), Postgres (4a),
+LLM evaluation (3a), RAG (4a).
+
+## Idiomas
+- Português (nativo)
+- Inglês (fluente)
+
+## Projetos
+- **prompt-lab** (open-source, 800★): framework de avaliação.
+- **multi-agent-risco** (interno Pagar.me).
+- Palestrante LangChain Conf Latam 2024.
+
+## Links
+github.com/vanessaborges
+````
+
+---
+
+## 9. Instruções finais para o Claude Code
+
+1. Crie a estrutura de diretórios exatamente como na seção 2.
+2. Crie o `CLAUDE.md` na **raiz** (NÃO em `.claude/`) com o conteúdo verbatim da
+   seção 3.
+3. Crie os 3 agentes em `.claude/agents/` com o conteúdo verbatim da seção 4.
+   Cada um **deve** começar com o frontmatter YAML (`---` / `name` /
+   `description` / `---`) mostrado nos blocos.
+4. Crie as 3 skills em `.claude/skills/&lt;nome&gt;/SKILL.md` com o conteúdo verbatim
+   da seção 5 (cada uma com frontmatter `name` + `description`).
+5. Crie a vaga `vagas/engenheiro-agentes-ia-pleno.md` com o conteúdo verbatim da
+   seção 6.
+6. Crie o `.gitignore` na raiz com o conteúdo verbatim da seção 7 (ignora
+   `config/.env` e `*.env`; **não** ignora `output/`).
+7. Crie os 20 CVs em `cvs/` com os nomes de arquivo e conteúdo verbatim da
+   seção 8.
+8. Crie o diretório `output/` **vazio** — os arquivos `scores-&lt;data&gt;.json` e
+   `ranking-&lt;vaga&gt;-&lt;data&gt;.md` NÃO são criados na montagem. Eles só aparecem
+   depois que o aluno digita `iniciar squad` e o fluxo `avaliador` →
+   `ponderador` roda.
+9. **NÃO use caminhos absolutos** em nenhum arquivo — apenas relativos
+   (`vagas/`, `cvs/`, `output/`, `.claude/`, `config/`).
+10. Este squad é **100% offline e não exige API key**. Não peça nem configure
+    chaves de API.
+11. Ao terminar a criação, imprima um resumo da estrutura e aguarde o usuário
+    digitar `iniciar squad` para rodar a triagem (que então popula `output/`).
+</pre></div>
+          <div class="terminal__hint">2080 linhas · role para ler ou use o botão "Copiar prompt"</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="wrap wrap--narrow stack">
+        
+          <div class="callout callout--info" data-reveal>
+            <span class="callout__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v6M12 15v6M3 12h6M15 12h6M6 6l3 3M15 15l3 3M18 6l-3 3M9 15l-3 3"/></svg></span>
+            <div><h4>Pesos customizáveis</h4><p>A matriz vem com 10 critérios padrão, mas você pode trocar os pesos no onboarding. Tudo fica registrado para auditoria.</p></div>
+          </div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="wrap wrap--narrow">
+        <div class="section__head" data-reveal><span class="eyebrow">Entregáveis</span><h2>O que o squad gera</h2></div>
+        <div class="roster__col"><div class="unit"><span class="unit__dot" style="background:var(--green-2);box-shadow:0 0 10px rgba(34,197,94,.6)"></span><div><div class="unit__name">output/scores-&lt;data&gt;.json</div><div class="unit__role">notas + evidências por candidato</div></div></div><div class="unit"><span class="unit__dot" style="background:var(--green-2);box-shadow:0 0 10px rgba(34,197,94,.6)"></span><div><div class="unit__name">output/ranking-&lt;vaga&gt;-&lt;data&gt;.md</div><div class="unit__role">Top N, ranking completo e gaps</div></div></div></div>
+        
+        <nav class="pager">
+          <a href="04-instagram-respostas.html"><small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:12px;height:12px"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Squad 04</small><b>Respostas no Instagram</b></a>
+          <a href="06-oferta-hormozi.html" class="next"><small>Squad 06 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:12px;height:12px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></small><b>Oferta Hormozi</b></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>Squad 05 · RH · Triagem de CVs</span>
+      <a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:13px;height:13px"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Todos os squads</a>
+    </div>
+  </footer>
+  <script src="../assets/app.js"></script>
+</body>
+</html>
