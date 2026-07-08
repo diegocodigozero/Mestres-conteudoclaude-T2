@@ -244,7 +244,7 @@ function toolsLine(q) {
   const hay = `${q.whatIs} ${q.tagline} ${q.premises.map((p) => p.title + ' ' + p.html).join(' ')} ${q.skills.map((s) => s.join(' ')).join(' ')}`.toLowerCase();
   const t = [];
   if (/playwright/.test(hay)) t.push('o Playwright (pra abrir e ler sites / Google Maps sozinho)');
-  if (/composio/.test(hay)) t.push('o Composio (pra conectar e-mail / Instagram)');
+  if (/composio/.test(hay)) t.push(q.slug === '01-prospeccao' ? 'o Composio (pra conectar o e-mail)' : 'o Composio (pra conectar e-mail / Instagram)');
   if (/google ai|gemini|aistudio|google_ai/.test(hay)) t.push('a API do Google AI Studio (Gemini) pra gerar as imagens');
   if (/transcriptapi|\bmcp\b/.test(hay)) t.push('a TranscriptAPI (pra puxar os vídeos e transcrições do YouTube)');
   if (/websearch|webfetch/.test(hay)) t.push('a busca na web (WebSearch / WebFetch, já nativas)');
