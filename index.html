@@ -13700,38 +13700,6 @@ Hierarquia por contraste de peso (Black → Regular) e tamanho.</pre>
           </div>
       </div>
 
-      <h2 class="section-title">Como montar e rodar</h2>
-      <div class="sq-steps">
-          <div class="sq-step">
-            <div class="sq-step-num">1</div>
-            <div class="sq-step-body"><h4>Abra a pasta do squad no Claude Code</h4><p>Abra a pasta <code>05-rh-triagem/</code> no Claude Code (ou crie uma pasta nova e trabalhe nela). É aqui que o squad vai ser montado.</p><span class="sq-step-tag">Setup</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">2</div>
-            <div class="sq-step-body"><h4>Ative a skill geradora de squads</h4><p>No Claude Code, digite <code>use skill mestre-squad-builder</code>. É ela que vai construir o squad a partir do seu pedido. (Precisa estar instalada — veja a etapa "Skill: Gerador de Squads" no menu.)</p><span class="sq-step-tag">Setup</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">3</div>
-            <div class="sq-step-body"><h4>Cole o pedido do squad</h4><p>Copie o <strong>prompt em linguagem natural</strong> (acima) e cole no Claude Code. A skill monta sozinha os agentes, as skills, o <code>CLAUDE.md</code> e a estrutura de pastas.</p><span class="sq-step-tag">Montagem</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">4</div>
-            <div class="sq-step-body"><h4>Coloque seus dados de entrada</h4><p>Ponha 1 vaga em <code>vagas/</code> e os currículos em <code>cvs/</code> (o squad já vem com 20 CVs de exemplo e 1 vaga modelo para você testar na hora).</p><span class="sq-step-tag">Premissa</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">5</div>
-            <div class="sq-step-body"><h4>Digite iniciar squad</h4><p>No Claude Code, digite <code>iniciar squad</code>. O orquestrador assume daqui: valida os pré-requisitos (Passo 0) e abre o onboarding.</p><span class="sq-step-tag">Execução</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">6</div>
-            <div class="sq-step-body"><h4>Responda o briefing e confirme</h4><p>O squad faz as perguntas num único bloco. Responda, confira o resumo e confirme — então os agentes executam em sequência.</p><span class="sq-step-tag">Execução</span></div>
-          </div>
-          <div class="sq-step">
-            <div class="sq-step-num">7</div>
-            <div class="sq-step-body"><h4>Pegue o resultado em output/</h4><p>Quando terminar, os entregáveis estão na pasta <code>output/</code> (veja a lista abaixo). Reveja, ajuste se quiser e use.</p><span class="sq-step-tag">Entrega</span></div>
-          </div>
-      </div>
-
       <h2 class="section-title">O prompt para criar o squad</h2>
       <p class="section-desc">É só copiar este pedido em linguagem natural e colar no Claude Code (numa pasta vazia). Ele monta o squad inteiro pra você.</p>
       <div class="sq-simplecard">
