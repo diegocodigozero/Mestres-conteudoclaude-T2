@@ -277,9 +277,9 @@ function buildSimplePrompt(q) {
   L.push('');
   if (tools.length) L.push(`Pode usar ${tools.join('; ')}.`);
   if (/transcriptapi/i.test(`${q.whatIs} ${q.tagline}`)) {
-    L.push('A TranscriptAPI fica em https://transcriptapi.com/ — lá você gera a chave de API e encontra a documentação do conector MCP (use-a para configurar a integração).');
+    L.push('A TranscriptAPI fica em https://transcriptapi.com/.');
   }
-  if (rules.length) {
+  if (rules.length && q.slug !== '02-espionagem-youtube') {
     L.push('');
     L.push('Regras importantes:');
     rules.forEach((r) => L.push(`- ${r}.`));
