@@ -468,34 +468,26 @@ Abraço,
 Diego Caldas — DC Sites
 (11) 98888-7777 · contato@dcsites.com.br`,
   '02-espionagem-youtube': 'Analise os 03 vídeos mais recentes do canal "https://www.youtube.com/@tiagolemosx" e me devolva 3 roteiros originais (um vídeo longo, um Reel e um Stories) sobre os temas que mais performaram.',
-  '03-imagem-google-ai': `Crie 05 imagens referentes a temas recentes de IA, seguindo o padrão visual descrito na sequência.
+  '03-imagem-google-ai': `Use o squad e gere um lote de imagens seguindo as regras abaixo:
 
-Formato: vertical 4:5 (ex.: 1080×1350px).
+Substituição de pessoa em lote usando referência facial.
 
-Imagem de fundo [VARIÁVEL]
-Foto temática em plano macro/close, ângulo levemente diagonal, profundidade de campo rasa, iluminação direcional dramática, vinheta nos cantos. Manter um ponto focal único e um acento de cor quente no centro.
+Pessoa de referência (rosto a inserir):
+D:\\Downloads\\Imagem-Aula\\persona\\tiago.png
 
-Overlay fixo
-Gradiente preto (de transparente no topo → ~85% opaco embaixo) cobrindo a metade inferior, pra garantir leitura do texto.
+Pasta com as imagens-base (onde os personagens serão substituídos):
+D:\\Downloads\\Imagem-Aula\\img-ref
 
-Topo esquerdo [VARIÁVEL: logo/marca]
-Sans-serif, bold, caixa alta, branco, ~24px.
+O que fazer:
+Pegue TODAS as imagens da pasta img-ref e, em cada uma, substitua a pessoa/personagem pelo rosto do tiago.png, mantendo a mesma cena, pose, enquadramento, roupa, iluminação e estilo da imagem original. Só o rosto/identidade da pessoa muda; o resto da imagem permanece igual.
 
-Topo direito [VARIÁVEL: categoria]
-Pill arredondada, fundo cor de acento, texto branco, bold, caixa alta, ~13px, tracking ~1px.
+Regras:
+- Processe todas as imagens da pasta, uma por uma.
+- Mantenha a resolução e o formato de cada imagem original.
+- Preserve consistência da identidade do tiago em todas as saídas (mesmo rosto reconhecível).
+- Se uma imagem tiver mais de uma pessoa, [me diga qual substituir OU substitua a pessoa em destaque/primeiro plano].
 
-Bloco inferior esquerdo (ancorado, alinhado à esquerda):
-Kicker [VARIÁVEL: mesma categoria] — sans-serif, bold, caixa alta, cor de acento, ~14px, tracking ~2px.
-Título [VARIÁVEL] — sans-serif, Black (900), branco, ~52px, line-height ~1.0, caixa mista, 1–3 linhas.
-Subtítulo [VARIÁVEL] — sans-serif, regular (400), branco, ~22px, line-height ~1.3, 1–2 linhas.
-Crédito/data [VARIÁVEL] — sans-serif, regular, branco 60% opacidade, ~15px, formato "Fonte · mês/ano".
-
-Constantes do sistema (não mudam entre posts):
-Fonte: uma única família sans-serif geométrica (Inter / Helvetica Now / Söhne).
-Cor de acento: 1 cor (no exemplo, coral #E8795A) usada na pill + kicker.
-Texto sempre branco, alinhado à esquerda, ancorado embaixo.
-Margens laterais iguais e generosas.
-Hierarquia por contraste de peso (Black → Regular) e tamanho.`,
+Saída: salve as imagens já com a substituição feita, nomeando cada uma como o nome original + sufixo "_tiago" (ex.: cena01_tiago.png), prontas pra usar.`,
   '04-instagram-respostas': 'Puxe os comentários novos do meu último post no Instagram, classifique cada um e redija as respostas no meu tom de voz — me mostra no painel pra eu aprovar antes de publicar.',
   '05-rh-triagem': 'Tenho 20 currículos em cvs/ e a vaga "Desenvolvedor(a) Python Pleno" em vagas/. Pontue todos e me traga o ranking dos 5 melhores, com a evidência e os gaps de cada um.',
   '06-oferta-hormozi': 'Monte uma oferta irresistível para um curso de inglês para executivos de R$ 2.000: avatar, dor, equação de valor, bônus, preço, garantia e o funil completo.',

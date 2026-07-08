@@ -13499,63 +13499,47 @@ Como rodar:
 
       <div class="sq-example">
         <div class="sq-example__head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:15px;height:15px"><path d="M21 11.5a8.4 8.4 0 0 1-11.6 7.8L3 21l1.7-6.4A8.4 8.4 0 1 1 21 11.5Z"/></svg> Exemplo de solicitação — depois que o squad estiver pronto (é só adaptar ao seu caso)</div>
-        <p class="sq-example__text">Crie 05 imagens referentes a temas recentes de IA, seguindo o padrão visual descrito na sequência.
+        <p class="sq-example__text">Use o squad e gere um lote de imagens seguindo as regras abaixo:
 
-Formato: vertical 4:5 (ex.: 1080×1350px).
+Substituição de pessoa em lote usando referência facial.
 
-Imagem de fundo [VARIÁVEL]
-Foto temática em plano macro/close, ângulo levemente diagonal, profundidade de campo rasa, iluminação direcional dramática, vinheta nos cantos. Manter um ponto focal único e um acento de cor quente no centro.
+Pessoa de referência (rosto a inserir):
+D:\Downloads\Imagem-Aula\persona\tiago.png
 
-Overlay fixo
-Gradiente preto (de transparente no topo → ~85% opaco embaixo) cobrindo a metade inferior, pra garantir leitura do texto.
+Pasta com as imagens-base (onde os personagens serão substituídos):
+D:\Downloads\Imagem-Aula\img-ref
 
-Topo esquerdo [VARIÁVEL: logo/marca]
-Sans-serif, bold, caixa alta, branco, ~24px.
+O que fazer:
+Pegue TODAS as imagens da pasta img-ref e, em cada uma, substitua a pessoa/personagem pelo rosto do tiago.png, mantendo a mesma cena, pose, enquadramento, roupa, iluminação e estilo da imagem original. Só o rosto/identidade da pessoa muda; o resto da imagem permanece igual.
 
-Topo direito [VARIÁVEL: categoria]
-Pill arredondada, fundo cor de acento, texto branco, bold, caixa alta, ~13px, tracking ~1px.
+Regras:
+- Processe todas as imagens da pasta, uma por uma.
+- Mantenha a resolução e o formato de cada imagem original.
+- Preserve consistência da identidade do tiago em todas as saídas (mesmo rosto reconhecível).
+- Se uma imagem tiver mais de uma pessoa, [me diga qual substituir OU substitua a pessoa em destaque/primeiro plano].
 
-Bloco inferior esquerdo (ancorado, alinhado à esquerda):
-Kicker [VARIÁVEL: mesma categoria] — sans-serif, bold, caixa alta, cor de acento, ~14px, tracking ~2px.
-Título [VARIÁVEL] — sans-serif, Black (900), branco, ~52px, line-height ~1.0, caixa mista, 1–3 linhas.
-Subtítulo [VARIÁVEL] — sans-serif, regular (400), branco, ~22px, line-height ~1.3, 1–2 linhas.
-Crédito/data [VARIÁVEL] — sans-serif, regular, branco 60% opacidade, ~15px, formato "Fonte · mês/ano".
-
-Constantes do sistema (não mudam entre posts):
-Fonte: uma única família sans-serif geométrica (Inter / Helvetica Now / Söhne).
-Cor de acento: 1 cor (no exemplo, coral #E8795A) usada na pill + kicker.
-Texto sempre branco, alinhado à esquerda, ancorado embaixo.
-Margens laterais iguais e generosas.
-Hierarquia por contraste de peso (Black → Regular) e tamanho.</p>
+Saída: salve as imagens já com a substituição feita, nomeando cada uma como o nome original + sufixo "_tiago" (ex.: cena01_tiago.png), prontas pra usar.</p>
         <button class="sq-ghost-btn sq-example__copy" data-prompt-copy="sq-example-03"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span class="copy-label">Copiar exemplo</span></button>
-        <pre id="sq-example-03" class="sq-prompt-source" hidden>Crie 05 imagens referentes a temas recentes de IA, seguindo o padrão visual descrito na sequência.
+        <pre id="sq-example-03" class="sq-prompt-source" hidden>Use o squad e gere um lote de imagens seguindo as regras abaixo:
 
-Formato: vertical 4:5 (ex.: 1080×1350px).
+Substituição de pessoa em lote usando referência facial.
 
-Imagem de fundo [VARIÁVEL]
-Foto temática em plano macro/close, ângulo levemente diagonal, profundidade de campo rasa, iluminação direcional dramática, vinheta nos cantos. Manter um ponto focal único e um acento de cor quente no centro.
+Pessoa de referência (rosto a inserir):
+D:\Downloads\Imagem-Aula\persona\tiago.png
 
-Overlay fixo
-Gradiente preto (de transparente no topo → ~85% opaco embaixo) cobrindo a metade inferior, pra garantir leitura do texto.
+Pasta com as imagens-base (onde os personagens serão substituídos):
+D:\Downloads\Imagem-Aula\img-ref
 
-Topo esquerdo [VARIÁVEL: logo/marca]
-Sans-serif, bold, caixa alta, branco, ~24px.
+O que fazer:
+Pegue TODAS as imagens da pasta img-ref e, em cada uma, substitua a pessoa/personagem pelo rosto do tiago.png, mantendo a mesma cena, pose, enquadramento, roupa, iluminação e estilo da imagem original. Só o rosto/identidade da pessoa muda; o resto da imagem permanece igual.
 
-Topo direito [VARIÁVEL: categoria]
-Pill arredondada, fundo cor de acento, texto branco, bold, caixa alta, ~13px, tracking ~1px.
+Regras:
+- Processe todas as imagens da pasta, uma por uma.
+- Mantenha a resolução e o formato de cada imagem original.
+- Preserve consistência da identidade do tiago em todas as saídas (mesmo rosto reconhecível).
+- Se uma imagem tiver mais de uma pessoa, [me diga qual substituir OU substitua a pessoa em destaque/primeiro plano].
 
-Bloco inferior esquerdo (ancorado, alinhado à esquerda):
-Kicker [VARIÁVEL: mesma categoria] — sans-serif, bold, caixa alta, cor de acento, ~14px, tracking ~2px.
-Título [VARIÁVEL] — sans-serif, Black (900), branco, ~52px, line-height ~1.0, caixa mista, 1–3 linhas.
-Subtítulo [VARIÁVEL] — sans-serif, regular (400), branco, ~22px, line-height ~1.3, 1–2 linhas.
-Crédito/data [VARIÁVEL] — sans-serif, regular, branco 60% opacidade, ~15px, formato "Fonte · mês/ano".
-
-Constantes do sistema (não mudam entre posts):
-Fonte: uma única família sans-serif geométrica (Inter / Helvetica Now / Söhne).
-Cor de acento: 1 cor (no exemplo, coral #E8795A) usada na pill + kicker.
-Texto sempre branco, alinhado à esquerda, ancorado embaixo.
-Margens laterais iguais e generosas.
-Hierarquia por contraste de peso (Black → Regular) e tamanho.</pre>
+Saída: salve as imagens já com a substituição feita, nomeando cada uma como o nome original + sufixo "_tiago" (ex.: cena01_tiago.png), prontas pra usar.</pre>
       </div>
 
 
