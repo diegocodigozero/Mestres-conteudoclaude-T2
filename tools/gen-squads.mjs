@@ -433,7 +433,6 @@ const OVERVIEW = `
         <div class="sq-tree__root">${svg('folder')} nome-do-squad/</div>
         <div class="sq-tree__rows">
 ${treeRow('├── ', 'file', 'doc', 'CLAUDE.md', 'o manual-mãe: o que o squad é e as regras')}
-${treeRow('├── ', 'file', 'doc', 'prompt-montagem.md', 'o prompt que monta o squad — você cola no Claude Code')}
 ${treeRow('├── ', 'dir', 'folder', 'config/', 'onde ficam suas configurações')}
 ${treeRow('│   ├── ', 'file', 'doc', '.env.example', 'modelo das chaves (versionado, vazio)')}
 ${treeRow('│   └── ', 'key', 'key', '.env', 'suas chaves de verdade — nunca versionado')}
