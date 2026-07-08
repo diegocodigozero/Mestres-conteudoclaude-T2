@@ -434,7 +434,21 @@ ${treeRow('└── ', 'dir', 'folder', 'output/', 'tudo que o squad gera fica 
 
 /* exemplos de solicitação por squad (pra usar na aula — é só adaptar) */
 const EXAMPLES = {
-  '01-prospeccao': 'Me traga 30 clínicas odontológicas em São Paulo, no bairro Pinheiros, com e-mail e WhatsApp, e já prepara um e-mail de apresentação pra eu aprovar e disparar.',
+  '01-prospeccao': `Me traga 30 clínicas odontológicas em São Paulo, no bairro Pinheiros, com e-mail e WhatsApp, e prepara o disparo usando este e-mail de apresentação (me mostra renderizado pra eu aprovar antes de enviar):
+
+Assunto: Um site profissional para a [NOME]
+
+Olá, tudo bem?
+
+Me chamo Diego Caldas e tenho uma empresa de desenvolvimento de sites para clínicas e consultórios. Vi o perfil da [NOME] no Google e acredito que um site moderno, rápido e com agendamento online pode trazer mais pacientes pra vocês.
+
+Gostaria de apresentar alguns sites que já criei para clínicas da região — são 10 minutos, sem compromisso. Pode ser esta semana?
+
+É só responder este e-mail ou me chamar no WhatsApp: (11) 98888-7777.
+
+Abraço,
+Diego Caldas — DC Sites
+(11) 98888-7777 · contato@dcsites.com.br`,
   '02-espionagem-youtube': 'Analise os 15 vídeos mais recentes do canal "https://youtube.com/@concorrente" e me devolva 3 roteiros originais (um vídeo longo, um Reel e um Stories) sobre os temas que mais performaram.',
   '03-imagem-google-ai': `Crie 05 imagens referentes a temas recentes de IA, seguindo o padrão visual descrito na sequência.
 
