@@ -17,9 +17,10 @@ import {
   squads as allSquads, svg, esc, PREMISE_META, CALLOUT_IC, buildSteps,
 } from '../aula-04/build/generate.mjs';
 
-/* Squads removidos da aula (04 Instagram, 07 Deep Research, 08 Dossiê, 09 Calendário, 10 Reputação) */
+/* Squads removidos da aula (04 Instagram, 05 RH Triagem, 07 Deep Research, 08 Dossiê, 09 Calendário, 10 Reputação) */
 const REMOVED = [
   '04-instagram-respostas',
+  '05-rh-triagem',
   '07-deep-research',
   '08-dossie-concorrencia',
   '09-calendario-social',
